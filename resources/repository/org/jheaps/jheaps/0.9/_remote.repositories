@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:28:57 CET 2020
+jheaps-0.9.pom>scijava.public=
+jheaps-0.9.pom>imagej.public=
+jheaps-0.9.jar>scijava.public=
+jheaps-0.9.jar>imagej.public=

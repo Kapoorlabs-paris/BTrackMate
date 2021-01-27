@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:28:02 CET 2020
+jffi-1.2.16.jar>imagej.public=
+jffi-1.2.16-native.jar>imagej.public=
+jffi-1.2.16.pom>imagej.public=

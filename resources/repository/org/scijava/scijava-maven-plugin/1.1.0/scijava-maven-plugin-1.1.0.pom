@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>23.2.0</version>
+		<relativePath />
+	</parent>
+
+	<artifactId>scijava-maven-plugin</artifactId>
+	<version>1.1.0</version>
+	<packaging>maven-plugin</packaging>
+
+	<name>SciJava plugin for Maven</name>
+	<description>A plugin for managing SciJava-based projects.</description>
+	<url>https://github.com/scijava/scijava-maven-plugin</url>
+	<inceptionYear>2014</inceptionYear>
+	<organization>
+		<name>SciJava</name>
+		<url>http://www.scijava.org/</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Simplified BSD License</name>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>ctrueden</id>
+			<name>Curtis Rueden</name>
+			<url>https://imagej.net/User:Rueden</url>
+			<roles>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>stelfrich</id>
+			<name>Stefan Helfrich</name>
+			<url>https://imagej.net/User:Stelfrich</url>
+			<roles>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>Johannes Schindelin</name>
+			<url>https://imagej.net/User:Schindelin</url>
+			<roles><role>founder</role></roles>
+			<properties><id>dscho</id></properties>
+		</contributor>
+		<contributor>
+			<name>Mark Hiner</name>
+			<url>https://imagej.net/User:Hinerm</url>
+			<properties><id>hinerm</id></properties>
+		</contributor>
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>Image.sc Forum</name>
+			<archive>https://forum.image.sc/</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<connection>scm:git:git://github.com/scijava/scijava-maven-plugin</connection>
+		<developerConnection>scm:git:git@github.com:scijava/scijava-maven-plugin</developerConnection>
+		<tag>scijava-maven-plugin-1.1.0</tag>
+		<url>https://github.com/scijava/scijava-maven-plugin</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/scijava/scijava-maven-plugin/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.com/scijava/scijava-maven-plugin</url>
+	</ciManagement>
+
+	<properties>
+		<package-name>org.scijava.maven</package-name>
+
+		<license.licenseName>bsd_2</license.licenseName>
+		<license.copyrightOwners>Board of Regents of the University of
+Wisconsin-Madison, Broad Institute of MIT and Harvard, Max Planck
+Institute of Molecular Cell Biology and Genetics, and KNIME GmbH.</license.copyrightOwners>
+		<license.projectName>A plugin for managing SciJava-based projects.</license.projectName>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+		<maven.version>3.0</maven.version>
+		<maven2.version>2.2.1</maven2.version>
+		<maven-tree.version>2.2</maven-tree.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven.enforcer</groupId>
+			<artifactId>enforcer-api</artifactId>
+			<version>${maven-enforcer-plugin.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>classworlds</groupId>
+					<artifactId>classworlds</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.maven</groupId>
+					<artifactId>maven-plugin-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.plexus</groupId>
+					<artifactId>plexus-utils</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.plexus</groupId>
+					<artifactId>plexus-container-default</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>${maven.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.sonatype.sisu</groupId>
+					<artifactId>sisu-inject-plexus</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-core</artifactId>
+			<version>${maven.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.sonatype.sisu</groupId>
+					<artifactId>sisu-inject-plexus</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.plexus</groupId>
+					<artifactId>plexus-utils</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.shared</groupId>
+			<artifactId>maven-dependency-tree</artifactId>
+			<version>${maven-tree.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-artifact</artifactId>
+			<version>${maven.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-compat</artifactId>
+			<version>${maven.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-model</artifactId>
+			<version>${maven.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.shared</groupId>
+			<artifactId>maven-artifact-transfer</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.shared</groupId>
+			<artifactId>maven-common-artifact-filters</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-interpolation</artifactId>
+			<version>1.24</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scijava-common</artifactId>
+			<version>${scijava-common.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- This plugin's configuration is used to store Eclipse m2e settings
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-plugin-plugin</artifactId>
+										<versionRange>[3.2,)</versionRange>
+										<goals>
+											<goal>descriptor</goal>
+											<goal>helpmojo</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>1.0</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>extra-enforcer-rules</artifactId>
+							<version>1.0-beta-9</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<configuration>
+					<rules>
+						<banDuplicateClasses>
+							<!--
+							NB: maven-artifact and maven-project are 2.0 artifacts
+							that clash with maven-core 3.0.
+							-->
+							<ignoreClasses>
+								<ignoreClass>org/apache/maven/artifact/*</ignoreClass>
+
+								<ignoreClass>org/apache/maven/project/*</ignoreClass>
+							</ignoreClasses>
+							<findAllDuplicates>true</findAllDuplicates>
+							<ignoreWhenIdentical>true</ignoreWhenIdentical>
+						</banDuplicateClasses>
+					</rules>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<configuration>
+					<!-- see https://issues.apache.org/jira/browse/MNG-5346 -->
+					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-descriptor</id>
+						<goals>
+							<goal>descriptor</goal>
+							<goal>helpmojo</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-invoker-plugin</artifactId>
+				<version>1.8</version>
+				<configuration>
+					<!-- <debug>true</debug> -->
+					<showErrors>true</showErrors>
+					<streamLogs>true</streamLogs>
+					<properties>
+						<scijava-maven.version>${project.version}</scijava-maven.version>
+					</properties>
+					<projectsDirectory>src/it</projectsDirectory>
+					<cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+					<pomIncludes>
+						<pomInclude>*/pom.xml</pomInclude>
+					</pomIncludes>
+					<settingsFile>src/it/settings.xml</settingsFile>
+					<localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+					<preBuildHookScript>setup.bsh</preBuildHookScript>
+					<postBuildHookScript>verify.bsh</postBuildHookScript>
+					<goals>
+						<goal>install</goal>
+					</goals>
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>install</goal>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>only-eclipse</id>
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<!-- This plugin's configuration is used to store Eclipse m2e settings
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-plugin-plugin</artifactId>
+												<versionRange>[3.2,)</versionRange>
+												<goals>
+													<goal>descriptor</goal>
+													<goal>helpmojo</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
+</project>

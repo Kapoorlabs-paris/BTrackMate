@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:12 CET 2020
+logback-core-1.2.3.pom>scijava.public=
+logback-core-1.2.3.pom>imagej.public=
+logback-core-1.2.3.jar>imagej.public=
+logback-core-1.2.3.jar>scijava.public=

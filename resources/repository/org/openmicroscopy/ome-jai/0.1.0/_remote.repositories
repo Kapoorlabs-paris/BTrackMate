@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:08 CET 2020
+ome-jai-0.1.0.jar>scijava.public=
+ome-jai-0.1.0.pom>scijava.public=
+ome-jai-0.1.0.pom>imagej.public=
+ome-jai-0.1.0.jar>imagej.public=

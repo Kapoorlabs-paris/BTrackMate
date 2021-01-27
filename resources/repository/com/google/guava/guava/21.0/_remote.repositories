@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:11 CET 2020
+guava-21.0.jar>scijava.public=
+guava-21.0.pom>scijava.public=
+guava-21.0.pom>imagej.public=
+guava-21.0.jar>imagej.public=

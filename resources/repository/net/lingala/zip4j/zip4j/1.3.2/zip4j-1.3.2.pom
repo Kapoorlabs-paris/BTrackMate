@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.lingala.zip4j</groupId>
+	<artifactId>zip4j</artifactId>
+	<version>1.3.2</version>
+	<name>zip4j</name>
+	<description>An open source java library to handle zip files</description>
+	<url>http://www.lingala.net/zip4j/</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>Srikanth</id>
+			<name>Srikanth Lingala</name>
+			<email>lsr_hyd@yahoo.com</email>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:hg:file:///Users/srikanthl/Zip4j/src</connection>
+		<developerConnection>scm:hg:file:///Users/srikanthl/Zip4j/src</developerConnection>
+		<url>http://www.lingala.net/zip4j/</url>
+	</scm>
+</project>

@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:09 CET 2020
+kryo-2.24.0.pom>scijava.public=
+kryo-2.24.0.pom>imagej.public=
+kryo-2.24.0.jar>scijava.public=
+kryo-2.24.0.jar>imagej.public=

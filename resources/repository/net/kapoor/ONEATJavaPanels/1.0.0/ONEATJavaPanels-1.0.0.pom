@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.scijava</groupId>
+        <artifactId>pom-scijava</artifactId>
+        <version>25.0.0</version>
+        <relativePath />
+    </parent>
+    
+    <groupId>net.kapoor</groupId>
+    <artifactId>ONEATJavaPanels</artifactId>
+    <version>1.0.0</version>
+    
+    <name>Master Panels</name>
+    <description>ONEAT Java Panels</description>
+    <url>https://github.com/kapoorlab/MasterPanels</url>
+    <inceptionYear>2018</inceptionYear>
+   
+    <licenses>
+        <license>
+            <name>GNU General Public License v3+</name>
+            <url>https://www.gnu.org/licenses/gpl.en.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    	<organization>
+		<name>Kapoor Lab</name>
+		<url>https://science.institut-curie.org/platforms/cell-and-tissue-imaging/photonics/contacts</url>
+	</organization>
+	
+    <developers>
+        <developer>
+            <id>kapoorlab</id>
+            <name>Varun Kapoor</name>
+            <url>http://imagej.net/User:MTrack</url>
+            <roles>
+                <role>founder</role>
+                <role>lead</role>
+                <role>developer</role>
+                <role>debugger</role>
+                <role>reviewer</role>
+                <role>support</role>
+                <role>maintainer</role>
+            </roles>
+        </developer>
+    </developers>
+  	<contributors>
+		<contributor>
+			<name>None</name>
+			<url>http://imagej.net/User:MTrack</url>
+			<properties><id>vkapoor</id></properties>
+		</contributor>
+    </contributors>
+    <mailingLists>
+        <mailingList>
+            <name>ImageJ Forum</name>
+            <archive>http://forum.imagej.net/</archive>
+        </mailingList>
+    </mailingLists>
+    
+    <scm>
+        <connection>scm:git:git://github.com/kapoorlab/MasterPanels</connection>
+        <developerConnection>scm:git:git@github.com/kapoorlab/MasterPanels</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/kapoorlab/MasterPanels</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/PreibischLab/MasterPanels/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/kapoorlab/MasterPanels</url>
+    </ciManagement>
+    
+    <properties>
+        <license.licenseName>gpl_v3</license.licenseName>
+        <license.copyrightOwners>MasterPanels developers.</license.copyrightOwners>
+        
+     <jfreesvg.version>3.3</jfreesvg.version>
+        
+        <!-- NB: Deploy releases to the ImageJ Maven repository. -->
+        <releaseProfiles>deploy-to-imagej</releaseProfiles>
+    </properties>
+    
+    <repositories>
+        <repository>
+            <id>imagej.public</id>
+            <url>http://maven.imagej.net/content/groups/public</url>
+        </repository>
+    </repositories>
+    
+    <dependencies>
+        <!-- ImgLib2 dependencies -->
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2-algorithm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2-ij</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2-roi</artifactId>
+        </dependency>
+        
+        <!-- ImageJ dependencies -->
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>ij</artifactId>
+        </dependency>
+        
+        <!-- Fiji dependencies -->
+        <dependency>
+            <!-- NB: dependency:analyze erroneously flags this, but it's required -->
+            <groupId>sc.fiji</groupId>
+            <artifactId>Fiji_Plugins</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>sc.fiji</groupId>
+            <artifactId>fiji-lib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>sc.fiji</groupId>
+            <artifactId>legacy-imglib1</artifactId>
+        </dependency>
+        
+        <!-- Third party dependencies -->
+        <dependency>
+            <!-- NB: dependency:analyze erroneously flags this, but it's required -->
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>gov.nist.math</groupId>
+            <artifactId>jama</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mpicbg</groupId>
+            <artifactId>mpicbg</artifactId>
+        </dependency>
+ 	<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-core</artifactId>
+			<version>${jgrapht.version}</version>
+		</dependency>
+            <!-- NB: dependency:analyze erroneously flags this, but it's required -->
+
+
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>19.2.0</version>
+		<relativePath />
+	</parent>
+
+	<groupId>net.imagej</groupId>
+	<artifactId>imagej-mesh</artifactId>
+	<version>0.7.1</version>
+
+	<name>ImageJ Mesh</name>
+	<description>3D mesh structures for ImageJ.</description>
+	<url>https://imagej.net/ImageJ_Mesh</url>
+	<inceptionYear>2016</inceptionYear>
+	<organization>
+		<name>ImageJ</name>
+		<url>https://imagej.net/</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Simplified BSD License</name>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>kephale</id>
+			<name>Kyle Harrington</name>
+			<url>https://imagej.net/User:Kharrington</url>
+			<roles>
+				<role>founder</role>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>rimadoma</id>
+			<name>Richard Domander</name>
+			<url>https://imagej.net/User:Rdom</url>
+			<roles>
+				<role>founder</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>ctrueden</id>
+			<name>Curtis Rueden</name>
+			<url>https://imagej.net/User:Rueden</url>
+			<roles>
+				<role>founder</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>tpietzsch</id>
+			<name>Tobias Pietzsch</name>
+			<url>https://imagej.net/User:tpietzsch</url>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors>
+		<!--
+		NB: Need at least one element to override the parent.
+		See: https://issues.apache.org/jira/browse/MNG-5220
+		-->
+		<contributor>
+			<name>None</name>
+		</contributor>
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>ImageJ Forum</name>
+			<archive>http://forum.imagej.net/</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<connection>scm:git:git://github.com/imagej/imagej-mesh</connection>
+		<developerConnection>scm:git:git@github.com:imagej/imagej-mesh</developerConnection>
+		<tag>imagej-mesh-0.7.1</tag>
+		<url>https://github.com/imagej/imagej-mesh</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/imagej/imagej-mesh/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/imagej/imagej-mesh</url>
+	</ciManagement>
+
+	<properties>
+		<package-name>net.imagej.mesh</package-name>
+
+		<license.licenseName>bsd_2</license.licenseName>
+		<license.copyrightOwners>University of Idaho, Royal Veterinary College, and
+Board of Regents of the University of Wisconsin-Madison.</license.copyrightOwners>
+
+		<!-- NB: Deploy releases to the ImageJ Maven repository. -->
+		<releaseProfiles>deploy-to-imagej</releaseProfiles>
+
+		<jply.version>0.2.0</jply.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>imagej.public</id>
+			<url>http://maven.imagej.net/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>imagej.snapshots</id>
+			<url>http://maven.imagej.net/content/groups/snapshots</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<!-- SciJava dependencies -->
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scijava-common</artifactId>
+		</dependency>
+
+		<!-- ImgLib2 dependencies -->
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2</artifactId>
+		</dependency>
+
+		<!-- Test scope dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

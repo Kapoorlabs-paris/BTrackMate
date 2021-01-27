@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:00 CET 2020
+jfreechart-1.5.0.jar>imagej.public=
+jfreechart-1.5.0.pom>scijava.public=
+jfreechart-1.5.0.pom>imagej.public=
+jfreechart-1.5.0.jar>scijava.public=

@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Thu Nov 19 16:53:14 CET 2020
+junit-4.12.jar>imagej.public=
+junit-4.12.jar>central=
+junit-4.12.pom>central=

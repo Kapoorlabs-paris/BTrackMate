@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:09 CET 2020
+jgoodies-common-1.7.0.jar>imagej.public=
+jgoodies-common-1.7.0.pom>imagej.public=
+jgoodies-common-1.7.0.jar>scijava.public=
+jgoodies-common-1.7.0.pom>scijava.public=

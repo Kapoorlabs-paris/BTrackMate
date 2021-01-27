@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:08 CET 2020
+javassist-3.24.0-GA.jar>imagej.public=
+javassist-3.24.0-GA.pom>scijava.public=
+javassist-3.24.0-GA.jar>scijava.public=
+javassist-3.24.0-GA.pom>imagej.public=

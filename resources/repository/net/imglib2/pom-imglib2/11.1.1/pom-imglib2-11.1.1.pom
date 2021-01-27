@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>23.2.0</version>
+		<relativePath />
+	</parent>
+
+	<groupId>net.imglib2</groupId>
+	<artifactId>pom-imglib2</artifactId>
+	<version>11.1.1</version>
+	<packaging>pom</packaging>
+
+	<name>ImgLib2 Parent POM</name>
+	<description>Parent POM for imglib2 projects. This is an intermediate layer to move imglib2 forward as a whole, independently of other SciJava projects. A stable set of versions is propagated to pom-scijava frequently. Projects consuming imglib2 should normally inherit pom-scijava rather than pom-imglib2.</description>
+	<url>http://imglib2.net/</url>
+	<inceptionYear>2009</inceptionYear>
+	<organization>
+		<name>ImgLib2</name>
+		<url>http://imglib2.net/</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Simplified BSD License</name>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>tpietzsch</id>
+			<name>Tobias Pietzsch</name>
+			<url>http://imagej.net/User:Pietzsch</url>
+			<roles>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>axtimwalde</id>
+			<name>Stephan Saalfeld</name>
+			<url>http://imagej.net/User:Saalfeld</url>
+			<roles>
+				<role>lead</role>
+				<role>reviewer</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>ctrueden</id>
+			<name>Curtis Rueden</name>
+			<url>http://imagej.net/User:Rueden</url>
+			<roles>
+				<role>founder</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>Mark Hiner</name>
+			<url>http://imagej.net/User:Hinerm</url>
+			<properties><id>hinerm</id></properties>
+		</contributor>
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>Image.sc Forum</name>
+			<archive>https://forum.image.sc/</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<connection>scm:git:git://github.com/imglib/pom-imglib2</connection>
+		<developerConnection>scm:git:git@github.com:imglib/pom-imglib2</developerConnection>
+		<tag>pom-imglib2-11.1.1</tag>
+		<url>https://github.com/imglib/pom-imglib2</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/imglib/pom-imglib2/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/imglib/pom-imglib2</url>
+	</ciManagement>
+
+
+	<properties>
+
+		<license.licenseName>bsd_2</license.licenseName>
+		<license.projectName>ImgLib2: a general-purpose, multidimensional image processing library.</license.projectName>
+		<license.organizationName>ImgLib2 authors</license.organizationName>
+		<license.copyrightOwners>Tobias Pietzsch, Stephan Preibisch, Stephan Saalfeld,
+John Bogovic, Albert Cardona, Barry DeZonia, Christian Dietz, Jan Funke,
+Aivar Grislis, Jonathan Hale, Grant Harris, Stefan Helfrich, Mark Hiner,
+Martin Horn, Steffen Jaensch, Lee Kamentsky, Larry Lindsey, Melissa Linkert,
+Mark Longair, Brian Northan, Nick Perry, Curtis Rueden, Johannes Schindelin,
+Jean-Yves Tinevez and Michael Zinsmaier.</license.copyrightOwners>
+
+		<!-- overridden ImgLib2 component versions -->
+
+		<imglib2.version>5.6.0</imglib2.version>
+		<!-- <imglib2-algorithm.version>0.9.0</imglib2-algorithm.version> -->
+		<!-- <imglib2-algorithm-fft.version>0.2.0</imglib2-algorithm-fft.version> -->
+		<!-- <imglib2-algorithm-gpl.version>0.2.3</imglib2-algorithm-gpl.version> -->
+		<imglib2-cache.version>1.0.0-beta-11</imglib2-cache.version>
+		<!-- <imglib2-ij.version>2.0.0-beta-43</imglib2-ij.version> -->
+		<imglib2-realtransform.version>2.0.1</imglib2-realtransform.version>
+		<imglib2-roi.version>0.6.0</imglib2-roi.version>
+		<!-- <imglib2-script.version>0.2.3</imglib2-script.version> -->
+		<!-- <imglib2-ui.version>2.0.0</imglib2-ui.version> -->
+
+	</properties>
+
+</project>

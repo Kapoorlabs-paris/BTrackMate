@@ -1,0 +1,7 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:18 CET 2020
+commons-io-2.6.jar>scijava.public=
+commons-io-2.6.jar>imagej.public=
+commons-io-2.6.pom>scijava.public=
+commons-io-2.6.pom>imagej.public=
+commons-io-2.6.jar>central=

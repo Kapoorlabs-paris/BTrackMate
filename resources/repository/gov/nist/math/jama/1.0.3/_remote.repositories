@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:28:59 CET 2020
+jama-1.0.3.pom>scijava.public=
+jama-1.0.3.pom>imagej.public=
+jama-1.0.3.jar>imagej.public=
+jama-1.0.3.jar>scijava.public=

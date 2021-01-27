@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:10 CET 2020
+minlog-1.2.jar>scijava.public=
+minlog-1.2.pom>imagej.public=
+minlog-1.2.jar>imagej.public=
+minlog-1.2.pom>scijava.public=

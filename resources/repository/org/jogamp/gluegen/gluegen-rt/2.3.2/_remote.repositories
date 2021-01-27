@@ -1,0 +1,15 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:28:01 CET 2020
+gluegen-rt-2.3.2-natives-linux-i586.jar>imagej.public=
+gluegen-rt-2.3.2-natives-macosx-universal.jar>imagej.public=
+gluegen-rt-2.3.2-natives-windows-i586.jar>imagej.public=
+gluegen-rt-2.3.2-natives-linux-armv6hf.jar>imagej.public=
+gluegen-rt-2.3.2-natives-android-armv6.jar>imagej.public=
+gluegen-rt-2.3.2-natives-solaris-amd64.jar>imagej.public=
+gluegen-rt-2.3.2-natives-solaris-i586.jar>imagej.public=
+gluegen-rt-2.3.2-natives-linux-armv6.jar>imagej.public=
+gluegen-rt-2.3.2-natives-android-aarch64.jar>imagej.public=
+gluegen-rt-2.3.2-natives-linux-amd64.jar>imagej.public=
+gluegen-rt-2.3.2.pom>imagej.public=
+gluegen-rt-2.3.2-natives-windows-amd64.jar>imagej.public=
+gluegen-rt-2.3.2.jar>imagej.public=

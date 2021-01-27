@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:06 CET 2020
+ejml-0.24.pom>imagej.public=
+ejml-0.24.pom>scijava.public=
+ejml-0.24.jar>imagej.public=
+ejml-0.24.jar>scijava.public=

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>16.1.0</version>
+		<relativePath />
+	</parent>
+
+	<groupId>jitk</groupId>
+	<artifactId>jitk-tps</artifactId>
+	<version>3.0.0</version>
+
+	<name>JavaITK thin plate spline</name>
+	<description>A java port of the ITK thin plate spline implementation.</description>
+	<url>https://github.com/saalfeldlab/jitk-tps</url>
+	<inceptionYear>2014</inceptionYear>
+	<organization>
+		<name>Fiji</name>
+		<url>https://fiji.sc/</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Apache Software License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>bogovicj</id>
+			<name>John Bogovic</name>
+			<url>http://imagej.net/User:Bogovic</url>
+			<roles>
+				<role>founder</role>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>axtimwalde</id>
+			<name>Stephan Saalfeld</name>
+			<url>http://imagej.net/User:Saalfeld</url>
+			<roles>
+				<role>founder</role>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>Curtis Rueden</name>
+			<url>http://imagej.net/User:Rueden</url>
+			<properties><id>ctrueden</id></properties>
+		</contributor>
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>ImageJ Forum</name>
+			<archive>http://forum.imagej.net/</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<url>https://github.com/saalfeldlab/jitk-tps</url>
+		<connection>scm:git:git://github.com/saalfeldlab/jitk-tps</connection>
+		<developerConnection>scm:git:git@github.com:saalfeldlab/jitk-tps</developerConnection>
+		<tag>jitk-tps-3.0.0</tag>
+	</scm>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/saalfeldlab/jitk-tps/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/saalfeldlab/jitk-tps</url>
+	</ciManagement>
+
+	<properties>
+		<package-name>jitk.spline</package-name>
+		<license.licenseName>apache_v2</license.licenseName>
+		<license.copyrightOwners>Howard Hughes Medical Institute.</license.copyrightOwners>
+		<license.projectName>JavaITK thin plate spline.</license.projectName>
+
+		<ejml.version>0.24</ejml.version>
+		<log4j.version>1.2.17</log4j.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>imagej.public</id>
+			<url>http://maven.imagej.net/content/groups/public</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.googlecode.efficient-java-matrix-library</groupId>
+			<artifactId>ejml</artifactId>
+			<version>${ejml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

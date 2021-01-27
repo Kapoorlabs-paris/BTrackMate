@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>17.1.1</version>
+		<relativePath />
+	</parent>
+
+	<artifactId>scripting-groovy</artifactId>
+	<version>0.2.7</version>
+
+	<name>SciJava Scripting: Groovy</name>
+	<description>JSR-223-compliant Groovy scripting language plugin.</description>
+	<url>https://github.com/scijava/scripting-groovy</url>
+	<inceptionYear>2014</inceptionYear>
+	<organization>
+		<name>SciJava</name>
+		<url>http://www.scijava.org/</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Simplified BSD License</name>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>ctrueden</id>
+			<name>Curtis Rueden</name>
+			<url>http://imagej.net/User:Rueden</url>
+			<roles>
+				<role>founder</role>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>Mark Hiner</name>
+			<url>http://imagej.net/User:Hinerm</url>
+			<properties><id>hinerm</id></properties>
+		</contributor>
+		<contributor>
+			<name>Sundararajan Athijegannathan</name>
+			<organization>Sun Microsystems</organization>
+		</contributor>
+		<contributor>
+			<name>Mike Grogan</name>
+			<organization>Sun Microsystems</organization>
+		</contributor>
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>SciJava</name>
+			<subscribe>https://groups.google.com/group/scijava</subscribe>
+			<unsubscribe>https://groups.google.com/group/scijava</unsubscribe>
+			<post>scijava@googlegroups.com</post>
+			<archive>https://groups.google.com/group/scijava</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<connection>scm:git:git://github.com/scijava/scripting-groovy</connection>
+		<developerConnection>scm:git:git@github.com:scijava/scripting-groovy</developerConnection>
+		<tag>scripting-groovy-0.2.7</tag>
+		<url>https://github.com/scijava/scripting-groovy</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/scijava/scripting-groovy/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/scijava/scripting-groovy</url>
+	</ciManagement>
+
+	<properties>
+		<package-name>org.scijava.plugins.scripting.groovy</package-name>
+		<license.licenseName>bsd_2</license.licenseName>
+		<license.copyrightOwners>Board of Regents of the University of
+Wisconsin-Madison.</license.copyrightOwners>
+
+		<!-- NB: Deploy releases to the ImageJ Maven repository. -->
+		<releaseProfiles>deploy-to-imagej</releaseProfiles>
+
+		<groovy.version>2.4.8</groovy.version>
+		<ivy.version>2.4.0</ivy.version>
+		<gpars.version>1.2.1</gpars.version>
+	</properties>
+
+	<dependencies>
+		<!-- SciJava dependencies -->
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scijava-common</artifactId>
+		</dependency>
+
+		<!-- Third-party dependencies -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+			<version>${groovy.version}</version>
+		</dependency>
+		<dependency>
+			<!-- NB: Needed for Groovy Grape. -->
+			<groupId>org.apache.ivy</groupId>
+			<artifactId>ivy</artifactId>
+			<version>${ivy.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<!-- NB: Useful for parallelization. -->
+			<groupId>org.codehaus.gpars</groupId>
+			<artifactId>gpars</artifactId>
+			<version>${gpars.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scijava-common</artifactId>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

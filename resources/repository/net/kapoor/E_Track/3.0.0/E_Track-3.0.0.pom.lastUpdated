@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 17:02:15 CET 2020
+http\://maven.imagej.net/content/groups/public/.error=Could not transfer artifact net.kapoor\:E_Track\:pom\:3.0.0 from/to imagej.public (http\://maven.imagej.net/content/groups/public)\: connect timed out
+@default-imagej.public-http\://maven.imagej.net/content/groups/public/.lastUpdated=1605542335642
+@default-central-https\://repo.maven.apache.org/maven2/.lastUpdated=1605542535945
+https\://repo.maven.apache.org/maven2/.error=Could not transfer artifact net.kapoor\:E_Track\:pom\:3.0.0 from/to central (https\://repo.maven.apache.org/maven2)\: connect timed out

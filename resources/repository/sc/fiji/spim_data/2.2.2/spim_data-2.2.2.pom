@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>17.1.1</version>
+		<relativePath />
+	</parent>
+
+	<groupId>sc.fiji</groupId>
+	<artifactId>spim_data</artifactId>
+	<version>2.2.2</version>
+
+	<name>SPIM Data</name>
+	<description>representation of multi-angle, multi-channel (etc.) SPIM images and their registration</description>
+	<url>http://github.com/bigdataviewer/spimdata</url>
+	<inceptionYear>2013</inceptionYear>
+	<organization>
+		<name>BigDataViewer</name>
+		<url>https://imagej.net/BigDataViewer</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Simplified BSD License</name>
+			<url>http://opensource.org/licenses/BSD-2-Clause</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>tpietzsch</id>
+			<name>Tobias Pietzsch</name>
+			<url>https://imagej.net/User:Pietzsch</url>
+			<roles>
+				<role>founder</role>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>StephanPreibisch</id>
+			<name>Stephan Preibisch</name>
+			<url>http://imagej.net/User:StephanP</url>
+			<roles>
+				<role>founder</role>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>tpietzsch</id>
+			<name>Tobias Pietzsch</name>
+			<url>https://imagej.net/User:Pietzsch</url>
+			<roles>
+				<role>founder</role>
+				<role>lead</role>
+				<role>developer</role>
+				<role>debugger</role>
+				<role>reviewer</role>
+				<role>support</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>ctrueden</id>
+			<name>Curtis Rueden</name>
+			<url>https://imagej.net/User:Rueden</url>
+			<roles>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>Johannes Schindelin</name>
+			<url>https://imagej.net/User:Schindelin</url>
+			<properties><id>dscho</id></properties>
+			<roles><role>founder</role></roles>
+		</contributor>
+		<contributor>
+			<name>David Hörl</name>
+			<properties><id>hoerldavid</id></properties>
+		</contributor>
+		<contributor>
+			<name>Stephan Saalfeld</name>
+			<url>https://imagej.net/User:Saalfeld</url>
+			<properties><id>axtimwalde</id></properties>
+		</contributor>
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>ImageJ Forum</name>
+			<archive>http://forum.imagej.net/</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<connection>scm:git:git://github.com/bigdataviewer/spimdata</connection>
+		<developerConnection>scm:git:git@github.com:bigdataviewer/spimdata</developerConnection>
+		<tag>spim_data-2.2.2</tag>
+		<url>https://github.com/bigdataviewer/spimdata</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/bigdataviewer/spimdata/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/bigdataviewer/spimdata</url>
+	</ciManagement>
+
+	<properties>
+		<package-name>mpicbg.spim.data</package-name>
+		<license.licenseName>bsd_2</license.licenseName>
+		<license.copyrightOwners>BigDataViewer developers.</license.copyrightOwners>
+		<license.projectName>SPIM Data: registered, multi-angle, multi-channel etc. image sequences.</license.projectName>
+
+		<!-- NB: Deploy releases to the ImageJ Maven repository. -->
+		<releaseProfiles>deploy-to-imagej</releaseProfiles>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>imagej.public</id>
+			<url>https://maven.imagej.net/content/groups/public</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-realtransform</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scijava-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom2</artifactId>
+		</dependency>
+	</dependencies>
+</project>

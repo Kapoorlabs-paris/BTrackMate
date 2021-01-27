@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:11 CET 2020
+xercesImpl-2.8.1.pom>scijava.public=
+xercesImpl-2.8.1.jar>scijava.public=
+xercesImpl-2.8.1.pom>imagej.public=
+xercesImpl-2.8.1.jar>imagej.public=

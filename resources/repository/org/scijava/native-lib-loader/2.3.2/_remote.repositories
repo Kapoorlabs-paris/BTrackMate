@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:09 CET 2020
+native-lib-loader-2.3.2.jar>scijava.public=
+native-lib-loader-2.3.2.pom>scijava.public=
+native-lib-loader-2.3.2.jar>imagej.public=
+native-lib-loader-2.3.2.pom>imagej.public=

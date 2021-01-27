@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>27.0.1</version>
+	</parent>
+
+	<groupId>sc.fiji</groupId>
+	<artifactId>bigvolumeviewer</artifactId>
+	<version>0.1.5</version>
+
+	<name>BigVolumeViewer</name>
+	<description>Volume rendering of bdv datasets</description>
+	<url>https://github.com/tpietzsch/jogl-minimal</url>
+	<inceptionYear>2018</inceptionYear>
+	<organization>
+		<name>BigDataViewer</name>
+		<url>https://imagej.net/BigDataViewer</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Simplified BSD License</name>
+			<url>https://opensource.org/licenses/BSD-2-Clause</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>tpietzsch</id>
+			<name>Tobias Pietzsch</name>
+			<url>https://imagej.net/User:Pietzsch</url>
+			<roles>
+				<role>founder</role>
+				<role>lead</role>
+				<role>developer</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors><contributor><name>none</name></contributor></contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>Image.sc Forum</name>
+			<archive>https://forum.image.sc/tags/bigdataviewer</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<connection>scm:git:git://github.com/tpietzsch/jogl-minimal</connection>
+		<developerConnection>scm:git:git@github.com:tpietzsch/jogl-minimal</developerConnection>
+		<tag>bigvolumeviewer-0.1.5</tag>
+		<url>https://github.com/tpietzsch/jogl-minimal</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/tpietzsch/jogl-minimal/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/tpietzsch/jogl-minimal</url>
+	</ciManagement>
+
+	<properties>
+		<package-name>tpietzsch</package-name>
+		<license.licenseName>bsd_2</license.licenseName>
+		<license.copyrightOwners>Tobias Pietzsch</license.copyrightOwners>
+
+		<bigdataviewer-core.version>7.0.0</bigdataviewer-core.version>
+		<bigdataviewer-vistools.version>1.0.0-beta-15</bigdataviewer-vistools.version>
+
+		<!-- NB: Deploy releases to the SciJava Maven repository. -->
+		<releaseProfiles>deploy-to-scijava</releaseProfiles>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>scijava.public</id>
+			<url>https://maven.scijava.org/content/groups/public</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jogamp.gluegen</groupId>
+			<artifactId>gluegen-rt-main</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.jogl</groupId>
+			<artifactId>jogl-all-main</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.joml</groupId>
+			<artifactId>joml</artifactId>
+		</dependency>
+		<dependency>
+			<!-- only used for linear programming, get rid of this, we only need something extremely simple -->
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+		</dependency>
+
+		<!-- ImgLib2/BDV dependencies -->
+		<dependency>
+			<groupId>sc.fiji</groupId>
+			<artifactId>bigdataviewer-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>sc.fiji</groupId>
+			<artifactId>bigdataviewer-vistools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-ij</artifactId>
+		</dependency>
+
+		<!-- ImageJ2 dependencies (for making Commands) -->
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>imagej</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.antlr/ST4 -->
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>ST4</artifactId>
+			<version>4.0.8</version>
+		</dependency>
+
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

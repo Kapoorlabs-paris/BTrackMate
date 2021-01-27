@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:28:58 CET 2020
+imglib2-roi-0.7.0.jar>scijava.public=
+imglib2-roi-0.7.0.pom>scijava.public=
+imglib2-roi-0.7.0.jar>imagej.public=
+imglib2-roi-0.7.0.pom>imagej.public=

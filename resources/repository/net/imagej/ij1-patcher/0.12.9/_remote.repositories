@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:08 CET 2020
+ij1-patcher-0.12.9.jar>scijava.public=
+ij1-patcher-0.12.9.pom>scijava.public=
+ij1-patcher-0.12.9.pom>imagej.public=
+ij1-patcher-0.12.9.jar>imagej.public=

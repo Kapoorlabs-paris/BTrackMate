@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:10 CET 2020
+perf4j-0.9.13.pom>imagej.public=
+perf4j-0.9.13.jar>scijava.public=
+perf4j-0.9.13.pom>scijava.public=
+perf4j-0.9.13.jar>imagej.public=

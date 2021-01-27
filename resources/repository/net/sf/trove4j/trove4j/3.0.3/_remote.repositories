@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Nov 16 00:29:06 CET 2020
+trove4j-3.0.3.pom>scijava.public=
+trove4j-3.0.3.jar>scijava.public=
+trove4j-3.0.3.pom>imagej.public=
+trove4j-3.0.3.jar>imagej.public=

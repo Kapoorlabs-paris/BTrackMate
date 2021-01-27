@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Sun Nov 22 03:10:09 CET 2020
+formats-api-5.9.2.pom>scijava.public=
+formats-api-5.9.2.jar>scijava.public=
+formats-api-5.9.2.pom>imagej.public=
+formats-api-5.9.2.jar>imagej.public=

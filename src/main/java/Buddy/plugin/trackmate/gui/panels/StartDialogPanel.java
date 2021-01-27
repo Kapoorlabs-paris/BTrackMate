@@ -94,8 +94,8 @@ public class StartDialogPanel extends ActionListenablePanel
 		final JLabel lblCitation = new JLabel( "<html>"
 				+ "BTrackMate is to be used when inputting integer labelled segmentations."+ "<p>"
 				+ "<p>" + 
-				"inspired and made for and" 
-				+ "by Claudia Carabana Garcia and Varun Kapoor."+ "<p>"
+				"inspired and made for" + "<p>"
+				+ " Claudia Carabana Garcia by Varun Kapoor."+ "<p>"
 				+ "<p>"
 				+ "TrackMate is based on this publication:"
 				+ "<p>"

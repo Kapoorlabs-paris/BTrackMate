@@ -392,18 +392,7 @@ public class ThreeDTimeCellFileChooser extends JPanel {
 					"This tracker is for 3D + time images only, your image has higher dimensionality, split the channels perhaps?");
 
 		}
-		if(imageOrigGreen.dimension(2) > 2) {
-		Microscope.add(inputZ, new GridBagConstraints(0, 10, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0));
-
-		Microscope.add(Zslider, new GridBagConstraints(0, 11, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		
-
-		Microscope.repaint();
-		Microscope.validate();
-
-		}
+	
 		
 		if (imageOrigGreen.numDimensions() <= 3) 
 
@@ -548,6 +537,7 @@ public class ThreeDTimeCellFileChooser extends JPanel {
 				
 						
 				segimage.get().setZero();
+						
 			}
 			
 		}

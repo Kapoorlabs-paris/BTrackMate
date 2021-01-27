@@ -15,7 +15,7 @@
 	
 	<name>Cell tracking</name>
 	<description>Track cells.</description>
-	<url>https://github.com/kapoorlab/BTrack</url>
+	<url>https://github.com/kapoorlab/BTrackMate</url>
 	<inceptionYear>2017</inceptionYear>
 	<organization>
 		<name>Kapoor Lab</name>
@@ -185,11 +185,7 @@
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-			    <version>1.0.14</version>
-		</dependency>
+		
 		
 
 		<dependency>

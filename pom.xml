@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>net.kapoor</groupId>
-	<artifactId>BTrack</artifactId>
+	<artifactId>BTrackMate</artifactId>
 	<version>1.0.0</version>
 	
 	<name>Cell tracking</name>

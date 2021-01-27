@@ -10,12 +10,12 @@
 	</parent>
 
 	<groupId>net.kapoor</groupId>
-	<artifactId>BTrackMate</artifactId>
+	<artifactId>BTrack</artifactId>
 	<version>1.0.0</version>
 	
-	<name>Cell tracking inside buds</name>
-	<description>Track cells and measure bud properties, using track visualization tools of TrackMate.</description>
-	<url>https://github.com/kapoorlab/BTrackMate</url>
+	<name>Cell tracking</name>
+	<description>Track cells.</description>
+	<url>https://github.com/kapoorlab/BTrack</url>
 	<inceptionYear>2017</inceptionYear>
 	<organization>
 		<name>Kapoor Lab</name>
@@ -45,16 +45,14 @@
 			</roles>
 		</developer>
 	</developers>
-
-</contributor>
+	<contributors>
 		<contributor>
-			<name>Claudia Carabana Garcia</name>
-			<url>https://imagej.net/User:MTrack</url>
-			<properties><id>TheClaudia</id></properties>
+			<name>Claudia Carbana Garcia</name>
+			<url>http://imagej.net/User:Claudia</url>
+			<properties><id>vkapoor</id></properties>
 		</contributor>
 	</contributors>
 
-	
 	<mailingLists>
 		<mailingList>
 			<name>ImageJ Forum</name>
@@ -63,18 +61,18 @@
 	</mailingLists>
 
 	<scm>
-		<connection>scm:git:git://github.com/kapoorlab/BTrackMate</connection>
+		<connection>scm:git:git://github.com/kapoorlab/BTrack</connection>
 		<developerConnection>scm:git:git@github.com:kapoorlab/BTrack</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://github.com/kapoorlab/BTrackMate</url>
+		<url>https://github.com/kapoorlab/BTrack</url>
 	</scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/kapoorlab/BTrackMate/issues</url>
+		<url>https://github.com/kapoorlab/BTrack/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>Travis CI</system>
-		<url>https://travis-ci.org/kapoorlab/BTrackMate</url>
+		<url>https://travis-ci.org/kapoorlab/BTrack</url>
 	</ciManagement>
 
 	<properties>

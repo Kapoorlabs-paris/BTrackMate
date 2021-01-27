@@ -462,12 +462,11 @@ public class ThreeDTimeCellFileChooser extends JPanel {
 				if (imageSegA.numDimensions() <= 3) 
 
         			imageSegA = copyUpIntImage(imageSegA);
-				
-			ImageObjects ImagePairs  = 
-					Create4D(imageOrigGreen, imageSegA, imageSegA);
 			
 			
-			InteractiveBud CellCollection = new InteractiveBud(ImagePairs.imageOrig, CSVGreen, ImagePairs.imageSegA, new File(impOrigGreen.getOriginalFileInfo().directory), impOrigGreen.getOriginalFileInfo().fileName, calibrationX, calibrationY, calibrationZ,
+			
+			InteractiveBud CellCollection = new InteractiveBud(imageOrigGreen, CSVGreen, imageSegA, new File(impOrigGreen.getOriginalFileInfo().directory), impOrigGreen.getOriginalFileInfo().fileName,
+					calibrationX, calibrationY, calibrationZ,
 					FrameInterval, name, false);
 			
 

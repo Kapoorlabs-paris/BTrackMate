@@ -2,12 +2,7 @@
 
 Fiji plugin for tracking cells like Trackmate but with integer labelled segmentations as input/csv file of cell attributes as input with Raw images.
 
-
-
-
-Tools for doing tracking using instance segmentation image using Fiji and Jupyter notebooks.
-
-This is a pre-release tool for trying out tracking using BTrackMate workflow. To use this install the jars in Fiji and create an anaconda enviornment for Napari based visualization.
+To use this install the jars in Fiji (update site MTrack) and create an anaconda enviornment for Napari based visualization.
 
 For creating napari based visualization:
 

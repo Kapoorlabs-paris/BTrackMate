@@ -14,14 +14,6 @@ public class PanelZero3DCell {
 		JFrame frame = new JFrame("");
 
 		
-	
-
-	    new ImageJ();
-	
-		ImagePlus impA = new Opener()
-			.openImage("/home/kapoorlab/Downloads/Tracking_Segmentation_Projection.tif");
-		impA.show();
-		
 		
 		ThreeDTimeCellFileChooser panel = new ThreeDTimeCellFileChooser();
 

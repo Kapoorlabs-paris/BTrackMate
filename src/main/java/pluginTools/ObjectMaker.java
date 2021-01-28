@@ -47,10 +47,11 @@ public class ObjectMaker implements Runnable {
 		
 		// For each bud get the list of points
 		List<RealLocalizable> bordercelltruths = DisplayListOverlay.GetCoordinatesBit(SmallBigPairCurrentViewBit.getB().Boundaryimage);
-		double cellArea = Volume(SmallBigPairCurrentViewBit.getA().Interiorimage);
-		double cellPerimeter = Volume(SmallBigPairCurrentViewBit.getA().Boundaryimage);
+		double[] intensityVol = getIntensityVol(parent, SmallBigPairCurrentViewBit.getA().Interiorimage,SmallBigPairCurrentViewBit.getA().Boundaryimage);
+		double cellArea =intensityVol[1];
+		double cellPerimeter = intensityVol[2];
 		Localizable cellcenterpoint = budDetector.Listordering.getIntMean3DCord(bordercelltruths);
-		double intensity = getIntensity(parent, SmallBigPairCurrentViewBit.getA().Interiorimage);
+		double intensity = intensityVol[0];
 		double[] Extents = radiusXYZ( SmallBigPairCurrentViewBit.getA().Boundaryimage);
 		Cellobject insideGreencells = new Cellobject(cellcenterpoint, parent.fourthDimension, labelgreen, intensity, cellArea, cellPerimeter, Extents); 
 		Allcells.add(insideGreencells);
@@ -93,7 +94,44 @@ public class ObjectMaker implements Runnable {
 	  
 	}
 
-
+	public static double[] getIntensityVol(InteractiveBud parent,
+			RandomAccessibleInterval<BitType> Regionimage, RandomAccessibleInterval<BitType> BorderRegionimage) {
+		
+		double intensity = 0;
+		
+		Cursor<BitType> cursor =  Views.iterable(Regionimage).localizingCursor();
+		
+		RandomAccess<FloatType> intran = parent.CurrentView.randomAccess();
+		
+		RandomAccess<BitType> borderran = BorderRegionimage.randomAccess();
+		//Intensity, Volume and Area
+		double[] IntensityVol = new double[3];
+		double Vol = 0;
+		double Area = 0;
+		while(cursor.hasNext()) {
+			
+			cursor.fwd();
+			
+			intran.setPosition(cursor);
+			borderran.setPosition(cursor);
+			if(cursor.get().getRealFloat() > 0.5)
+			       Vol++;
+			if(borderran.get().getRealFloat() > 0.5)
+				Area++;
+			if(cursor.get().getInteger() > 0 ) {
+				
+				intensity+=intran.get().get();
+				
+			}
+			
+		}
+		
+		IntensityVol[0] = intensity;
+		IntensityVol[1] = Vol;
+		IntensityVol[2] = Area;
+		return IntensityVol;		
+		
+	}
 		
 		public static double getIntensity(InteractiveBud parent, RandomAccessibleInterval<BitType> Regionimage) {
 			

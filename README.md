@@ -14,7 +14,7 @@ pip install scikit-image napari==0.4.3 pyqt5 btrack natsort scipy opencv-python-
 
 Now input your raw image, instance segmentation image in 2D + t or 3D + t and optionally mask image in this [notebook](https://github.com/kapoorlab/BTrackMate/blob/main/PythonTools/BTrackMateLocalization.ipynb). This notebok creates a csv file of cell attributes required by the Fiji tracker.
 
-After creating a csv file that starts with Fiji{filename}.csv start Fiji, load Raw image and select BTrack - > XYZT tracker plugin
+After creating a csv file that starts with Fiji{filename}.csv start Fiji, load Raw image and select Plugins - > Tracking - > BTrackMate
 
 Load the input Raw image (you can skip loading the segmentation and mask image if you did step 4)
 

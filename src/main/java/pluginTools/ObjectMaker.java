@@ -47,11 +47,10 @@ public class ObjectMaker implements Runnable {
 		
 		// For each bud get the list of points
 		List<RealLocalizable> bordercelltruths = DisplayListOverlay.GetCoordinatesBit(SmallBigPairCurrentViewBit.getB().Boundaryimage);
-		double[] intensityVol = getIntensityVol(parent, SmallBigPairCurrentViewBit.getA().Interiorimage,SmallBigPairCurrentViewBit.getA().Boundaryimage);
-		double cellArea =intensityVol[1];
-		double cellPerimeter = intensityVol[2];
+		double cellArea = Volume(SmallBigPairCurrentViewBit.getA().Interiorimage);
+		double cellPerimeter = Volume(SmallBigPairCurrentViewBit.getA().Boundaryimage);
 		Localizable cellcenterpoint = budDetector.Listordering.getIntMean3DCord(bordercelltruths);
-		double intensity = intensityVol[0];
+		double intensity = getIntensity(parent, SmallBigPairCurrentViewBit.getA().Interiorimage);
 		double[] Extents = radiusXYZ( SmallBigPairCurrentViewBit.getA().Boundaryimage);
 		Cellobject insideGreencells = new Cellobject(cellcenterpoint, parent.fourthDimension, labelgreen, intensity, cellArea, cellPerimeter, Extents); 
 		Allcells.add(insideGreencells);

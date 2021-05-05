@@ -3,7 +3,6 @@ package pluginTools;
 import java.util.ArrayList;
 import java.util.List;
 
-import budDetector.BCellobject;
 import budDetector.Budobject;
 import budDetector.Budpointobject;
 import budDetector.Budregionobject;
@@ -93,44 +92,7 @@ public class ObjectMaker implements Runnable {
 	  
 	}
 
-	public static double[] getIntensityVol(InteractiveBud parent,
-			RandomAccessibleInterval<BitType> Regionimage, RandomAccessibleInterval<BitType> BorderRegionimage) {
-		
-		double intensity = 0;
-		
-		Cursor<BitType> cursor =  Views.iterable(Regionimage).localizingCursor();
-		
-		RandomAccess<FloatType> intran = parent.CurrentView.randomAccess();
-		
-		RandomAccess<BitType> borderran = BorderRegionimage.randomAccess();
-		//Intensity, Volume and Area
-		double[] IntensityVol = new double[3];
-		double Vol = 0;
-		double Area = 0;
-		while(cursor.hasNext()) {
-			
-			cursor.fwd();
-			
-			intran.setPosition(cursor);
-			borderran.setPosition(cursor);
-			if(cursor.get().getRealFloat() > 0.5)
-			       Vol++;
-			if(borderran.get().getRealFloat() > 0.5)
-				Area++;
-			if(cursor.get().getInteger() > 0 ) {
-				
-				intensity+=intran.get().get();
-				
-			}
-			
-		}
-		
-		IntensityVol[0] = intensity;
-		IntensityVol[1] = Vol;
-		IntensityVol[2] = Area;
-		return IntensityVol;		
-		
-	}
+
 		
 		public static double getIntensity(InteractiveBud parent, RandomAccessibleInterval<BitType> Regionimage) {
 			

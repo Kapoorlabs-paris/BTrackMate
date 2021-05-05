@@ -1,21 +1,21 @@
 package listeners;
 
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import fileListeners.ChooseGreenSegMap;
-import loadfile.CovistoOneChFileLoader;
-import pluginTools.ThreeDTimeCellFileChooser;
-
+import fiji.plugin.btrack.gui.components.LoadSingleImage;
+import fileListeners.ChooseSegMap;
+import fiji.plugin.btrack.gui.descriptors.BTMStartDialogDescriptor;
 
 public class ThreeDCellGoFreeFLListener implements ItemListener {
 
-	public final ThreeDTimeCellFileChooser parent;
+	public final BTMStartDialogDescriptor parent;
 	
 	
 	
-	public ThreeDCellGoFreeFLListener( final ThreeDTimeCellFileChooser parent) {
+	public ThreeDCellGoFreeFLListener( final BTMStartDialogDescriptor parent) {
 		
 		this.parent = parent;
 	}
@@ -28,13 +28,19 @@ public class ThreeDCellGoFreeFLListener implements ItemListener {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			
 			parent.panelFirst.remove(parent.Panelfile);
+			parent.Panelfile.removeAll();
+			parent.Panelfile.validate();
+			parent.Panelfile.repaint();
+			
 			parent.panelFirst.validate();
 			parent.panelFirst.repaint();
 			
+			GridBagConstraints gbc = new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.NORTH,
+					GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0);
 			
-			CovistoOneChFileLoader segmentation = new CovistoOneChFileLoader(parent.chooseCellSegstring, parent.blankimageNames);
+			LoadSingleImage segmentation = new LoadSingleImage(parent.chooseSegstring, parent.blankimageNames, gbc);
 			parent.Panelfile = segmentation.SingleChannelOption();
-			segmentation.ChooseImage.addActionListener(new ChooseGreenSegMap(parent, segmentation.ChooseImage));
+			segmentation.ChooseImage.addActionListener(new ChooseSegMap(parent, segmentation.ChooseImage));
 			
 			
 			parent.panelFirst.add(parent.Panelfile, new GridBagConstraints(0, 7, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
@@ -53,7 +59,8 @@ public class ThreeDCellGoFreeFLListener implements ItemListener {
 		
 		else if (e.getStateChange() == ItemEvent.DESELECTED) {
 			
-	
+			parent.DoMask = true;
+			parent.NoMask = false;
 			
 		}
 		

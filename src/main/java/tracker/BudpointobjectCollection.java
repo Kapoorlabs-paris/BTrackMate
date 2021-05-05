@@ -18,7 +18,7 @@ package tracker;
 	import java.util.concurrent.TimeUnit;
 
 	import budDetector.Budpointobject;
-	import Buddy.plugin.trackmate.features.FeatureFilter;
+	import fiji.plugin.btrackmate.features.FeatureFilter;
 	import net.imglib2.algorithm.MultiThreaded;
 
 	/**

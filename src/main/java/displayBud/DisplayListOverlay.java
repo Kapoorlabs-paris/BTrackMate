@@ -73,7 +73,7 @@ public class DisplayListOverlay {
 			double Y = Math.round(truths.get(i).getDoublePosition(1));
 
 
-			OvalRoi points =  new OvalRoi((int) X, (int) Y,
+			OvalRoi points =  new OvalRoi((int) X - 1, (int) Y - 1,
 					2, 2);
 			
 			points.setStrokeColor(displayColor);
@@ -81,7 +81,7 @@ public class DisplayListOverlay {
 		
 		}
 
-		OvalRoi oval = new OvalRoi((int) currentpoint.getDoublePosition(0), (int) currentpoint.getDoublePosition(1),
+		OvalRoi oval = new OvalRoi((int) currentpoint.getDoublePosition(0) - parent.BudDotsize/2, (int) currentpoint.getDoublePosition(1) - parent.BudDotsize/2,
 				parent.BudDotsize, parent.BudDotsize);
 		oval.setStrokeWidth(parent.BudDotsize);
 		oval.setStrokeColor(displayColor);
@@ -98,12 +98,12 @@ public class DisplayListOverlay {
 				double X = Math.round(skeletonEndPoints.get(i).getFloatPosition(0));
 				double Y = Math.round(skeletonEndPoints.get(i).getFloatPosition(1));
 				
-				OvalRoi points =  new OvalRoi((int) X, (int) Y,
+				OvalRoi points =  new OvalRoi((int) X- parent.BudDotsize/2, (int) Y- parent.BudDotsize/2,
 						parent.BudDotsize, parent.BudDotsize);
 				points.setStrokeColor(color);
 				points.setStrokeWidth(parent.BudDotsize);
 				parent.overlay.add(points);
-				Roiobject roicolor = new Roiobject(color, points, new RealPoint(new double[] {X,Y}), label);
+				Roiobject roicolor = new Roiobject(color, points, new RealPoint(new double[] {skeletonEndPoints.get(i).getFloatPosition(0),skeletonEndPoints.get(i).getFloatPosition(1)}), label);
 		        		Allrois.add(roicolor);
 			}
 		  parent.imp.updateAndDraw();

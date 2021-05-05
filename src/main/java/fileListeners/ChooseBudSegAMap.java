@@ -5,17 +5,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+import fiji.plugin.btrack.gui.descriptors.BTStartDialogDescriptor;
 import ij.WindowManager;
-import pluginTools.BudFileChooser;
 
 public class ChooseBudSegAMap implements ActionListener {
 	
 	
-	final BudFileChooser parent;
+	final BTStartDialogDescriptor parent;
 	final JComboBox<String> choice;
 	
 	
-	public ChooseBudSegAMap(final BudFileChooser parent, final JComboBox<String> choice ) {
+	public ChooseBudSegAMap(final BTStartDialogDescriptor parent, final JComboBox<String> choice ) {
 		
 		
 		this.parent = parent;
@@ -29,10 +29,7 @@ public class ChooseBudSegAMap implements ActionListener {
 		
 		String imagename = (String) choice.getSelectedItem();
 		
-		
-		
     	parent.impSegA = WindowManager.getImage(imagename);
-    	
 
 		
 	}

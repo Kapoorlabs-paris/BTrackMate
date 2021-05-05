@@ -5,26 +5,26 @@
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>25.0.0</version>
+		<version>29.2.1</version>
 		<relativePath />
 	</parent>
 
-	<groupId>net.kapoor</groupId>
+	<groupId>sc.fiji</groupId>
 	<artifactId>BTrackMate</artifactId>
-	<version>1.0.0</version>
-	
-	<name>Cell tracking</name>
-	<description>Track cells.</description>
-	<url>https://github.com/kapoorlab/BTrackMate</url>
-	<inceptionYear>2017</inceptionYear>
+	<version>2.0.0</version>
+
+	<name>BTrackMate</name>
+	<description>BTrackMate plugin for Fiji.</description>
+	<url>https://imagej.net/BTrackMate</url>
+	<inceptionYear>2021</inceptionYear>
 	<organization>
-		<name>Kapoor Lab</name>
-		<url>https://science.institut-curie.org/platforms/cell-and-tissue-imaging/photonics/contacts</url>
+		<name>Fiji</name>
+		<url>https://fiji.sc/</url>
 	</organization>
-	<licenses> 
+	<licenses>
 		<license>
 			<name>GNU General Public License v3+</name>
-			<url>https://www.gnu.org/licenses/gpl.en.html</url>
+			<url>https://www.gnu.org/licenses/gpl.html</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
@@ -47,9 +47,17 @@
 	</developers>
 	<contributors>
 		<contributor>
-			<name>Claudia Carbana Garcia</name>
-			<url>http://imagej.net/User:Claudia</url>
-			<properties><id>vkapoor</id></properties>
+			<name>Claudia Carabana Garcia</name>
+			<url>http://imagej.net/User:ClaudiaCarabanaGarcia</url>
+			<properties><id>claudiacarabana</id></properties>
+
+<roles>
+                                <role>founder</role>
+                                <role>debugger</role>
+                                <role>reviewer</role>
+                                <role>support</role>
+                                
+                        </roles>
 		</contributor>
 	</contributors>
 
@@ -61,23 +69,23 @@
 	</mailingLists>
 
 	<scm>
-		<connection>scm:git:git://github.com/kapoorlab/BTrack</connection>
-		<developerConnection>scm:git:git@github.com:kapoorlab/BTrack</developerConnection>
+		<connection>scm:git:git://github.com/kapoorlab/BTrackMate</connection>
+		<developerConnection>scm:git:git@github.com:kapoorlab/BTrackMate</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://github.com/kapoorlab/BTrack</url>
+		<url>https://github.com/kapoorlab/BTrackMate</url>
 	</scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/kapoorlab/BTrack/issues</url>
+		<url>https://github.com/kapoorlab/BTrackMate/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>Travis CI</system>
-		<url>https://travis-ci.org/kapoorlab/BTrack</url>
+		<url>https://travis-ci.org/kapoorlab/BTrackMate</url>
 	</ciManagement>
 
 	<properties>
 		<license.licenseName>gpl_v3</license.licenseName>
-		<license.copyrightOwners>BTrack developers.</license.copyrightOwners>
+		<license.copyrightOwners>BTrackMate developers.</license.copyrightOwners>
 
 		
 
@@ -95,84 +103,72 @@
 		</repository>
 	</repositories>
    
-	<dependencies>
-	
+<dependencies>
+		<!-- Fiji dependencies -->
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>ij</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>sc.fiji</groupId>
+			<artifactId>fiji-lib</artifactId>
+		</dependency>
+
+		<!-- ImageJ dependencies -->
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>imagej-deprecated</artifactId>
+		</dependency>
+
 		<!-- ImgLib2 dependencies -->
-<dependency>
-    <groupId>net.imglib2</groupId>
-    <artifactId>imglib2</artifactId>
-</dependency>
-<!-- https://mvnrepository.com/artifact/net.sf.jgrapht/jgrapht -->
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-algorithm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-algorithm-gpl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-ij</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-roi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>sc.fiji</groupId>
+			<artifactId>bigdataviewer-core</artifactId>
+		</dependency>
 
+		<!-- SciJava dependencies -->
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scijava-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scijava-listeners</artifactId>
+		</dependency>
 
-<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>j3dcore</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>j3dutils</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>vecmath</artifactId>
-		</dependency>
-<!-- Java3D dependencies -->
-		<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>j3dcore</artifactId>
-		</dependency>
-		<dependency>
-		
-			<groupId>org.scijava</groupId>
-			<artifactId>j3dutils</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>vecmath</artifactId>
-		</dependency>
 		<!-- Third party dependencies -->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/sc.fiji/3D_Viewer -->
-<dependency>
-    <groupId>sc.fiji</groupId>
-    <artifactId>3D_Viewer</artifactId>
-</dependency>
-		<!-- https://mvnrepository.com/artifact/loci/loci-common -->
-
-		<!-- https://mvnrepository.com/artifact/loci/loci_plugins -->
-
-		
 		<dependency>
 			<groupId>gov.nist.math</groupId>
 			<artifactId>jama</artifactId>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core -->
-<dependency>
+		<dependency>
 			<groupId>org.jgrapht</groupId>
 			<artifactId>jgrapht-core</artifactId>
 		</dependency>
-		
-<!-- https://mvnrepository.com/artifact/net.imglib2/imglib2-algorithm -->
-<!-- https://mvnrepository.com/artifact/net.imglib2/imglib2-algorithm -->
-<dependency>
-    <groupId>net.imglib2</groupId>
-    <artifactId>imglib2-algorithm</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>net.imglib2</groupId>
-    <artifactId>imglib2-algorithm-gpl</artifactId>
-</dependency>
-<!-- https://mvnrepository.com/artifact/com.mxgraph/jgraphx -->
-<dependency>
-			<groupId>org.tinyjee.jgraphx</groupId>
-			<artifactId>jgraphx</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-dom</artifactId>
@@ -185,107 +181,68 @@
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
 		</dependency>
-		
-		
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.vlsi.mxgraph</groupId>
+			<artifactId>jgraphx</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.drjekyll</groupId>
+		    <artifactId>fontchooser</artifactId>
+    		<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.scif/pom-scifio -->
+<!-- https://mvnrepository.com/artifact/io.scif/scifio -->
+<dependency>
+    <groupId>io.scif</groupId>
+    <artifactId>scifio</artifactId>
+    <version>0.24.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/net.imagej/imagej-ops -->
+<dependency>
+    <groupId>net.imagej</groupId>
+    <artifactId>imagej-ops</artifactId>
+    <version>0.45.7</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/net.imagej/ij -->
 
+<!-- https://mvnrepository.com/artifact/net.imagej/imagej -->
+<dependency>
+    <groupId>net.imagej</groupId>
+    <artifactId>imagej</artifactId>
+    <version>2.0.0-rc-68</version>
+</dependency>
+
+		<dependency>
+			<groupId>math.geom2d</groupId>
+			<artifactId>javaGeom</artifactId>
+			<version>0.11.1</version>
+		</dependency>
+		<dependency>
+			<groupId>sc.fiji</groupId>
+	<artifactId>bigdataviewer-vistools</artifactId>
+	</dependency>
+	<dependency>
+			<groupId>sc.fiji</groupId>
+			<artifactId>bigdataviewer-core</artifactId>
+		</dependency>
+		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>net.imglib2</groupId>
-			<artifactId>imglib2-ij</artifactId>
-		</dependency>
-			<dependency>
-			<groupId>sc.fiji</groupId>
-			<artifactId>bigdataviewer-vistools</artifactId>
-		</dependency>
-	
-		<dependency>
-			<groupId>sc.fiji</groupId>
-			<artifactId>bigvolumeviewer</artifactId>
-			<version>0.1.5</version>
-		</dependency>
-		<!-- SciJava dependencies -->
-		<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>scijava-common</artifactId>
-		
-</dependency>
-
-
-		<!-- SCIFIO dependencies -->
-		<dependency>
-			<groupId>io.scif</groupId>
-			<artifactId>scifio</artifactId>
-		</dependency>
-
-		<!-- OME dependencies -->
-
-		<!-- Third party dependencies -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-
-		<!-- Test scope dependencies -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.5.0</version>
-			<scope>test</scope>
-		</dependency>
-	
-		<dependency>
-			<groupId>net.lingala.zip4j</groupId>
-			<artifactId>zip4j</artifactId>
-			<version>${zip4j.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-	<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-		</dependency>
-
-
-		<!-- ImageJ dependencies -->
-		<dependency>
-			<groupId>net.imagej</groupId>
-			<artifactId>ij</artifactId>
-		</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svggen -->
-<!-- https://mvnrepository.com/artifact/org.jfree/jfreesvg -->
-
-
-		<!-- Fiji dependencies -->
-		<dependency>
-			<!-- NB: dependency:analyze erroneously flags this, but it's required -->
-			<groupId>sc.fiji</groupId>
-			<artifactId>Fiji_Plugins</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>sc.fiji</groupId>
-			<artifactId>fiji-lib</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>sc.fiji</groupId>
-			<artifactId>legacy-imglib1</artifactId>
-		</dependency>
-
-	
-
-		
-	
-	
-		
-		
 	</dependencies>
 
 </project>

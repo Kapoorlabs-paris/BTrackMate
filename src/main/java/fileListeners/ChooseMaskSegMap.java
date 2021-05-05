@@ -5,17 +5,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+import fiji.plugin.btrack.gui.descriptors.BTMStartDialogDescriptor;
 import ij.WindowManager;
-import pluginTools.ThreeDTimeCellFileChooser;
 
 public class ChooseMaskSegMap implements ActionListener {
 	
 	
-	final ThreeDTimeCellFileChooser parent;
+	final BTMStartDialogDescriptor parent;
 	final JComboBox<String> choice;
 	
 	
-	public ChooseMaskSegMap(final ThreeDTimeCellFileChooser parent, final JComboBox<String> choice ) {
+	public ChooseMaskSegMap(final BTMStartDialogDescriptor parent, final JComboBox<String> choice ) {
 		
 		
 		this.parent = parent;

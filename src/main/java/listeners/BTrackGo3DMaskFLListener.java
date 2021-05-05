@@ -1,19 +1,20 @@
 package listeners;
 
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import fileListeners.ChooseGreenSegMap;
+import fiji.plugin.btrack.gui.components.LoadDualImage;
+import fiji.plugin.btrack.gui.descriptors.BTMStartDialogDescriptor;
+import fileListeners.ChooseSegMap;
 import fileListeners.ChooseMaskSegMap;
-import loadfile.CovistoTwoChForceFileLoader;
-import pluginTools.ThreeDTimeCellFileChooser;
 
 public class BTrackGo3DMaskFLListener implements ItemListener {
 
-	public final ThreeDTimeCellFileChooser parent;
+	public final BTMStartDialogDescriptor parent;
 	
-	public BTrackGo3DMaskFLListener( final ThreeDTimeCellFileChooser parent) {
+	public BTrackGo3DMaskFLListener( final BTMStartDialogDescriptor parent) {
 		
 		this.parent = parent;
 	}
@@ -24,18 +25,25 @@ public class BTrackGo3DMaskFLListener implements ItemListener {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			
 			parent.panelFirst.remove(parent.Panelfile);
+			parent.Panelfile.removeAll();
+			parent.Panelfile.validate();
+			parent.Panelfile.repaint();
+			
 			parent.panelFirst.validate();
 			parent.panelFirst.repaint();
 			
-			
-			
-			CovistoTwoChForceFileLoader segmentation = new CovistoTwoChForceFileLoader(parent.chooseMaskSegstring, parent.blankimageNames);
+			parent.panelFirst.add(parent.Panelfile, new GridBagConstraints(0, 7, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
+					GridBagConstraints.HORIZONTAL, parent.insets, 0, 0));
+			GridBagConstraints gbcSeg =  new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
+					GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0);
+			GridBagConstraints gbcMask =  new GridBagConstraints(3, 0, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
+					GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0);
+			LoadDualImage segmentation = new LoadDualImage(parent.chooseMaskSegstring, parent.blankimageNames, gbcSeg, gbcMask);
 			parent.Panelfile = segmentation.TwoChannelOption();
 			
 			
-			parent.panelFirst.add(parent.Panelfile, new GridBagConstraints(0, 7, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
-					GridBagConstraints.HORIZONTAL, parent.insets, 0, 0));
-			segmentation.ChooseImage.addActionListener(new ChooseGreenSegMap(parent, segmentation.ChooseImage));
+			
+			segmentation.ChooseImage.addActionListener(new ChooseSegMap(parent, segmentation.ChooseImage));
 			segmentation.ChoosesecImage.addActionListener(new ChooseMaskSegMap(parent, segmentation.ChoosesecImage));
 			parent.DoMask = true;
 			parent.NoMask = false;
@@ -50,7 +58,8 @@ public class BTrackGo3DMaskFLListener implements ItemListener {
 		else if (e.getStateChange() == ItemEvent.DESELECTED) {
 			
 
-			
+			parent.DoMask = false;
+			parent.NoMask = true;
 			
 		}
 		

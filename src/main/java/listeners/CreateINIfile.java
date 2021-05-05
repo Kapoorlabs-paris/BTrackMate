@@ -1,6 +1,6 @@
 package listeners;
 
-import kalmanGUI.CovistoKalmanPanel;
+import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
 import pluginTools.InteractiveBud;
 
 public class CreateINIfile {

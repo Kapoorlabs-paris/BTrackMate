@@ -4,5 +4,5 @@
     <errors>0</errors>
     <failures>0</failures>
     <skipped>0</skipped>
-    <failureMessage xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></failureMessage>
+    <failureMessage xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
 </failsafe-summary>

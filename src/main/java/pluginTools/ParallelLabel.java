@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-import budDetector.BCellobject;
 import budDetector.Budobject;
 import budDetector.Budpointobject;
 import budDetector.Budregionobject;
 import budDetector.Cellobject;
 import budDetector.Distance;
+import fiji.plugin.btrackmate.Spot;
 import net.imagej.ops.OpService;
 import net.imglib2.Localizable;
 import net.imglib2.RealLocalizable;
+import net.imglib2.RealPoint;
 import utility.GetNearest;
 import pluginTools.TrackEach3DCell;
 
@@ -37,20 +38,31 @@ public class ParallelLabel implements Runnable {
 	@Override
 	public void run() {
 	
-
-		
-
-		Budobject Curreentbud = new Budobject(null, null, null, parent.fourthDimension, 1,
-				0);
 		  
-	      Greencelllist  = GetNearest.getAllInterior3DCells(parent, parent.CurrentViewYellowInt);
+	    Greencelllist  = GetNearest.getAllInterior3DCells(parent, parent.CurrentViewYellowInt);
 	      
      	for(Cellobject currentbudcell:Greencelllist) {
 			
-			// and the distance
-			double closestBudPoint = 0;
-			// Make the bud n cell object, each cell has all information about the bud n itself 
-			BCellobject budncell = new BCellobject(Curreentbud, new ArrayList<Budpointobject>(), currentbudcell, closestBudPoint, closestBudPoint, parent.fourthDimension);
+			// Make TM spot
+     		double [] calibration = {parent.calibrationX, parent.calibrationY, parent.calibrationZ};
+     		final double x = calibration[0]* ( currentbudcell.Location.getDoublePosition(0) );
+			final double y = calibration[1] * ( currentbudcell.Location.getDoublePosition(1) );
+			final double z = calibration[2] * ( currentbudcell.Location.getDoublePosition(2) );
+
+			double[] point = {x,y,z};
+			RealPoint location = new RealPoint(point);
+			
+			
+			double radius = 0;
+			for (int i = 0; i < currentbudcell.extents.length; ++i)
+				radius *=  currentbudcell.extents[i] * calibration[i];
+					
+			radius = radius /8;		
+			final double quality = currentbudcell.cellVolume;
+			
+			// Make the Spot
+			Spot budncell = new Spot(location,radius,quality);
+			
             parent.budcells.add(budncell, parent.fourthDimension);  
             
 		

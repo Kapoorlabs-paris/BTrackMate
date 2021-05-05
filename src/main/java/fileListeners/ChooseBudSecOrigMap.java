@@ -5,17 +5,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+import fiji.plugin.btrack.gui.descriptors.BTStartDialogDescriptor;
 import ij.WindowManager;
-import pluginTools.BudFileChooser;
 
 public class ChooseBudSecOrigMap implements ActionListener {
 	
 	
-	final BudFileChooser parent;
+	final BTStartDialogDescriptor parent;
 	final JComboBox<String> choice;
 	
 	
-	public ChooseBudSecOrigMap(final BudFileChooser parent, final JComboBox<String> choice ) {
+	public ChooseBudSecOrigMap(final BTStartDialogDescriptor parent, final JComboBox<String> choice ) {
 		
 		
 		this.parent = parent;

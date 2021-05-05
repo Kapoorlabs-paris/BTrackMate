@@ -6,7 +6,7 @@ import java.awt.event.AdjustmentListener;
 
 import javax.swing.JScrollBar;
 
-import kalmanGUI.CovistoKalmanPanel;
+import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
 import pluginTools.InteractiveBud;
 
 public class BudAlphaListener implements AdjustmentListener {

@@ -8,18 +8,18 @@ import java.util.Locale;
 
 import javax.swing.JComboBox;
 
+import fiji.plugin.btrack.gui.descriptors.BTStartDialogDescriptor;
 import ij.IJ;
 import ij.WindowManager;
-import pluginTools.BudFileChooser;
 
 public class ChooseBudOrigMap implements ActionListener {
 	
 	
-	final BudFileChooser parent;
+	final BTStartDialogDescriptor parent;
 	final JComboBox<String> choice;
 	
 	
-	public ChooseBudOrigMap(final BudFileChooser parent, final JComboBox<String> choice ) {
+	public ChooseBudOrigMap(final BTStartDialogDescriptor parent, final JComboBox<String> choice ) {
 		
 		
 		this.parent = parent;

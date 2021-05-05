@@ -1,19 +1,14 @@
 package pluginTools.simplifiedio;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.StringJoiner;
 
 import org.scijava.util.FileUtils;
 
 import ij.IJ;
 import ij.ImagePlus;
-import ij.Macro;
 import ij.io.Opener;
-import ij.plugin.ImagesToStack;
 import io.scif.SCIFIO;
-import loci.formats.FormatException;
-import net.imagej.Dataset;
 import net.imagej.ImgPlus;
 import net.imagej.axis.Axes;
 import net.imagej.axis.DefaultLinearAxis;
@@ -26,8 +21,6 @@ import net.imglib2.img.ImagePlusAdapter;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgView;
 import net.imglib2.img.array.ArrayImgFactory;
-import net.imglib2.img.display.imagej.ImageJFunctions;
-import net.imglib2.img.display.imagej.ImgPlusViews;
 import net.imglib2.img.display.imagej.ImgToVirtualStack;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.ARGBType;
@@ -59,25 +52,7 @@ public class SimplifiedIO {
 		return ImagePlusAdapter.wrapImgPlus( image );
 	}
 
-	/**
-	 *
-	 * Loads an image using SCIFIO
-	 *
-	 * @return ImgPlus object
-	 * @see net.imagej.ImgPlus
-	 * @see org.scijava.Context
-	 */
-	@SuppressWarnings( "rawtypes" )
-	static ImgPlus openImageWithSCIFIO( final String path ) {
-		// package private to allow testing
-		try {
-			SCIFIO scifio = getScifio();
-			Dataset dataset = scifio.datasetIO().open( path );
-			return dataset.getImgPlus();
-		} catch ( IOException e ) {
-			throw new SimplifiedIOException( e );
-		}
-	}
+
 
 	/**
 	 * Loads an image using BioFormats
@@ -101,14 +76,6 @@ public class SimplifiedIO {
 		} catch ( Exception e ) {
 			messages.add( "ImageJ1 Exception: " + e.getMessage() );
 		}
-
-		try {
-			return SimplifiedIO.openImageWithSCIFIO( path );
-		} catch ( Exception e ) {
-			messages.add( "SCIFIO Exception: " + e.getMessage() );
-		}
-
-	
 
 		if ( !new File( path ).exists() )
 			throw new SimplifiedIOException( "Image file doesn't exist: " + path );

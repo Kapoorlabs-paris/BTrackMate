@@ -1,24 +1,16 @@
 package utility;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
-
-import ij.IJ;
-import ij.gui.Roi;
-import mpicbg.imglib.util.Util;
 import net.imglib2.Cursor;
 import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.ImgFactory;
-import net.imglib2.img.array.ArrayImgFactory;
-import net.imglib2.img.display.imagej.ImageJFunctions;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.type.numeric.NumericType;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.view.Views;
-import pluginTools.InteractiveBud;
 
 public class BudSlicer {
 
@@ -259,7 +251,7 @@ public class BudSlicer {
 
 	public static int computeScrollbarPositionFromValue(final float sigma, final float min, final float max,
 			final int scrollbarSize) {
-		return Util.round(((sigma - min) / (max - min)) * scrollbarSize);
+		return Math.round(((sigma - min) / (max - min)) * scrollbarSize);
 	}
 
 }

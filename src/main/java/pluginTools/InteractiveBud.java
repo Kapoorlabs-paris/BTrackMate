@@ -8,7 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Label;
-import java.awt.Rectangle;
 import java.awt.Scrollbar;
 import java.awt.TextField;
 import java.awt.event.KeyEvent;
@@ -20,12 +19,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -41,26 +36,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.JTableHeader;
 
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYSeriesCollection;
-
-import budDetector.BCellobject;
 import budDetector.Budobject;
 import budDetector.Budpointobject;
 import budDetector.Cellobject;
 import budDetector.Roiobject;
-import Buddy.plugin.trackmate.BCellobjectCollection;
+import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.btrack.segmentation.CellSegmentation;
+import fiji.plugin.btrackmate.Spot;
+import fiji.plugin.btrackmate.SpotCollection;
 import fileListeners.BTrackSaveDirectoryListener;
+import net.imagej.ImageJ;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.ImageStack;
-import ij.WindowManager;
-import ij.gui.OvalRoi;
 import ij.gui.Overlay;
-import ij.plugin.HyperStackConverter;
 import ij.plugin.PlugIn;
-import ij.process.ImageProcessor;
-import kalmanGUI.CovistoKalmanPanel;
 import listeners.AddBudKeyListener;
 import listeners.BTrackAutoEndListener;
 import listeners.BTrackAutoStartListener;
@@ -82,22 +72,12 @@ import listeners.BudTimeListener;
 import listeners.BudTlocListener;
 import listeners.BudTrackidListener;
 import listeners.BudZListener;
-import net.imagej.ImageJ;
 import net.imglib2.Cursor;
-import net.imglib2.Interval;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealLocalizable;
-import net.imglib2.algorithm.labeling.ConnectedComponents;
-import net.imglib2.algorithm.labeling.ConnectedComponents.StructuringElement;
-import net.imglib2.img.array.ArrayImgFactory;
-import net.imglib2.img.array.ArrayImgs;
-import net.imglib2.img.cell.CellImgFactory;
 import net.imglib2.img.display.imagej.ImageJFunctions;
-import net.imglib2.roi.labeling.ImgLabeling;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.real.FloatType;
-import net.imglib2.util.Intervals;
-import net.imglib2.util.Pair;
 import net.imglib2.util.ValuePair;
 import net.imglib2.view.Views;
 import tracker.BUDDYBudTrackModel;
@@ -130,7 +110,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	public MouseListener tvl;
 	public String AddDot = "B";
 	public MouseMotionListener tvml;
-	public int borderexpand = 100;
+	public int borderexpand = 20;
 	public int BudDotsize = 6;
 	public Color BudColor = Color.PINK;
 	public Color RemoveBudColor = Color.RED;
@@ -148,7 +128,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	public HashMap<Integer, HashMap<Integer, Double>> BudVelocityMap;
 
 	public ArrayList<ValuePair<String, Budobject>> BudTracklist;
-	public HashMap<String, ArrayList<BCellobject>> AllBudcells;
+	public HashMap<String, ArrayList<Spot>> AllBudcells;
 	public Overlay overlay;
 	public ImagePlus imp;
 	public String selectedID;
@@ -190,7 +170,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	public RandomAccessibleInterval<IntType> SegYelloworiginalimg;
 	public RandomAccessibleInterval<IntType> SegRedoriginalimg;
 	public RandomAccessibleInterval<IntType> SegGreenoriginalimg;
-	public BCellobjectCollection budcells = new BCellobjectCollection();
+	public SpotCollection budcells = new SpotCollection();
 	public HashMap<Integer, Integer> IDlist = new HashMap<Integer, Integer>();
 	public HashMap<String, Budpointobject> Finalresult;
 
@@ -510,7 +490,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 	public void GreenCellCollector() {
 
-		CollectGreenCells display = new CollectGreenCells(this, jpb);
+		CellSegmentation display = new CellSegmentation(this, jpb);
 		display.execute();
 	}
 

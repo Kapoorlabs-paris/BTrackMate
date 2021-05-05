@@ -95,7 +95,7 @@ public class BUDDYDisplaySelectedTrack {
 					int Y = (int) Math.round(nearest.Location[1]);
 
 
-					OvalRoi points = new OvalRoi((int) X, (int) Y, parent.BudDotsize, parent.BudDotsize);
+					OvalRoi points = new OvalRoi((int) X- parent.BudDotsize/2, (int) Y- parent.BudDotsize/2 , parent.BudDotsize, parent.BudDotsize);
 
 					Roiobject nearestroi = getNearestRois(parent.BudOvalRois.get(Integer.toString(time)),
 							new double[] { X, Y });
@@ -113,7 +113,7 @@ public class BUDDYDisplaySelectedTrack {
 
 							OvalRoi roi = (OvalRoi) parent.overlay.get(i);
 							
-	                            double[] point = roi.getContourCentroid();
+							double[] point = new double[] {roi.getContourCentroid()[0] , roi.getContourCentroid()[1] };
 							
 							Budpointobject nearestBPO = getNearestBPO(Budpointlist, point);
 							
@@ -136,7 +136,7 @@ public class BUDDYDisplaySelectedTrack {
 							  }
 							if (roi.getStrokeColor() == parent.RemoveBudColor
 									|| roi.getStrokeColor() == parent.BudColor)
-								Allrois.add(new Roiobject(roi.getStrokeColor(), roi, new RealPoint(roi.getContourCentroid()), label));
+								Allrois.add(new Roiobject(roi.getStrokeColor(), roi, new RealPoint(point), label));
 
 						}
 
@@ -156,7 +156,7 @@ public class BUDDYDisplaySelectedTrack {
 
 					int checklabel = checkintranac.get().get();
 					if(checklabel > 0) {
-						OvalRoi points = new OvalRoi((int) x, (int) y, parent.BudDotsize, parent.BudDotsize);
+						OvalRoi points = new OvalRoi((int) x -parent.BudDotsize / 2, (int) y - parent.BudDotsize / 2, parent.BudDotsize, parent.BudDotsize);
 						points.setStrokeColor(parent.BudColor);
 						points.setStrokeWidth(parent.BudDotsize);
 						parent.overlay.add(points);
@@ -167,7 +167,7 @@ public class BUDDYDisplaySelectedTrack {
 
 							OvalRoi roi = (OvalRoi) parent.overlay.get(i);
 							
-	                            double[] point = roi.getContourCentroid();
+	                            double[] point = new double[] {roi.getContourCentroid()[0] , roi.getContourCentroid()[1] };
 							
 							Budpointobject nearestBPO = getNearestBPO(Budpointlist, point);
 							Localizable labelpoint = new Point(new long[] {(long)nearestBPO.Budcenter.getDoublePosition(0),(long)nearestBPO.Budcenter.getDoublePosition(1)});
@@ -191,7 +191,7 @@ public class BUDDYDisplaySelectedTrack {
 							
 							if (roi.getStrokeColor() == parent.RemoveBudColor
 									|| roi.getStrokeColor() == parent.BudColor)
-								Allrois.add(new Roiobject(roi.getStrokeColor(), roi, new RealPoint(roi.getContourCentroid()), label));
+								Allrois.add(new Roiobject(roi.getStrokeColor(), roi, new RealPoint(point), label));
 
 						}
 

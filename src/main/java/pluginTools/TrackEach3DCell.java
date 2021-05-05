@@ -5,15 +5,11 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import budDetector.BCellobject;
-import budDetector.Budobject;
-import budDetector.Budpointobject;
 import budDetector.Budregionobject;
 import budDetector.Cellobject;
 import budDetector.Distance;
 import net.imagej.ops.OpService;
 import net.imglib2.Cursor;
-import net.imglib2.Localizable;
 import net.imglib2.Point;
 import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessible;
@@ -24,7 +20,6 @@ import net.imglib2.img.array.ArrayImgFactory;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.view.Views;
-import utility.GetNearest;
 
 public class TrackEach3DCell implements Runnable {
 
@@ -52,31 +47,32 @@ public class TrackEach3DCell implements Runnable {
 	}
 	
 	public void displayCells() {
-
+		
 		String uniqueID = Integer.toString(parent.fourthDimension);
-
+		
 		parent.overlay.clear();
 
 		int nThreads = Runtime.getRuntime().availableProcessors();
 		// set up executor service
 		final ExecutorService taskExecutor = Executors.newFixedThreadPool(nThreads);
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
-		// For each bud get the list of points
+				// For each bud get the list of points
 
-		// For each bud get the list of points
-		if (parent.jpb != null)
-			utility.BudProgressBar.SetProgressBar(parent.jpb,
-					100 * (percent) / (parent.fourthDimensionSize + parent.pixellist.size()),
-					"Collecting Cells T = " + parent.fourthDimension + "/" + parent.fourthDimensionSize);
+											// For each bud get the list of points
+											if (parent.jpb != null)
+												utility.BudProgressBar.SetProgressBar(parent.jpb,
+														100 * (percent) / (parent.fourthDimensionSize + parent.pixellist.size()),
+														"Collecting Cells T = " + parent.fourthDimension + "/" + parent.fourthDimensionSize );
 
-		tasks.add(Executors.callable(new ParallelLabel(parent, Greencelllist, uniqueID)));
-		try {
-
+											tasks.add(Executors.callable(new ParallelLabel(parent, Greencelllist,  uniqueID)));
+	try {
+			
 			taskExecutor.invokeAll(tasks);
+	
+	} catch (InterruptedException e1) {
 
-		} catch (InterruptedException e1) {
-
-		}
+		
+	}
 
 	}
 	

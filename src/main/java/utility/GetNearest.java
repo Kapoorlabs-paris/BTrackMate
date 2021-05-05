@@ -150,8 +150,8 @@ public class GetNearest {
 
 				for (RealLocalizable insidetruth : bordercelltruths) {
 
-					Integer xPts = (int) insidetruth.getFloatPosition(0);
-					Integer yPts = (int) insidetruth.getFloatPosition(1);
+					Integer xPts = (int) Math.round(insidetruth.getFloatPosition(0));
+					Integer yPts = (int) Math.round(insidetruth.getFloatPosition(1));
 					OvalRoi points = new OvalRoi(xPts, yPts, 2, 2);
 					points.setStrokeColor(Color.RED);
 					points.setStrokeWidth(2);

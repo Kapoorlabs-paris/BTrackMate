@@ -6,8 +6,8 @@ import java.awt.event.AdjustmentListener;
 
 import javax.swing.JScrollBar;
 
-import kalmanGUI.CovistoKalmanPanel;
-import nearestNeighbourGUI.CovistoNearestNPanel;
+import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.btrack.gui.components.CovistoNearestNPanel;
 import pluginTools.InteractiveBud;
 
 public class BudPREMaxSearchTListener implements AdjustmentListener {

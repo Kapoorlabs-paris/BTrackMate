@@ -13,8 +13,14 @@ Restart Fiji.
 
 Launch the plugin with Plugins ▶ Tracking ▶ BTrackmate.
 
+[Tracking Manual](https://imagej.net/TrackMate)
+
+[See also](https://github.com/kapoorlab/NapaTrackMater) for exporting track XML file in Napari
+
 
 ## Authors
 
 - Varun Kapoor <randomaccessiblekapoor@gmail.com>
 - Claudia Carabaña
+
+

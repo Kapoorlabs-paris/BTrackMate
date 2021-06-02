@@ -1,5 +1,5 @@
 ## Installation
-This package can be installed from Fiji update cite MTrack. To use this package download and install [Fiji](https://imagej.net/Fiji/Downloads). After download open Fiji.
+This package can be installed from Fiji update cite MTrack. To use this package download and install [Fiji](https://imagej.github.io/). After download open Fiji.
 
 Click Help ▶ Update....
 

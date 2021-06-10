@@ -298,7 +298,7 @@ public class TrackMate implements Benchmark, MultiThreaded, Algorithm, Named, Ca
 			SimpleWeightedGraph<Spot, DefaultWeightedEdge> graph = tracker.getResult();
 			model.setTracks(graph, true);
 
-			CleanTracks(graph);
+			TrackInspector(graph);
 			return true;
 
 		}
@@ -308,14 +308,13 @@ public class TrackMate implements Benchmark, MultiThreaded, Algorithm, Named, Ca
 		return false;
 	}
 
-	public void CleanTracks(SimpleWeightedGraph<Spot, DefaultWeightedEdge> graph) {
+	public void TrackInspector(SimpleWeightedGraph<Spot, DefaultWeightedEdge> graph) {
 		
 		double timecutoff = 0;
 		if (settings.trackerSettings.get(KEY_TRACKLET_LENGTH)!=null)
 			timecutoff = (Double) settings.trackerSettings.get(KEY_TRACKLET_LENGTH);
 		
 		
-		final ConnectivityInspector<Spot, DefaultWeightedEdge> connectivity = new ConnectivityInspector<>(graph);
 
 		model.beginUpdate();
 
@@ -334,7 +333,6 @@ public class TrackMate implements Benchmark, MultiThreaded, Algorithm, Named, Ca
 
 				for (final DefaultWeightedEdge e : track) {
 
-					final double cost = model.getTrackModel().getEdgeWeight(e);
 					Spot Spotbase = model.getTrackModel().getEdgeSource(e);
 					Spot Spottarget = model.getTrackModel().getEdgeTarget(e);
 

@@ -309,13 +309,16 @@ public class TrackMate implements Benchmark, MultiThreaded, Algorithm, Named, Ca
 	}
 
 	public void CleanTracks(SimpleWeightedGraph<Spot, DefaultWeightedEdge> graph) {
-
-		double timecutoff = (Double) settings.trackerSettings.get(KEY_TRACKLET_LENGTH);
+		
+		double timecutoff = 0;
+		if (settings.trackerSettings.get(KEY_TRACKLET_LENGTH)!=null)
+			timecutoff = (Double) settings.trackerSettings.get(KEY_TRACKLET_LENGTH);
+		
+		
 		final ConnectivityInspector<Spot, DefaultWeightedEdge> connectivity = new ConnectivityInspector<>(graph);
 
 		model.beginUpdate();
 
-		for (int i = 0; i <= timecutoff; ++i) {
 			for (final Integer trackID : model.getTrackModel().trackIDs(false)) {
 
 				ArrayList<Pair<Integer, Spot>> Sources = new ArrayList<Pair<Integer, Spot>>();
@@ -407,18 +410,21 @@ public class TrackMate implements Benchmark, MultiThreaded, Algorithm, Named, Ca
 						}
 
 						if (Actualsplit != null) {
+							Set<Spot> connectedspotset = connectedSetOf(graph, Spotend, Actualsplit);
 							trackletlength = (int) Math.abs(Actualsplit.diffTo(Spotend, Spot.FRAME));
 
-							if (trackletlength <= timecutoff)
+							if (trackletlength <= timecutoff) {
 
-								model.getTrackModel().removeSpot(Spotend);
+								Iterator<Spot> it = connectedspotset.iterator();
+							    while(it.hasNext())
+								model.getTrackModel().removeSpot(it.next());
 
+							}
 						}
 
 					}
 				}
 			}
-		}
 
 		model.endUpdate();
 

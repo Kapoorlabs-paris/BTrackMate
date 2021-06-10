@@ -263,7 +263,7 @@ public class TrackMatePlugIn implements PlugIn
 		ImageJ.main( args );
 //		new TrackMatePlugIn().run( "samples/Stack.tif" );
 //		new TrackMatePlugIn().run( "samples/Merged.tif" );
-		new TrackMatePlugIn().run("/Users/aimachine/Downloads/CellTracking/SEG-1.tif");
+		new TrackMatePlugIn().run("/home/kapoorlab/Downloads/CellTracking/SEG-1.tif");
 //		new TrackMatePlugIn().run( "samples/Mask.tif" );
 //		new TrackMatePlugIn().run( "samples/FakeTracks.tif" );
 	}

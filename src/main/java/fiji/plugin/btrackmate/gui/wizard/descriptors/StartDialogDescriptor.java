@@ -643,7 +643,7 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 						remove(Panelfile);
 						remove(PanelDualfile);
 						// Listeneres
-
+						TrackMate.CsvSpots = null;
 						add(Panelfile, gbcChooseSegLoad);
 
 						validate();
@@ -677,7 +677,7 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 						remove(Panelfile);
 						remove(PanelDualfile);
 						// Listeneres
-
+						TrackMate.CsvSpots = null;
 						add(PanelDualfile, gbcChooseSegLoad);
 						validate();
 						repaint();
@@ -845,7 +845,10 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 						
 						TrackMate.CsvSpots = SpotListFrame.getA();
 						TrackMate.Framespots = SpotListFrame.getB();
-						TrackMatePlugIn.ModelUpdate(updatelogger,imp, updatesettings.imp);
+						
+						ImagePlus localimp = imp.duplicate();
+						localimp.show();
+						TrackMatePlugIn.ModelUpdate(updatelogger,imp, localimp);
 
 					} else
 						csvfile = null;

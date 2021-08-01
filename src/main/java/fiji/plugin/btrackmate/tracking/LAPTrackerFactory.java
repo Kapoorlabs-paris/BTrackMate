@@ -69,53 +69,26 @@ public abstract class LAPTrackerFactory implements SpotTrackerFactory
 		boolean ok = true;
 		final StringBuilder str = new StringBuilder();
 
-		// Linking
-		final Element linkingElement = new Element( XML_ELEMENT_NAME_LINKING );
-		ok = ok & writeAttribute( settings, linkingElement, KEY_LINKING_MAX_DISTANCE, Double.class, str );
-		// feature penalties
-		@SuppressWarnings( "unchecked" )
-		final Map< String, Double > lfpm = ( Map< String, Double > ) settings.get( KEY_LINKING_FEATURE_PENALTIES );
-		final Element lfpElement = new Element( XML_ELEMENT_NAME_FEATURE_PENALTIES );
-		marshallMap( lfpm, lfpElement );
-		linkingElement.addContent( lfpElement );
-		element.addContent( linkingElement );
+		
 
 		// Gap closing
 		final Element gapClosingElement = new Element( XML_ELEMENT_NAME_GAP_CLOSING );
 		ok = ok & writeAttribute( settings, gapClosingElement, KEY_ALLOW_GAP_CLOSING, Boolean.class, str );
 		ok = ok & writeAttribute( settings, gapClosingElement, KEY_GAP_CLOSING_MAX_DISTANCE, Double.class, str );
 		ok = ok & writeAttribute( settings, gapClosingElement, KEY_GAP_CLOSING_MAX_FRAME_GAP, Integer.class, str );
-		// feature penalties
-		@SuppressWarnings( "unchecked" )
-		final Map< String, Double > gcfpm = ( Map< String, Double > ) settings.get( KEY_GAP_CLOSING_FEATURE_PENALTIES );
-		final Element gcfpElement = new Element( XML_ELEMENT_NAME_FEATURE_PENALTIES );
-		marshallMap( gcfpm, gcfpElement );
-		gapClosingElement.addContent( gcfpElement );
-		element.addContent( gapClosingElement );
+		
 
 		// Track splitting
 		final Element trackSplittingElement = new Element( XML_ELEMENT_NAME_SPLITTING );
 		ok = ok & writeAttribute( settings, trackSplittingElement, KEY_ALLOW_TRACK_SPLITTING, Boolean.class, str );
 		ok = ok & writeAttribute( settings, trackSplittingElement, KEY_SPLITTING_MAX_DISTANCE, Double.class, str );
-		// feature penalties
-		@SuppressWarnings( "unchecked" )
-		final Map< String, Double > tsfpm = ( Map< String, Double > ) settings.get( KEY_SPLITTING_FEATURE_PENALTIES );
-		final Element tsfpElement = new Element( XML_ELEMENT_NAME_FEATURE_PENALTIES );
-		marshallMap( tsfpm, tsfpElement );
-		trackSplittingElement.addContent( tsfpElement );
-		element.addContent( trackSplittingElement );
+		
 
 		// Track merging
 		final Element trackMergingElement = new Element( XML_ELEMENT_NAME_MERGING );
 		ok = ok & writeAttribute( settings, trackMergingElement, KEY_ALLOW_TRACK_MERGING, Boolean.class, str );
 		ok = ok & writeAttribute( settings, trackMergingElement, KEY_MERGING_MAX_DISTANCE, Double.class, str );
-		// feature penalties
-		@SuppressWarnings( "unchecked" )
-		final Map< String, Double > tmfpm = ( Map< String, Double > ) settings.get( KEY_MERGING_FEATURE_PENALTIES );
-		final Element tmfpElement = new Element( XML_ELEMENT_NAME_FEATURE_PENALTIES );
-		marshallMap( tmfpm, tmfpElement );
-		trackMergingElement.addContent( tmfpElement );
-		element.addContent( trackMergingElement );
+		
 
 		// Others
 		ok = ok & writeAttribute( settings, element, KEY_CUTOFF_PERCENTILE, Double.class, str );

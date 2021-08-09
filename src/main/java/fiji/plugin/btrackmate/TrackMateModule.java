@@ -35,8 +35,8 @@ import org.scijava.plugin.SciJavaPlugin;
  * particle linkers for the tracking step of TrackMate.
  * <li>{@link fiji.plugin.btrackmate.features.track.TrackAnalyzer}: compute
  * scalar numerical features for tracks.
- * <li>{@link fiji.plugin.btrackmate.features.edges.EdgeAnalyzer}: compute scalar
- * numerical features for edges (individual links between spots).
+ * <li>{@link fiji.plugin.btrackmate.features.edges.EdgeAnalyzer}: compute
+ * scalar numerical features for edges (individual links between spots).
  * <li>{@link fiji.plugin.btrackmate.action.TrackMateActionFactory}: generates
  * actions that provide general use actions for TrackMate from the GUI.
  * </ul>
@@ -44,12 +44,10 @@ import org.scijava.plugin.SciJavaPlugin;
  * @author Jean-Yves Tinevez &lt;jeanyves.tinevez@gmail.com&gt; 2014
  *
  */
-public interface TrackMateModule extends SciJavaPlugin
-{
+public interface TrackMateModule extends SciJavaPlugin {
 
 	/**
-	 * Returns a html string containing a descriptive information about this
-	 * module.
+	 * Returns a html string containing a descriptive information about this module.
 	 *
 	 * @return a html string.
 	 */
@@ -77,21 +75,20 @@ public interface TrackMateModule extends SciJavaPlugin
 	public String getName();
 
 	/**
-	 * Returns a flag that tells TrackMate whether it should strictly forbid
-	 * running this module concurrently.
+	 * Returns a flag that tells TrackMate whether it should strictly forbid running
+	 * this module concurrently.
 	 * <p>
-	 * This might be the case for instance if you have a spot detector that you
-	 * want to run strictly one frame after another, to save resources or
-	 * because the multi-threading of the detector cannot be controlled. In that
-	 * case this flag should be set to <code>true</code>.
+	 * This might be the case for instance if you have a spot detector that you want
+	 * to run strictly one frame after another, to save resources or because the
+	 * multi-threading of the detector cannot be controlled. In that case this flag
+	 * should be set to <code>true</code>.
 	 * <p>
-	 * If <code>false</code> (the default), the multi-threading will be decided
-	 * by TrackMate.
+	 * If <code>false</code> (the default), the multi-threading will be decided by
+	 * TrackMate.
 	 * 
 	 * @return whether to forbid running this module concurrently
 	 */
-	public default boolean forbidMultithreading()
-	{
+	public default boolean forbidMultithreading() {
 		return false;
 	}
 }

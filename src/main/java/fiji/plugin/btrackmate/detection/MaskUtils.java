@@ -213,10 +213,11 @@ public class MaskUtils {
 		return fromLabeling(labeling, interval, calibration);
 	}
 
-	public static ImgPlus<IntType> copyUpIntImage(final RandomAccessibleInterval<IntType> input,final RandomAccessibleInterval<IntType> output ) {
+	public static ImgPlus<IntType> copyUpIntImage(final RandomAccessibleInterval<IntType> input,
+			final RandomAccessibleInterval<IntType> output) {
 
 		long[] newDim = new long[] { input.dimension(0), input.dimension(1), output.dimension(2), input.dimension(2) };
-		
+
 		final Img<IntType> out = new CellImgFactory<IntType>(new IntType()).create(newDim);
 		ImgPlus<IntType> expandoutput = new ImgPlus<IntType>(out);
 
@@ -240,7 +241,6 @@ public class MaskUtils {
 		return expandoutput;
 
 	}
-	
 
 	/**
 	 * Creates spots from a label image.

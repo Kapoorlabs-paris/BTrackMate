@@ -15,56 +15,49 @@ import tracker.BUDDimension;
 
 public class Budobject extends AbstractEuclideanSpace implements RealLocalizable, Comparable<Budobject> {
 
-	
 	public final RealLocalizable Budcenter;
 	public final List<RealLocalizable> linelist;
 	public final List<RealLocalizable> dynamiclinelist;
 	public final int t;
 	private String name;
 	public final int ID;
-	private final ConcurrentHashMap< String, Double > features = new ConcurrentHashMap< String, Double >();
+	private final ConcurrentHashMap<String, Double> features = new ConcurrentHashMap<String, Double>();
 	public final double perimeter;
-	
-	
-	
-	public Budobject(final RealLocalizable Budcenter, final List<RealLocalizable> linelist, final List<RealLocalizable> dynamiclinelist, final int t, final int ID, final double perimeter) {
-		
+
+	public Budobject(final RealLocalizable Budcenter, final List<RealLocalizable> linelist,
+			final List<RealLocalizable> dynamiclinelist, final int t, final int ID, final double perimeter) {
+
 		super(3);
-		
+
 		this.Budcenter = Budcenter;
-		
+
 		this.linelist = linelist;
-		
+
 		this.dynamiclinelist = dynamiclinelist;
-		
+
 		this.t = t;
-		
+
 		this.perimeter = perimeter;
-		
+
 		this.ID = ID;
-		
+
 	}
-	
-	
-	
+
 	public static final String XPOSITION = "XPOSITION";
 	public static final String YPOSITION = "XPOSITION";
 	public static final String TIME = "TIME";
-	
-	
 
 	/** The name of the spot X position feature. */
 	public static final String POSITION_X = "POSITION_X";
 
 	/** The name of the spot Y position feature. */
 	public static final String POSITION_Y = "POSITION_Y";
-	
+
 	/** The name of the spot Y position feature. */
 	public static final String Velocity = "Velocity";
-	
+
 	/** The name of the spot T position feature. */
 	public static final String POSITION_T = "POSITION_T";
-
 
 	/** The position features. */
 	public final static String[] POSITION_FEATURES = new String[] { POSITION_X, POSITION_Y };
@@ -110,31 +103,27 @@ public class Budobject extends AbstractEuclideanSpace implements RealLocalizable
 		IS_INT.put(POSITION_T, Boolean.FALSE);
 	}
 
-	
-	
 	public void setName(final String name) {
-		
+
 		this.name = name;
 	}
-	
+
 	public int ID() {
-		
+
 		return ID;
 	}
-	
+
 	public final Double getFeature(final String feature) {
-		
+
 		return features.get(feature);
 	}
-	
+
 	/**
 	 * Returns the difference between the location of two clouds, this operation
 	 * returns ( <code>A.diffTo(B) = - B.diffTo(A)</code>)
 	 *
-	 * @param target
-	 *            the Cloud to compare to.
-	 * @param int
-	 *            n n = 0 for X- coordinate, n = 1 for Y- coordinate
+	 * @param target the Cloud to compare to.
+	 * @param int    n n = 0 for X- coordinate, n = 1 for Y- coordinate
 	 * @return the difference in co-ordinate specified.
 	 */
 	public double diffTo(final Budobject target, int n) {
@@ -143,7 +132,7 @@ public class Budobject extends AbstractEuclideanSpace implements RealLocalizable
 		final double targetBloblocation = target.getDoublePosition(n);
 		return thisBloblocation - targetBloblocation;
 	}
-	
+
 	@Override
 	public int compareTo(Budobject o) {
 		return hashCode() - o.hashCode();
@@ -154,7 +143,7 @@ public class Budobject extends AbstractEuclideanSpace implements RealLocalizable
 		int n = position.length;
 		for (int d = 0; d < n; ++d)
 			position[d] = getFloatPosition(d);
-		
+
 	}
 
 	@Override
@@ -162,7 +151,7 @@ public class Budobject extends AbstractEuclideanSpace implements RealLocalizable
 		int n = position.length;
 		for (int d = 0; d < n; ++d)
 			position[d] = getFloatPosition(d);
-		
+
 	}
 
 	@Override
@@ -174,12 +163,11 @@ public class Budobject extends AbstractEuclideanSpace implements RealLocalizable
 	public double getDoublePosition(int d) {
 		return Budcenter.getDoublePosition(d);
 	}
-	
+
 	/**
 	 * Returns the squared distance between two clouds.
 	 *
-	 * @param target
-	 *            the Cloud to compare to.
+	 * @param target the Cloud to compare to.
 	 *
 	 * @return the distance to the current cloud to target cloud specified.
 	 */
@@ -187,8 +175,8 @@ public class Budobject extends AbstractEuclideanSpace implements RealLocalizable
 	public double squareDistanceTo(Budobject target) {
 		// Returns squared distance between the source Blob and the target Blob.
 
-		final double[] sourceLocation = new double[] {Budcenter.getDoublePosition(0),Budcenter.getDoublePosition(1) };
-		final double[] targetLocation = new double[] {target.getDoublePosition(0), target.getDoublePosition(1)};
+		final double[] sourceLocation = new double[] { Budcenter.getDoublePosition(0), Budcenter.getDoublePosition(1) };
+		final double[] targetLocation = new double[] { target.getDoublePosition(0), target.getDoublePosition(1) };
 
 		double distance = 0;
 
@@ -199,11 +187,12 @@ public class Budobject extends AbstractEuclideanSpace implements RealLocalizable
 
 		return distance;
 	}
+
 	public double DistanceTo(Budobject target, final double alpha, final double beta) {
 		// Returns squared distance between the source Blob and the target Blob.
 
-		final double[] sourceLocation = new double[] {Budcenter.getDoublePosition(0),Budcenter.getDoublePosition(1) };
-		final double[] targetLocation = new double[] {target.getDoublePosition(0), target.getDoublePosition(1)};
+		final double[] sourceLocation = new double[] { Budcenter.getDoublePosition(0), Budcenter.getDoublePosition(1) };
+		final double[] targetLocation = new double[] { target.getDoublePosition(0), target.getDoublePosition(1) };
 
 		double distance = 1.0E-5;
 
@@ -212,7 +201,7 @@ public class Budobject extends AbstractEuclideanSpace implements RealLocalizable
 			distance += (sourceLocation[d] - targetLocation[d]) * (sourceLocation[d] - targetLocation[d]);
 		}
 
-			return distance;
+		return distance;
 	}
 
 }

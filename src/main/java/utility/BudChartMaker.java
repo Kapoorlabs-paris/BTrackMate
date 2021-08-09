@@ -61,8 +61,6 @@ public class BudChartMaker {
 		return chart;
 	}
 
-
-
 	public static XYSeries drawPoints(final List<Pair<String, double[]>> mts) {
 		return drawPoints(mts, "Angle evolution");
 	}
@@ -76,7 +74,7 @@ public class BudChartMaker {
 		}
 		return series;
 	}
-	
+
 	public static XYSeries drawPointsSecond(final List<Pair<String, double[]>> mts, final String name) {
 		XYSeries series = new XYSeries(name);
 
@@ -86,16 +84,18 @@ public class BudChartMaker {
 		}
 		return series;
 	}
+
 	public static XYSeries drawSegPoints(final ArrayList<Pair<String, Pair<Integer, Double>>> mts, final String name) {
 		XYSeries series = new XYSeries(name);
 
-		if(mts!=null) {
-		   for (Pair<String, Pair<Integer, Double>> mt : mts)
+		if (mts != null) {
+			for (Pair<String, Pair<Integer, Double>> mt : mts)
 				series.add(mt.getB().getA(), mt.getB().getB());
-				
+
 		}
 		return series;
 	}
+
 	public static XYSeries drawPointsInt(final List<Pair<Integer, double[]>> mts) {
 		return drawPointsInt(mts, "Measurement");
 	}
@@ -124,33 +124,29 @@ public class BudChartMaker {
 		return series;
 	}
 
-	
-	
 	public static XYSeries drawVelocity(final ArrayList<double[]> mts, String name) {
 		XYSeries series = new XYSeries(name);
 
 		if (mts != null) {
 			for (final double[] mt : mts) {
 				series.add(mt[0], mt[3]);
-		}
+			}
 		}
 		return series;
 	}
-	
-	
-	
+
 	public static XYSeries drawCurvePoints(final List<Pair<String, double[]>> mts) {
 		return drawPoints(mts, "Evolution");
 	}
+
 	public static XYSeries drawCurvePointsSecond(final List<Pair<String, double[]>> mts) {
 		return drawPointsSecond(mts, "Evolution");
 	}
 
-
 	public static XYSeries drawCurveSegPoints(final ArrayList<Pair<String, Pair<Integer, Double>>> mts) {
 		return drawSegPoints(mts, "Evolution");
 	}
-	
+
 	public static XYSeries drawCurvePoints(final List<Pair<String, double[]>> mts, final String name) {
 		XYSeries series = new XYSeries(name);
 
@@ -160,9 +156,6 @@ public class BudChartMaker {
 		}
 		return series;
 	}
-
-
-	
 
 	public static void setColor(final JFreeChart chart, final int seriesIndex, final Color col) {
 		final XYPlot plot = chart.getXYPlot();

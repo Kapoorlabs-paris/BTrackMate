@@ -1,6 +1,5 @@
 package fiji.plugin.btrack.gui.descriptors;
 
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Frame;
@@ -43,16 +42,12 @@ import net.imglib2.RealPoint;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.real.FloatType;
 import pluginTools.InteractiveBud;
-import pluginTools.simplifiedio.SimplifiedIO;
+import pluginTools.BTracksimplifiedio.SimplifiedIO;
 
-
-public class BTStartDialogDescriptor  extends JPanel 
+public class BTStartDialogDescriptor extends JPanel
 
 {
-	
-	
 
-	
 	private static final long serialVersionUID = 1L;
 	public JFrame Cardframe = new JFrame("Bud n Cell tracker");
 	public JPanel panelCont = new JPanel();
@@ -73,11 +68,10 @@ public class BTStartDialogDescriptor  extends JPanel
 	public JComboBox<String> ChooseoriginalImage;
 	public JButton Done = new JButton("Finished choosing files, start BTrack");
 	public JButton Restart = new JButton("Reload Saved Budpoints");
-	public HashMap<String, ArrayList<Roiobject>> BudOvalRois= new HashMap<String, ArrayList<Roiobject>>();
-    public int BudDotsize = 5;
+	public HashMap<String, ArrayList<Roiobject>> BudOvalRois = new HashMap<String, ArrayList<Roiobject>>();
+	public int BudDotsize = 5;
 	public String chooseBudSegstring = "Segmentation Image for buds";
 	public Border chooseBudSeg = new CompoundBorder(new TitledBorder(chooseBudSegstring), new EmptyBorder(c.insets));
-
 
 	public String chooseoriginalbudfilestring = "We analyze only Buds";
 	public Border chooseoriginalbudfile = new CompoundBorder(new TitledBorder(chooseoriginalbudfilestring),
@@ -86,33 +80,32 @@ public class BTStartDialogDescriptor  extends JPanel
 	public String donestring = "Done Selection";
 	public Border LoadBtrack = new CompoundBorder(new TitledBorder(donestring), new EmptyBorder(c.insets));
 
-	  public Label inputLabelcalX, inputLabelcalY, inputLabelcalZ, inputLabelcalT;
-	  public double calibrationX, calibrationY, calibrationZ, FrameInterval;
+	public Label inputLabelcalX, inputLabelcalY, inputLabelcalZ, inputLabelcalT;
+	public double calibrationX, calibrationY, calibrationZ, FrameInterval;
 
-	  public TextField inputFieldcalX, inputFieldcalY, inputFieldcalZ, FieldinputLabelcalT;
+	public TextField inputFieldcalX, inputFieldcalY, inputFieldcalZ, FieldinputLabelcalT;
 	public Border microborder = new CompoundBorder(new TitledBorder("Microscope parameters"),
 			new EmptyBorder(c.insets));
 
 	public BTStartDialogDescriptor() {
 
-		   inputLabelcalX = new Label("Pixel calibration in X(um)");
-	       inputFieldcalX = new TextField(5);
-		   inputFieldcalX.setText("1");
+		inputLabelcalX = new Label("Pixel calibration in X(um)");
+		inputFieldcalX = new TextField(5);
+		inputFieldcalX.setText("1");
 
-		   inputLabelcalY = new Label("Pixel calibration in Y(um)");
-	       inputFieldcalY = new TextField(5);
-		   inputFieldcalY.setText("1");
+		inputLabelcalY = new Label("Pixel calibration in Y(um)");
+		inputFieldcalY = new TextField(5);
+		inputFieldcalY.setText("1");
 
-		   inputLabelcalT = new Label("Pixel calibration in T (min)");
-		   FieldinputLabelcalT = new TextField(5);
-		   FieldinputLabelcalT.setText("1");
+		inputLabelcalT = new Label("Pixel calibration in T (min)");
+		FieldinputLabelcalT = new TextField(5);
+		FieldinputLabelcalT.setText("1");
 		panelFirst.setLayout(layout);
 
 		Paneldone.setLayout(layout);
 		Microscope.setLayout(layout);
 		CardLayout cl = new CardLayout();
-		
-		
+
 		calibrationX = Float.parseFloat(inputFieldcalX.getText());
 		calibrationY = Float.parseFloat(inputFieldcalY.getText());
 		FrameInterval = Float.parseFloat(FieldinputLabelcalT.getText());
@@ -126,9 +119,8 @@ public class BTStartDialogDescriptor  extends JPanel
 		for (int i = 0; i < imageNames.length; ++i)
 			blankimageNames[i + 1] = imageNames[i];
 
-		
 		// Choose the image for display, usually RAW
-		GridBagConstraints gbc =  new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
+		GridBagConstraints gbc = new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0);
 		LoadSingleImage original = new LoadSingleImage(chooseoriginalbudfilestring, blankimageNames, gbc);
 
@@ -139,31 +131,29 @@ public class BTStartDialogDescriptor  extends JPanel
 
 		original.ChooseImage.addActionListener(new ChooseBudOrigMap(this, original.ChooseImage));
 
-        // Choose segmentation image for skeletonization
+		// Choose segmentation image for skeletonization
 		LoadSingleImage segmentation = new LoadSingleImage(chooseBudSegstring, blankimageNames, gbc);
-		
+
 		Panelfile = segmentation.SingleChannelOption();
 
 		panelFirst.add(Panelfile, new GridBagConstraints(0, 7, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.HORIZONTAL, insets, 0, 0));
 
 		segmentation.ChooseImage.addActionListener(new ChooseBudSegAMap(this, segmentation.ChooseImage));
-		
-		
+
 		// Load the pink dots from CSV file instead
-		
+
 		Panelcsv.add(Restart, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
-		
+
 		panelFirst.add(Panelcsv, new GridBagConstraints(0, 9, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		
+
 		Paneldone.add(Done, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
 		Paneldone.setBorder(LoadBtrack);
 		panelFirst.add(Paneldone, new GridBagConstraints(0, 10, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.HORIZONTAL, insets, 0, 0));
-
 
 		// Calibration settings for output answers in um/ min
 		Microscope.add(inputLabelcalX, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST,
@@ -171,7 +161,7 @@ public class BTStartDialogDescriptor  extends JPanel
 
 		Microscope.add(inputFieldcalX, new GridBagConstraints(0, 1, 3, 1, 0.1, 0.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.RELATIVE, insets, 0, 0));
-		
+
 		Microscope.add(inputLabelcalY, new GridBagConstraints(0, 2, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.HORIZONTAL, insets, 0, 0));
 
@@ -192,7 +182,7 @@ public class BTStartDialogDescriptor  extends JPanel
 		inputFieldcalX.addTextListener(new CalXListener());
 		inputFieldcalY.addTextListener(new CalYListener());
 		FieldinputLabelcalT.addTextListener(new CalTListener());
-		
+
 		Done.addActionListener(new BudDoneListener());
 		Restart.addActionListener(new ReloadListener());
 
@@ -218,7 +208,6 @@ public class BTStartDialogDescriptor  extends JPanel
 
 	}
 
-	
 	public class CalYListener implements TextListener {
 
 		@Override
@@ -231,7 +220,7 @@ public class BTStartDialogDescriptor  extends JPanel
 		}
 
 	}
-	
+
 	public class CalTListener implements TextListener {
 
 		@Override
@@ -244,14 +233,13 @@ public class BTStartDialogDescriptor  extends JPanel
 		}
 
 	}
-	
 
 	public class BudDoneListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-				DoneCurrBud(Cardframe);
+			DoneCurrBud(Cardframe);
 		}
 
 	}
@@ -262,81 +250,74 @@ public class BTStartDialogDescriptor  extends JPanel
 		public void actionPerformed(ActionEvent arg0) {
 
 			JFileChooser csvfile = new JFileChooser();
-			FileFilter csvfilter = new FileFilter() 
-			{
-			      //Override accept method
-			      public boolean accept(File file) {
-			              
-			             //if the file extension is .log return true, else false
-			             if (file.getName().endsWith(".csv")) {
-			                return true;
-			             }
-			             return false;
-			      }
+			FileFilter csvfilter = new FileFilter() {
+				// Override accept method
+				public boolean accept(File file) {
+
+					// if the file extension is .log return true, else false
+					if (file.getName().endsWith(".csv")) {
+						return true;
+					}
+					return false;
+				}
 
 				@Override
 				public String getDescription() {
-					
+
 					return null;
 				}
 			};
-	        String line = "";
-	        String cvsSplitBy = ",";
-			if (impOrig!=null)
-			csvfile.setCurrentDirectory(new File(impOrig.getOriginalFileInfo().directory));
-			else 
+			String line = "";
+			String cvsSplitBy = ",";
+			if (impOrig != null)
+				csvfile.setCurrentDirectory(new File(impOrig.getOriginalFileInfo().directory));
+			else
 				csvfile.setCurrentDirectory(new java.io.File("."));
 			csvfile.setDialogTitle("Pink dot file");
 			csvfile.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			csvfile.setFileFilter(csvfilter);
 			int count = 0;
 			if (csvfile.showOpenDialog(Cardframe) == JFileChooser.APPROVE_OPTION) {
-				
+
 				File budfile = new File(csvfile.getSelectedFile().getPath());
 				ArrayList<Roiobject> Allrois = new ArrayList<Roiobject>();
-				
-		        try (BufferedReader br = new BufferedReader(new FileReader(budfile))) {
 
-		            while ((line = br.readLine()) != null) {
+				try (BufferedReader br = new BufferedReader(new FileReader(budfile))) {
 
-		                // use comma as separator
-		                String[] budpoints = line.split(cvsSplitBy);
-                          
-		                 if(count > 0) {
-		                
-                           if(BudOvalRois.get(budpoints[0])==null) {
-                        	    Allrois = new ArrayList<Roiobject>();
-                        	    BudOvalRois.put(budpoints[0], Allrois);    
-                           }
-                           else
-                        	   BudOvalRois.put(budpoints[0], Allrois);
-		                OvalRoi roi = new OvalRoi(Integer.parseInt(budpoints[1]) , Integer.parseInt(budpoints[2]) , BudDotsize, BudDotsize);
-		                
-		                Allrois.add(new Roiobject (Color.PINK, roi, 
-		                		new RealPoint(new double[] {Float.parseFloat(budpoints[1]), Float.parseFloat(budpoints[2])}), Integer.parseInt(budpoints[3])));
-		         
-		            }
-		                 count = count +  1;
-		            }
-		            
-		            
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
-		        
-		        
-			}
-			else
+					while ((line = br.readLine()) != null) {
+
+						// use comma as separator
+						String[] budpoints = line.split(cvsSplitBy);
+
+						if (count > 0) {
+
+							if (BudOvalRois.get(budpoints[0]) == null) {
+								Allrois = new ArrayList<Roiobject>();
+								BudOvalRois.put(budpoints[0], Allrois);
+							} else
+								BudOvalRois.put(budpoints[0], Allrois);
+							OvalRoi roi = new OvalRoi(Integer.parseInt(budpoints[1]), Integer.parseInt(budpoints[2]),
+									BudDotsize, BudDotsize);
+
+							Allrois.add(new Roiobject(Color.PINK, roi, new RealPoint(
+									new double[] { Float.parseFloat(budpoints[1]), Float.parseFloat(budpoints[2]) }),
+									Integer.parseInt(budpoints[3])));
+
+						}
+						count = count + 1;
+					}
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			} else
 				csvfile = null;
-			
-		
-		
-	}
-		
-	}
-	
 
-	
+		}
+
+	}
+
 	public void DoneCurrBud(Frame parent) {
 
 		// Tracking and Measurement is done with imageA
@@ -347,24 +328,19 @@ public class BTStartDialogDescriptor  extends JPanel
 		RandomAccessibleInterval<IntType> imageSegA = SimplifiedIO.openImage(
 				impSegA.getOriginalFileInfo().directory + impSegA.getOriginalFileInfo().fileName, new IntType());
 
-	
-		
-
 		String name = impOrig.getOriginalFileInfo().fileName;
 
 		WindowManager.closeAllWindows();
-		
+
 		calibrationX = Float.parseFloat(inputFieldcalX.getText());
 		calibrationY = Float.parseFloat(inputFieldcalY.getText());
 		FrameInterval = Float.parseFloat(FieldinputLabelcalT.getText());
 
-			InteractiveBud masterparent = new InteractiveBud(imageOrig, imageSegA,BudOvalRois, new File(impOrig.getOriginalFileInfo().directory) , impOrig.getOriginalFileInfo().fileName, calibrationX, calibrationY, FrameInterval,
-					name, true);
+		InteractiveBud masterparent = new InteractiveBud(imageOrig, imageSegA, BudOvalRois,
+				new File(impOrig.getOriginalFileInfo().directory), impOrig.getOriginalFileInfo().fileName, calibrationX,
+				calibrationY, FrameInterval, name, true);
 		masterparent.BudDotsize = BudDotsize;
 		masterparent.run(null);
-		
-		
-		
 
 		close(parent);
 

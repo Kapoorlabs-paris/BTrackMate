@@ -7,10 +7,6 @@ import budDetector.Budobject;
 import budDetector.Budpointobject;
 import net.imglib2.algorithm.OutputAlgorithm;
 
-public interface BUDDYBudTracker extends OutputAlgorithm< SimpleWeightedGraph< Budobject, DefaultWeightedEdge >> {
-	
-	
-		
-		
+public interface BUDDYBudTracker extends OutputAlgorithm<SimpleWeightedGraph<Budobject, DefaultWeightedEdge>> {
 
 }

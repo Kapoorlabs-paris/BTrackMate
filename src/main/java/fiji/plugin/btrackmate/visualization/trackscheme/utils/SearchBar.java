@@ -23,184 +23,152 @@ import fiji.plugin.btrackmate.Model;
 import fiji.plugin.btrackmate.Spot;
 import fiji.plugin.btrackmate.visualization.TrackMateModelView;
 
-@SuppressWarnings( "unchecked" )
-public class SearchBar extends JTextField
-{
+@SuppressWarnings("unchecked")
+public class SearchBar extends JTextField {
 	private static final long serialVersionUID = 1L;
 
-	private final static Font NORMAL_FONT = FONT.deriveFont( 10f );
+	private final static Font NORMAL_FONT = FONT.deriveFont(10f);
 
 	private final static Font NOTFOUND_FONT;
-	static
-	{
-		@SuppressWarnings( "rawtypes" )
+	static {
+		@SuppressWarnings("rawtypes")
 		final Map attributes = NORMAL_FONT.getAttributes();
-		attributes.put( TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON );
-		attributes.put( TextAttribute.FOREGROUND, Color.RED.darker() );
-		NOTFOUND_FONT = new Font( attributes );
+		attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+		attributes.put(TextAttribute.FOREGROUND, Color.RED.darker());
+		NOTFOUND_FONT = new Font(attributes);
 	}
 
-	private final PropertyChangeSupport observer = new PropertyChangeSupport( this );
+	private final PropertyChangeSupport observer = new PropertyChangeSupport(this);
 
 	private final Model model;
 
 	private final TrackMateModelView view;
 
-
 	/**
 	 * Creates new form SearchBox
 	 * 
-	 * @param model
-	 *            the model to search in.
-	 * @param view
-	 *            the view to update when a spot is found.
+	 * @param model the model to search in.
+	 * @param view  the view to update when a spot is found.
 	 */
-	public SearchBar( final Model model, final TrackMateModelView view )
-	{
+	public SearchBar(final Model model, final TrackMateModelView view) {
 		this.model = model;
 		this.view = view;
-		putClientProperty( "JTextField.variant", "search" );
-		putClientProperty( "JTextField.Search.Prompt", "Search" );
-		setPreferredSize( new Dimension( 80, 25 ) );
-		setFont( NORMAL_FONT );
+		putClientProperty("JTextField.variant", "search");
+		putClientProperty("JTextField.Search.Prompt", "Search");
+		setPreferredSize(new Dimension(80, 25));
+		setFont(NORMAL_FONT);
 
-		addFocusListener( new java.awt.event.FocusAdapter()
-		{
+		addFocusListener(new java.awt.event.FocusAdapter() {
 			@Override
-			public void focusGained( final java.awt.event.FocusEvent evt )
-			{
-				searchBoxFocusGained( evt );
+			public void focusGained(final java.awt.event.FocusEvent evt) {
+				searchBoxFocusGained(evt);
 			}
 
 			@Override
-			public void focusLost( final java.awt.event.FocusEvent evt )
-			{
-				searchBoxFocusLost( evt );
+			public void focusLost(final java.awt.event.FocusEvent evt) {
+				searchBoxFocusLost(evt);
 			}
-		} );
-		addKeyListener( new KeyAdapter()
-		{
+		});
+		addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased( final KeyEvent e )
-			{
-				searchBoxKey( e );
+			public void keyReleased(final KeyEvent e) {
+				searchBoxKey(e);
 			}
-		} );
-		observer.addPropertyChangeListener( new SearchAction() );
+		});
+		observer.addPropertyChangeListener(new SearchAction());
 	}
 
-	private void searchBoxKey( final KeyEvent e )
-	{
-		setFont( NORMAL_FONT );
-		if ( getText().length() > 1 || e.getKeyCode() == KeyEvent.VK_ENTER )
-		{
-			observer.firePropertyChange( "Searching started", null, getText() );
+	private void searchBoxKey(final KeyEvent e) {
+		setFont(NORMAL_FONT);
+		if (getText().length() > 1 || e.getKeyCode() == KeyEvent.VK_ENTER) {
+			observer.firePropertyChange("Searching started", null, getText());
 		}
 	}
 
 	/**
-	 * @param evt  
+	 * @param evt
 	 */
-	private void searchBoxFocusGained( final java.awt.event.FocusEvent evt )
-	{
-		setFont( NORMAL_FONT );
-		setFont( getFont().deriveFont( Font.PLAIN ) );
+	private void searchBoxFocusGained(final java.awt.event.FocusEvent evt) {
+		setFont(NORMAL_FONT);
+		setFont(getFont().deriveFont(Font.PLAIN));
 //		setText( null );
 	}
 
 	/**
-	 * @param evt  
+	 * @param evt
 	 */
-	private void searchBoxFocusLost( final java.awt.event.FocusEvent evt )
-	{
-		setFont( NORMAL_FONT );
-		setFont( getFont().deriveFont( Font.ITALIC ) );
+	private void searchBoxFocusLost(final java.awt.event.FocusEvent evt) {
+		setFont(NORMAL_FONT);
+		setFont(getFont().deriveFont(Font.ITALIC));
 //		setText( "Search" );
 	}
 
-	private class SearchAction implements PropertyChangeListener, Iterator< Spot >
-	{
+	private class SearchAction implements PropertyChangeListener, Iterator<Spot> {
 
-		private Iterator< Spot > iterator;
+		private Iterator<Spot> iterator;
 
-		private Iterator< Integer > trackIterator;
+		private Iterator<Integer> trackIterator;
 
-		public SearchAction()
-		{
-			trackIterator = model.getTrackModel().trackIDs( true ).iterator();
-			if ( trackIterator.hasNext() )
-			{
+		public SearchAction() {
+			trackIterator = model.getTrackModel().trackIDs(true).iterator();
+			if (trackIterator.hasNext()) {
 				final Integer currentTrackID = trackIterator.next();
-				final Spot trackStart = firstSpotOf( currentTrackID );
-				iterator = model.getTrackModel().getSortedDepthFirstIterator( trackStart, Spot.nameComparator, false );
-			}
-			else
-			{
+				final Spot trackStart = firstSpotOf(currentTrackID);
+				iterator = model.getTrackModel().getSortedDepthFirstIterator(trackStart, Spot.nameComparator, false);
+			} else {
 				iterator = Collections.EMPTY_LIST.iterator();
 			}
 		}
 
 		@Override
-		public void propertyChange( final PropertyChangeEvent evt )
-		{
-			final String text = ( String ) evt.getNewValue();
-			if ( !text.isEmpty() )
-			{
-				search( text );
+		public void propertyChange(final PropertyChangeEvent evt) {
+			final String text = (String) evt.getNewValue();
+			if (!text.isEmpty()) {
+				search(text);
 			}
 		}
 
-		private void search( final String text )
-		{
+		private void search(final String text) {
 			Spot start = null;
 			Spot spot;
-			while ( ( spot = next() ) != start )
-			{
-				if ( start == null )
-				{
+			while ((spot = next()) != start) {
+				if (start == null) {
 					start = spot;
 				}
-				if ( spot.getName().contains( text ) )
-				{
-					view.centerViewOn( spot );
+				if (spot.getName().contains(text)) {
+					view.centerViewOn(spot);
 					return;
 				}
 			}
-			setFont( NOTFOUND_FONT );
+			setFont(NOTFOUND_FONT);
 		}
 
 		@Override
-		public boolean hasNext()
-		{
+		public boolean hasNext() {
 			return true;
 		}
 
 		@Override
-		public Spot next()
-		{
-			if ( null == iterator || !iterator.hasNext() )
-			{
-				if ( null == trackIterator || !trackIterator.hasNext() )
-				{
-					trackIterator = model.getTrackModel().trackIDs( true ).iterator();
+		public Spot next() {
+			if (null == iterator || !iterator.hasNext()) {
+				if (null == trackIterator || !trackIterator.hasNext()) {
+					trackIterator = model.getTrackModel().trackIDs(true).iterator();
 				}
 				final Integer currentTrackID = trackIterator.next();
-				final Spot trackStart = firstSpotOf( currentTrackID );
-				iterator = model.getTrackModel().getSortedDepthFirstIterator( trackStart, Spot.nameComparator, false );
+				final Spot trackStart = firstSpotOf(currentTrackID);
+				iterator = model.getTrackModel().getSortedDepthFirstIterator(trackStart, Spot.nameComparator, false);
 			}
 			return iterator.next();
 		}
 
-		private Spot firstSpotOf( final Integer trackID )
-		{
-			final List< Spot > trackSpots = new ArrayList<>( model.getTrackModel().trackSpots( trackID ) );
-			Collections.sort( trackSpots, Spot.frameComparator );
-			return trackSpots.get( 0 );
+		private Spot firstSpotOf(final Integer trackID) {
+			final List<Spot> trackSpots = new ArrayList<>(model.getTrackModel().trackSpots(trackID));
+			Collections.sort(trackSpots, Spot.frameComparator);
+			return trackSpots.get(0);
 		}
 
 		@Override
-		public void remove()
-		{
+		public void remove() {
 			throw new UnsupportedOperationException();
 		}
 	}

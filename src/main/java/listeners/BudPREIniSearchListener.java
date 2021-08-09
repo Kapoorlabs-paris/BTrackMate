@@ -11,17 +11,17 @@ import pluginTools.InteractiveBud;
 import zGUI.CovistoZselectPanel;
 
 public class BudPREIniSearchListener implements AdjustmentListener {
-	
+
 	final Label label;
 	final String string;
 	final InteractiveBud parent;
 	final float min, max;
 	final int scrollbarSize;
 	final JScrollBar scrollbar;
-	
-	
-	public BudPREIniSearchListener(final InteractiveBud parent, final Label label, final String string, final float min, final float max, final int scrollbarSize, final JScrollBar scrollbar) {
-		
+
+	public BudPREIniSearchListener(final InteractiveBud parent, final Label label, final String string, final float min,
+			final float max, final int scrollbarSize, final JScrollBar scrollbar) {
+
 		this.parent = parent;
 		this.label = label;
 		this.string = string;
@@ -29,24 +29,18 @@ public class BudPREIniSearchListener implements AdjustmentListener {
 		this.max = max;
 		this.scrollbarSize = scrollbarSize;
 		this.scrollbar = scrollbar;
-		
+
 		scrollbar.setBlockIncrement(utility.BudSlicer.computeScrollbarPositionFromValue(2, min, max, scrollbarSize));
 		scrollbar.setUnitIncrement(utility.BudSlicer.computeScrollbarPositionFromValue(2, min, max, scrollbarSize));
 	}
-	
-	
-	
+
 	@Override
 	public void adjustmentValueChanged(final AdjustmentEvent event) {
-		CovistoKalmanPanel.initialSearchradius = utility.BudSlicer.computeValueFromScrollbarPosition(event.getValue(), min, max, scrollbarSize);
+		CovistoKalmanPanel.initialSearchradius = utility.BudSlicer.computeValueFromScrollbarPosition(event.getValue(),
+				min, max, scrollbarSize);
 
-		
+		label.setText(string + " = " + parent.nf.format(CovistoKalmanPanel.initialSearchradius));
 
-			label.setText(string +  " = "  + parent.nf.format(CovistoKalmanPanel.initialSearchradius));
-
-			
-	
 	}
-	
 
 }

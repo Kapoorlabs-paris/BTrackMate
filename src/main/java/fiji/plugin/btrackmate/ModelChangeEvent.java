@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-
 public class ModelChangeEvent extends EventObject {
 
 	private static final long serialVersionUID = -1L;
@@ -32,9 +31,9 @@ public class ModelChangeEvent extends EventObject {
 	/** Indicate that an edge was removed from the model. */
 	public static final int FLAG_EDGE_REMOVED = 5;
 	/**
-	 * Indicate that an edge has been modified. Edge modifications occur when
-	 * the target or source spots are modified, or when the weight of the edge
-	 * has been modified.
+	 * Indicate that an edge has been modified. Edge modifications occur when the
+	 * target or source spots are modified, or when the weight of the edge has been
+	 * modified.
 	 */
 	public static final int FLAG_EDGE_MODIFIED = 6;
 
@@ -49,40 +48,38 @@ public class ModelChangeEvent extends EventObject {
 		flagsToString.put(FLAG_EDGE_REMOVED, "Edge removed");
 	}
 
-
 	/**
-	 * Event type indicating that the spots of the model were computed, and
-	 * are now accessible through {@link Model#getSpots()}.
+	 * Event type indicating that the spots of the model were computed, and are now
+	 * accessible through {@link Model#getSpots()}.
 	 */
-	public static final int 	SPOTS_COMPUTED = 4;
+	public static final int SPOTS_COMPUTED = 4;
 	/**
 	 * Event type indicating that the spots of the model were filtered.
 	 */
-	public static final int 	SPOTS_FILTERED = 5;
+	public static final int SPOTS_FILTERED = 5;
 	/**
 	 * Event type indicating that the tracks of the model were computed.
 	 */
-	public static final int 	TRACKS_COMPUTED = 6;
+	public static final int TRACKS_COMPUTED = 6;
 	/**
-	 * Event type indicating that the tracks of the model had their
-	 * visibility changed.
+	 * Event type indicating that the tracks of the model had their visibility
+	 * changed.
 	 */
-	public static final int 	TRACKS_VISIBILITY_CHANGED = 7;
-	
-	/**
-	 * Event type indicating that model was modified, by adding, removing or
-	 * changing the feature of some spots, and/or adding or removing edges in
-	 * the tracks. Content of the modification can be accessed by
-	 * {@link #getSpots()}, {@link #getSpotFlag(Spot)},
-	 * {@link #getFromFrame(Spot)} and {@link #getToFrame(Spot)}, and for the
-	 * tracks: {@link #getEdges()} and {@link #getEdgeFlag(DefaultWeightedEdge)}
-	 * .
-	 */
-	public static final int 	MODEL_MODIFIED = 8;
+	public static final int TRACKS_VISIBILITY_CHANGED = 7;
 
 	/**
-	 * Event type indicated that the feature values for the objects in this
-	 * model have been computed.
+	 * Event type indicating that model was modified, by adding, removing or
+	 * changing the feature of some spots, and/or adding or removing edges in the
+	 * tracks. Content of the modification can be accessed by {@link #getSpots()},
+	 * {@link #getSpotFlag(Spot)}, {@link #getFromFrame(Spot)} and
+	 * {@link #getToFrame(Spot)}, and for the tracks: {@link #getEdges()} and
+	 * {@link #getEdgeFlag(DefaultWeightedEdge)} .
+	 */
+	public static final int MODEL_MODIFIED = 8;
+
+	/**
+	 * Event type indicated that the feature values for the objects in this model
+	 * have been computed.
 	 */
 	public static final int FEATURES_COMPUTED = 9;
 
@@ -105,10 +102,8 @@ public class ModelChangeEvent extends EventObject {
 	/**
 	 * Create a new event, reflecting a change in a {@link Model}.
 	 *
-	 * @param source
-	 *            the object source of this event.
-	 * @param eventID
-	 *            the evend ID to use for this event.
+	 * @param source  the object source of this event.
+	 * @param eventID the evend ID to use for this event.
 	 */
 	public ModelChangeEvent(final Object source, final int eventID) {
 		super(source);
@@ -130,6 +125,7 @@ public class ModelChangeEvent extends EventObject {
 	public boolean addAllEdges(final Collection<DefaultWeightedEdge> lEdges) {
 		return this.edges.addAll(lEdges);
 	}
+
 	public boolean addEdge(final DefaultWeightedEdge edge) {
 		return edges.add(edge);
 	}
@@ -151,16 +147,16 @@ public class ModelChangeEvent extends EventObject {
 	}
 
 	/**
-	 * @return  the set of spot that are affected by this event. Is empty
-	 * if no spot is affected by this event.
+	 * @return the set of spot that are affected by this event. Is empty if no spot
+	 *         is affected by this event.
 	 */
 	public Set<Spot> getSpots() {
 		return spots;
 	}
 
 	/**
-	 * @return  the set of edges that are affected by this event. Is empty
-	 * if no edge is affected by this event.
+	 * @return the set of edges that are affected by this event. Is empty if no edge
+	 *         is affected by this event.
 	 */
 	public Set<DefaultWeightedEdge> getEdges() {
 		return edges;
@@ -169,8 +165,7 @@ public class ModelChangeEvent extends EventObject {
 	/**
 	 * Returns the modification flag for the given spot affected by this event.
 	 * 
-	 * @param spot
-	 *            the spot to query.
+	 * @param spot the spot to query.
 	 * @return the modification flag.
 	 * @see #FLAG_SPOT_ADDED
 	 * @see #FLAG_SPOT_MODIFIED
@@ -183,8 +178,7 @@ public class ModelChangeEvent extends EventObject {
 	/**
 	 * Returns the modification flag for the given edge affected by this event.
 	 * 
-	 * @param edge
-	 *            the edge to query.
+	 * @param edge the edge to query.
 	 * @return the modification flag.
 	 * @see #FLAG_EDGE_ADDED
 	 * @see #FLAG_EDGE_REMOVED
@@ -208,7 +202,7 @@ public class ModelChangeEvent extends EventObject {
 	@Override
 	public String toString() {
 		final StringBuilder str = new StringBuilder("[ModelChangeEvent]:\n");
-		str.append(" - source: "+source.getClass() + "_" + source.hashCode()+"\n");
+		str.append(" - source: " + source.getClass() + "_" + source.hashCode() + "\n");
 		str.append(" - event type: ");
 		switch (eventID) {
 		case SPOTS_COMPUTED:
@@ -225,11 +219,11 @@ public class ModelChangeEvent extends EventObject {
 			break;
 		case MODEL_MODIFIED:
 			str.append("Model modified, with:\n");
-			str.append("\t- spots modified: "+ (spots != null ? spots.size() : 0) +"\n");
+			str.append("\t- spots modified: " + (spots != null ? spots.size() : 0) + "\n");
 			for (final Spot spot : spots) {
 				str.append("\t\t" + spot + ": " + flagsToString.get(spotFlags.get(spot)) + "\n");
 			}
-			str.append("\t- edges modified: "+ (edges != null ? edges.size() : 0) +"\n");
+			str.append("\t- edges modified: " + (edges != null ? edges.size() : 0) + "\n");
 			for (final DefaultWeightedEdge edge : edges) {
 				str.append("\t\t" + edge + ": " + flagsToString.get(edgeFlags.get(edge)) + "\n");
 			}

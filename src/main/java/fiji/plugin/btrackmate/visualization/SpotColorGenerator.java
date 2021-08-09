@@ -5,8 +5,7 @@ import java.awt.Color;
 import fiji.plugin.btrackmate.Spot;
 import fiji.plugin.btrackmate.gui.displaysettings.Colormap;
 
-public class SpotColorGenerator implements FeatureColorGenerator< Spot >
-{
+public class SpotColorGenerator implements FeatureColorGenerator<Spot> {
 
 	private final String feature;
 
@@ -20,14 +19,8 @@ public class SpotColorGenerator implements FeatureColorGenerator< Spot >
 
 	private final double max;
 
-	public SpotColorGenerator(
-			final String feature,
-			final Color missingValueColor,
-			final Color undefinedValueColor,
-			final Colormap colormap,
-			final double min,
-			final double max )
-	{
+	public SpotColorGenerator(final String feature, final Color missingValueColor, final Color undefinedValueColor,
+			final Colormap colormap, final double min, final double max) {
 		this.feature = feature;
 		this.missingValueColor = missingValueColor;
 		this.undefinedValueColor = undefinedValueColor;
@@ -37,14 +30,13 @@ public class SpotColorGenerator implements FeatureColorGenerator< Spot >
 	}
 
 	@Override
-	public Color color( final Spot spot )
-	{
-		final Double feat = spot.getFeature( feature );
-		if ( null == feat )
+	public Color color(final Spot spot) {
+		final Double feat = spot.getFeature(feature);
+		if (null == feat)
 			return missingValueColor;
-		if ( feat.isNaN() )
+		if (feat.isNaN())
 			return undefinedValueColor;
 
-		return colormap.getPaint( ( feat.doubleValue() - min ) / ( max - min ) );
+		return colormap.getPaint((feat.doubleValue() - min) / (max - min));
 	}
 }

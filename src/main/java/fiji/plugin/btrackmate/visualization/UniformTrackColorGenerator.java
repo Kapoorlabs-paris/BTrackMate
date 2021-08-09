@@ -9,19 +9,16 @@ import org.jgrapht.graph.DefaultWeightedEdge;
  *
  * @author Jean-Yves Tinevez - 2013. Revised December 2020.
  */
-public class UniformTrackColorGenerator implements TrackColorGenerator
-{
+public class UniformTrackColorGenerator implements TrackColorGenerator {
 
 	private final Color color;
 
-	public UniformTrackColorGenerator( final Color color )
-	{
+	public UniformTrackColorGenerator(final Color color) {
 		this.color = color;
 	}
 
 	@Override
-	public Color color( final DefaultWeightedEdge obj )
-	{
+	public Color color(final DefaultWeightedEdge obj) {
 		return color;
 	}
 }

@@ -19,88 +19,77 @@ import net.imglib2.view.IntervalView;
 import net.imglib2.view.Views;
 import java.util.Iterator;
 
-public class SpotUtil
-{
+public class SpotUtil {
 
-	public static final < T extends RealType< T > > IterableInterval< T > iterable( final SpotRoi roi, final RealLocalizable center, final ImgPlus< T > img )
-	{
-		final SpotRoiIterable< T > neighborhood = new SpotRoiIterable<>( roi, center, img );
-		if ( neighborhood.dimension( 0 ) <= 1 && neighborhood.dimension( 1 ) <= 1 )
-			return makeSinglePixelIterable( center, img );
+	public static final <T extends RealType<T>> IterableInterval<T> iterable(final SpotRoi roi,
+			final RealLocalizable center, final ImgPlus<T> img) {
+		final SpotRoiIterable<T> neighborhood = new SpotRoiIterable<>(roi, center, img);
+		if (neighborhood.dimension(0) <= 1 && neighborhood.dimension(1) <= 1)
+			return makeSinglePixelIterable(center, img);
 		else
 			return neighborhood;
 	}
 
-	public static final < T extends RealType< T > > IterableInterval< T > iterable( final Spot spot, final ImgPlus< T > img )
-	{
+	public static final <T extends RealType<T>> IterableInterval<T> iterable(final Spot spot, final ImgPlus<T> img) {
 		// Prepare neighborhood
 		final SpotRoi roi = spot.getRoi();
-		if ( null != roi && DetectionUtils.is2D( img ) )
-		{
+		if (null != roi && DetectionUtils.is2D(img)) {
 			// Operate on ROI only if we have one and the image is 2D.
-			return iterable( roi, spot, img );
-		}
-		else
-		{
+			return iterable(roi, spot, img);
+		} else {
 			// Otherwise default to circle / sphere.
-			final SpotNeighborhood< T > neighborhood = new SpotNeighborhood<>( spot, img );
+			final SpotNeighborhood<T> neighborhood = new SpotNeighborhood<>(spot, img);
 
-			final int npixels = ( int ) neighborhood.size();
-			if ( npixels <= 1 )
-				return makeSinglePixelIterable( spot, img );
+			final int npixels = (int) neighborhood.size();
+			if (npixels <= 1)
+				return makeSinglePixelIterable(spot, img);
 			else
 				return neighborhood;
 		}
 	}
 
-	private static < T > IterableInterval< T > makeSinglePixelIterable( final RealLocalizable center, final ImgPlus< T > img )
-	{
-		final double[] calibration = TMUtils.getSpatialCalibration( img );
-		final long[] min = new long[ img.numDimensions() ];
-		final long[] max = new long[ img.numDimensions() ];
-		for ( int d = 0; d < min.length; d++ )
-		{
-			final long cx = Math.round( center.getDoublePosition( d ) / calibration[ d ] );
-			min[ d ] = cx;
-			max[ d ] = cx + 1;
+	private static <T> IterableInterval<T> makeSinglePixelIterable(final RealLocalizable center, final ImgPlus<T> img) {
+		final double[] calibration = TMUtils.getSpatialCalibration(img);
+		final long[] min = new long[img.numDimensions()];
+		final long[] max = new long[img.numDimensions()];
+		for (int d = 0; d < min.length; d++) {
+			final long cx = Math.round(center.getDoublePosition(d) / calibration[d]);
+			min[d] = cx;
+			max[d] = cx + 1;
 		}
 
-		final Interval interval = new FinalInterval( min, max );
-		return Views.interval( img, interval );
+		final Interval interval = new FinalInterval(min, max);
+		return Views.interval(img, interval);
 	}
 
-	private static final class SpotRoiIterable< T extends RealType< T > > implements IterableInterval< T >
-	{
+	private static final class SpotRoiIterable<T extends RealType<T>> implements IterableInterval<T> {
 
 		private final SpotRoi roi;
 
 		private final RealLocalizable center;
 
-		private final ImgPlus< T > img;
+		private final ImgPlus<T> img;
 
 		private final FinalInterval interval;
 
-		public SpotRoiIterable( final SpotRoi roi, final RealLocalizable center, final ImgPlus< T > img )
-		{
+		public SpotRoiIterable(final SpotRoi roi, final RealLocalizable center, final ImgPlus<T> img) {
 			this.roi = roi;
 			this.center = center;
 			this.img = img;
-			final double[] x = roi.toPolygonX( img.averageScale( 0 ), 0, center.getDoublePosition( 0 ), 1. );
-			final double[] y = roi.toPolygonX( img.averageScale( 1 ), 0, center.getDoublePosition( 1 ), 1. );
-			final long minX = ( long ) Math.floor( Util.min( x ) );
-			final long maxX = ( long ) Math.ceil( Util.max( x ) );
-			final long minY = ( long ) Math.floor( Util.min( y ) );
-			final long maxY = ( long ) Math.ceil( Util.max( y ) );
-			interval = Intervals.createMinMax( minX, minY, maxX, maxY );
+			final double[] x = roi.toPolygonX(img.averageScale(0), 0, center.getDoublePosition(0), 1.);
+			final double[] y = roi.toPolygonX(img.averageScale(1), 0, center.getDoublePosition(1), 1.);
+			final long minX = (long) Math.floor(Util.min(x));
+			final long maxX = (long) Math.ceil(Util.max(x));
+			final long minY = (long) Math.floor(Util.min(y));
+			final long maxY = (long) Math.ceil(Util.max(y));
+			interval = Intervals.createMinMax(minX, minY, maxX, maxY);
 		}
 
 		@Override
-		public long size()
-		{
+		public long size() {
 			int n = 0;
-			final Cursor< T > cursor = cursor();
-			while ( cursor.hasNext() )
-			{
+			final Cursor<T> cursor = cursor();
+			while (cursor.hasNext()) {
 				cursor.fwd();
 				n++;
 			}
@@ -108,78 +97,67 @@ public class SpotUtil
 		}
 
 		@Override
-		public T firstElement()
-		{
+		public T firstElement() {
 			return cursor().next();
 		}
 
 		@Override
-		public Object iterationOrder()
-		{
+		public Object iterationOrder() {
 			return this;
 		}
 
 		@Override
-		public double realMin( final int d )
-		{
-			return interval.realMin( d );
+		public double realMin(final int d) {
+			return interval.realMin(d);
 		}
 
 		@Override
-		public double realMax( final int d )
-		{
-			return interval.realMax( d );
+		public double realMax(final int d) {
+			return interval.realMax(d);
 		}
 
 		@Override
-		public int numDimensions()
-		{
+		public int numDimensions() {
 			return 2;
 		}
 
 		@Override
-		public long min( final int d )
-		{
-			return interval.min( d );
+		public long min(final int d) {
+			return interval.min(d);
 		}
 
 		@Override
-		public long max( final int d )
-		{
-			return interval.max( d );
+		public long max(final int d) {
+			return interval.max(d);
 		}
 
 		@Override
-		public Cursor< T > cursor()
-		{
-			return new MyCursor< T >( roi, center, img );
+		public Cursor<T> cursor() {
+			return new MyCursor<T>(roi, center, img);
 		}
 
 		@Override
-		public Cursor< T > localizingCursor()
-		{
+		public Cursor<T> localizingCursor() {
 			return cursor();
 		}
 
 		@Override
-		public Iterator< T > iterator()
-		{
+		public Iterator<T> iterator() {
 			return cursor();
 		}
 	}
 
-	private static final class MyCursor< T extends RealType< T > > implements Cursor< T >
-	{
+	private static final class MyCursor<T extends RealType<T>> implements Cursor<T> {
 
 		private final SpotRoi roi;
 
 		private final RealLocalizable center;
 
-		private final ImgPlus< T > img;
+		private final ImgPlus<T> img;
 
 		private final FinalInterval interval;
 
-		private Cursor< T > cursor;
+		private Cursor<T> cursor;
 
 		private final double[] x;
 
@@ -187,43 +165,37 @@ public class SpotUtil
 
 		private boolean hasNext;
 
-		private RandomAccess< T > ra;
+		private RandomAccess<T> ra;
 
-		public MyCursor( final SpotRoi roi, final RealLocalizable center, final ImgPlus< T > img )
-		{
+		public MyCursor(final SpotRoi roi, final RealLocalizable center, final ImgPlus<T> img) {
 			this.roi = roi;
 			this.center = center;
 			this.img = img;
-			x = roi.toPolygonX( img.averageScale( 0 ), 0, center.getDoublePosition( 0 ), 1. );
-			y = roi.toPolygonY( img.averageScale( 1 ), 0, center.getDoublePosition( 1 ), 1. );
-			final long minX = ( long ) Math.floor( Util.min( x ) );
-			final long maxX = ( long ) Math.ceil( Util.max( x ) );
-			final long minY = ( long ) Math.floor( Util.min( y ) );
-			final long maxY = ( long ) Math.ceil( Util.max( y ) );
-			interval = Intervals.createMinMax( minX, minY, maxX, maxY );
+			x = roi.toPolygonX(img.averageScale(0), 0, center.getDoublePosition(0), 1.);
+			y = roi.toPolygonY(img.averageScale(1), 0, center.getDoublePosition(1), 1.);
+			final long minX = (long) Math.floor(Util.min(x));
+			final long maxX = (long) Math.ceil(Util.max(x));
+			final long minY = (long) Math.floor(Util.min(y));
+			final long maxY = (long) Math.ceil(Util.max(y));
+			interval = Intervals.createMinMax(minX, minY, maxX, maxY);
 			reset();
 		}
 
 		@Override
-		public T get()
-		{
+		public T get() {
 			return ra.get();
 		}
 
 		@Override
-		public void fwd()
-		{
-			ra.setPosition( cursor );
+		public void fwd() {
+			ra.setPosition(cursor);
 			fetch();
 		}
 
-		private void fetch()
-		{
-			while ( cursor.hasNext() )
-			{
+		private void fetch() {
+			while (cursor.hasNext()) {
 				cursor.fwd();
-				if ( isInside( cursor, x, y ) )
-				{
+				if (isInside(cursor, x, y)) {
 					hasNext = cursor.hasNext();
 					return;
 				}
@@ -231,85 +203,74 @@ public class SpotUtil
 			hasNext = false;
 		}
 
-		private static final boolean isInside( final Localizable localizable, final double[] x, final double[] y )
-		{
+		private static final boolean isInside(final Localizable localizable, final double[] x, final double[] y) {
 			// Taken from Imglib2-roi GeomMaths. No edge case.
-			final double xl = localizable.getDoublePosition( 0 );
-			final double yl = localizable.getDoublePosition( 1 );
+			final double xl = localizable.getDoublePosition(0);
+			final double yl = localizable.getDoublePosition(1);
 
 			int i;
 			int j;
 			boolean inside = false;
-			for ( i = 0, j = x.length - 1; i < x.length; j = i++ )
-			{
-				final double xj = x[ j ];
-				final double yj = y[ j ];
+			for (i = 0, j = x.length - 1; i < x.length; j = i++) {
+				final double xj = x[j];
+				final double yj = y[j];
 
-				final double xi = x[ i ];
-				final double yi = y[ i ];
+				final double xi = x[i];
+				final double yi = y[i];
 
-				if ( ( yi > yl ) != ( yj > yl ) && ( xl < ( xj - xi ) * ( yl - yi ) / ( yj - yi ) + xi ) )
+				if ((yi > yl) != (yj > yl) && (xl < (xj - xi) * (yl - yi) / (yj - yi) + xi))
 					inside = !inside;
 			}
 			return inside;
 		}
 
 		@Override
-		public void reset()
-		{
-			final IntervalView< T > view = Views.interval( img, interval );
+		public void reset() {
+			final IntervalView<T> view = Views.interval(img, interval);
 			cursor = view.localizingCursor();
-			ra = Views.extendMirrorSingle( img ).randomAccess();
+			ra = Views.extendMirrorSingle(img).randomAccess();
 			fetch();
 		}
 
 		@Override
-		public double getDoublePosition( final int d )
-		{
-			return ra.getDoublePosition( d );
+		public double getDoublePosition(final int d) {
+			return ra.getDoublePosition(d);
 		}
 
 		@Override
-		public int numDimensions()
-		{
+		public int numDimensions() {
 			return 2;
 		}
 
 		@Override
-		public void jumpFwd( final long steps )
-		{
-			for ( int i = 0; i < steps; i++ )
+		public void jumpFwd(final long steps) {
+			for (int i = 0; i < steps; i++)
 				fwd();
 		}
 
 		@Override
-		public boolean hasNext()
-		{
+		public boolean hasNext() {
 			return hasNext;
 		}
 
 		@Override
-		public T next()
-		{
+		public T next() {
 			fwd();
 			return get();
 		}
 
 		@Override
-		public long getLongPosition( final int d )
-		{
-			return ra.getLongPosition( d );
+		public long getLongPosition(final int d) {
+			return ra.getLongPosition(d);
 		}
 
 		@Override
-		public Cursor< T > copyCursor()
-		{
-			return new MyCursor<>( roi, center, img );
+		public Cursor<T> copyCursor() {
+			return new MyCursor<>(roi, center, img);
 		}
 
 		@Override
-		public Sampler< T > copy()
-		{
+		public Sampler<T> copy() {
 			return copyCursor();
 		}
 	}

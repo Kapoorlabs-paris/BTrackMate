@@ -9,5 +9,6 @@ import net.imglib2.type.numeric.RealType;
  *
  * @author Jean-Yves Tinevez - 2020
  */
-public interface SpotMorphologyAnalyzerFactory< T extends RealType< T > & NativeType< T > > extends SpotAnalyzerFactoryBase< T >
-{}
+public interface SpotMorphologyAnalyzerFactory<T extends RealType<T> & NativeType<T>>
+		extends SpotAnalyzerFactoryBase<T> {
+}

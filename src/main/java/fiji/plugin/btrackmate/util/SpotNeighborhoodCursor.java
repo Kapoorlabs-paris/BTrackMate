@@ -9,7 +9,7 @@ public class SpotNeighborhoodCursor<T extends RealType<T>> implements Cursor<T> 
 	/*
 	 * FIELDs
 	 */
-	
+
 	protected final Cursor<T> cursor;
 	protected final double[] calibration;
 	protected final long[] center;
@@ -19,7 +19,7 @@ public class SpotNeighborhoodCursor<T extends RealType<T>> implements Cursor<T> 
 	/*
 	 * CONSTRUCTOR
 	 */
-	
+
 	public SpotNeighborhoodCursor(SpotNeighborhood<T> sn) {
 		this.cursor = sn.neighborhood.cursor();
 		this.calibration = sn.calibration;
@@ -27,14 +27,15 @@ public class SpotNeighborhoodCursor<T extends RealType<T>> implements Cursor<T> 
 		this.pos = new long[cursor.numDimensions()];
 		reset();
 	}
-	
+
 	/*
-	 * METHODS
-	 * These methods are specific and are mainly focused on the use of calibrated units.
+	 * METHODS These methods are specific and are mainly focused on the use of
+	 * calibrated units.
 	 */
 
 	/**
-	 * Store the relative <b>calibrated</b> position with respect to the neighborhood center.
+	 * Store the relative <b>calibrated</b> position with respect to the
+	 * neighborhood center.
 	 */
 	public void getRelativePosition(double[] position) {
 		cursor.localize(pos);
@@ -42,54 +43,52 @@ public class SpotNeighborhoodCursor<T extends RealType<T>> implements Cursor<T> 
 			position[d] = calibration[d] * (pos[d] - center[d]);
 		}
 	}
-	
+
 	/**
-	 * Return the square distance measured from the center of the domain to the current
-	 * cursor position, in <b>calibrated</b> units.
+	 * Return the square distance measured from the center of the domain to the
+	 * current cursor position, in <b>calibrated</b> units.
 	 */
 	public double getDistanceSquared() {
 		cursor.localize(pos);
 		double sum = 0;
 		double dx = 0;
 		for (int d = 0; d < pos.length; d++) {
-			dx = calibration[d] * ( pos[d] - center[d] );
+			dx = calibration[d] * (pos[d] - center[d]);
 			sum += (dx * dx);
 		}
 		return sum;
 	}
-	
+
 	/**
 	 * Return the current inclination with respect to this spot center. Will be in
-	 * the range [0, π]. 
+	 * the range [0, π].
 	 * <p>
-	 * In spherical coordinates, the inclination is the angle 
-	 * between the Z axis and the line OM where O is the sphere center and M is 
-	 * the point location.
+	 * In spherical coordinates, the inclination is the angle between the Z axis and
+	 * the line OM where O is the sphere center and M is the point location.
 	 */
 	public double getTheta() {
 		if (numDimensions() < 2)
 			return 0;
-		double dx = calibration[2] * ( cursor.getDoublePosition(2) - center[2]);
-		return Math.acos( dx / Math.sqrt( getDistanceSquared() ) );
+		double dx = calibration[2] * (cursor.getDoublePosition(2) - center[2]);
+		return Math.acos(dx / Math.sqrt(getDistanceSquared()));
 	}
-	
+
 	/**
-	 * Return the azimuth of the spherical coordinates of this cursor, with respect 
+	 * Return the azimuth of the spherical coordinates of this cursor, with respect
 	 * to its center. Will be in the range ]-π, π].
 	 * <p>
-	 * In spherical coordinates, the azimuth is the angle measured in the plane XY between 
-	 * the X axis and the line OH where O is the sphere center and H is the orthogonal 
-	 * projection of the point M on the XY plane.
+	 * In spherical coordinates, the azimuth is the angle measured in the plane XY
+	 * between the X axis and the line OH where O is the sphere center and H is the
+	 * orthogonal projection of the point M on the XY plane.
 	 */
 	public double getPhi() {
-		double dx = calibration[0] * ( cursor.getDoublePosition(0) - center[0]);
-		double dy = calibration[1] * ( cursor.getDoublePosition(1) - center[1]);
+		double dx = calibration[0] * (cursor.getDoublePosition(0) - center[0]);
+		double dy = calibration[1] * (cursor.getDoublePosition(1) - center[1]);
 		return Math.atan2(dy, dx);
 	}
-	
+
 	/*
-	 * CURSOR METHODS
-	 * We delegate to the wrapped cursor
+	 * CURSOR METHODS We delegate to the wrapped cursor
 	 */
 
 	@Override
@@ -182,5 +181,4 @@ public class SpotNeighborhoodCursor<T extends RealType<T>> implements Cursor<T> 
 		return cursor.copyCursor();
 	}
 
-	
 }

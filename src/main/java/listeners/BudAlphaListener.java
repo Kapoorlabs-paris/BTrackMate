@@ -10,17 +10,17 @@ import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
 import pluginTools.InteractiveBud;
 
 public class BudAlphaListener implements AdjustmentListener {
-	
+
 	final Label label;
 	final String string;
 	final InteractiveBud parent;
 	final float min, max;
 	final int scrollbarSize;
 	final JScrollBar scrollbar;
-	
-	
-	public BudAlphaListener(final InteractiveBud parent, final Label label, final String string, final float min, final float max, final int scrollbarSize, final JScrollBar scrollbar) {
-		
+
+	public BudAlphaListener(final InteractiveBud parent, final Label label, final String string, final float min,
+			final float max, final int scrollbarSize, final JScrollBar scrollbar) {
+
 		this.parent = parent;
 		this.label = label;
 		this.string = string;
@@ -28,21 +28,19 @@ public class BudAlphaListener implements AdjustmentListener {
 		this.max = max;
 		this.scrollbarSize = scrollbarSize;
 		this.scrollbar = scrollbar;
-		
+
 		scrollbar.setBlockIncrement(utility.BudSlicer.computeScrollbarPositionFromValue(2, min, max, scrollbarSize));
 		scrollbar.setUnitIncrement(utility.BudSlicer.computeScrollbarPositionFromValue(2, min, max, scrollbarSize));
 	}
-	
-	
-	
+
 	@Override
 	public void adjustmentValueChanged(final AdjustmentEvent event) {
-		CovistoKalmanPanel.alpha = utility.BudSlicer.computeValueFromScrollbarPosition(event.getValue(), min, max, scrollbarSize);
+		CovistoKalmanPanel.alpha = utility.BudSlicer.computeValueFromScrollbarPosition(event.getValue(), min, max,
+				scrollbarSize);
 
-			label.setText(string +  " = "  + parent.nf.format(CovistoKalmanPanel.alpha));
-			CovistoKalmanPanel.beta = 1 - CovistoKalmanPanel.alpha; 
-			
-	
+		label.setText(string + " = " + parent.nf.format(CovistoKalmanPanel.alpha));
+		CovistoKalmanPanel.beta = 1 - CovistoKalmanPanel.alpha;
+
 	}
-	
+
 }

@@ -35,70 +35,61 @@ package fiji.plugin.btrackmate.gui.displaysettings;
  *
  * @author Tobias Pietzsch
  */
-public class BoundedValueDouble
-{
+public class BoundedValueDouble {
 	private double rangeMin;
 
 	private double rangeMax;
 
 	private double currentValue;
 
-	public interface UpdateListener
-	{
+	public interface UpdateListener {
 		void update();
 	}
 
 	private UpdateListener updateListener;
 
-	public BoundedValueDouble( final double rangeMin, final double rangeMax, final double currentValue )
-	{
+	public BoundedValueDouble(final double rangeMin, final double rangeMax, final double currentValue) {
 		this.rangeMin = rangeMin;
 		this.rangeMax = rangeMax;
 		this.currentValue = currentValue;
 		updateListener = null;
 	}
 
-	public double getRangeMin()
-	{
+	public double getRangeMin() {
 		return rangeMin;
 	}
 
-	public double getRangeMax()
-	{
+	public double getRangeMax() {
 		return rangeMax;
 	}
 
-	public double getCurrentValue()
-	{
+	public double getCurrentValue() {
 		return currentValue;
 	}
 
-	public void setRange( final double min, final double max )
-	{
+	public void setRange(final double min, final double max) {
 		assert min <= max;
 		rangeMin = min;
 		rangeMax = max;
-		currentValue = Math.min( Math.max( currentValue, min ), max );
+		currentValue = Math.min(Math.max(currentValue, min), max);
 
-		if ( updateListener != null )
+		if (updateListener != null)
 			updateListener.update();
 	}
 
-	public void setCurrentValue( final double value )
-	{
+	public void setCurrentValue(final double value) {
 		currentValue = value;
 
-		if ( currentValue < rangeMin )
+		if (currentValue < rangeMin)
 			currentValue = rangeMin;
-		else if ( currentValue > rangeMax )
+		else if (currentValue > rangeMax)
 			currentValue = rangeMax;
 
-		if ( updateListener != null )
+		if (updateListener != null)
 			updateListener.update();
 	}
 
-	public void setUpdateListener( final UpdateListener l )
-	{
+	public void setUpdateListener(final UpdateListener l) {
 		updateListener = l;
 	}
 }

@@ -4,7 +4,6 @@ import javax.swing.JProgressBar;
 
 public class BudProgressBar {
 
-	
 	public static void SetProgressBar(JProgressBar jpb, double percent, String message) {
 
 		jpb.setValue((int) Math.round(percent));
@@ -13,7 +12,7 @@ public class BudProgressBar {
 		jpb.setString(message);
 
 	}
-	
+
 	public static void SetProgressBarTime(JProgressBar jpb, double percent, int framenumber, int thirdDimsize) {
 
 		jpb.setValue((int) percent);
@@ -22,7 +21,7 @@ public class BudProgressBar {
 		jpb.setString("Time point = " + framenumber + "/" + thirdDimsize);
 
 	}
-	
+
 	public static void SetProgressBarTime(JProgressBar jpb, double percent, int framenumber, int thirdDimsize,
 			String message) {
 

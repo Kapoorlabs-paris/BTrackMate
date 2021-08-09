@@ -3,7 +3,7 @@ package utility;
 public class FlagNode<K> {
 	private K value;
 	private boolean visited = false;
-	
+
 	public FlagNode(K value) {
 		this.setValue(value);
 	}
@@ -24,4 +24,3 @@ public class FlagNode<K> {
 		this.value = value;
 	}
 }
-

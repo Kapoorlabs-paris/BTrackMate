@@ -34,17 +34,16 @@ import net.imglib2.util.Util;
  * @author Jean-Yves Tinevez &lt;jeanyves.tinevez@gmail.com&gt; 2010, 2013
  *
  */
-public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Comparable< Spot >
-{
+public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Comparable<Spot> {
 
 	/*
 	 * FIELDS
 	 */
 
-	public static AtomicInteger IDcounter = new AtomicInteger( -1 );
+	public static AtomicInteger IDcounter = new AtomicInteger(-1);
 
 	/** Store the individual features, and their values. */
-	private final ConcurrentHashMap< String, Double > features = new ConcurrentHashMap< >();
+	private final ConcurrentHashMap<String, Double> features = new ConcurrentHashMap<>();
 
 	/** A user-supplied name for this spot. */
 	private String name;
@@ -66,34 +65,25 @@ public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Com
 	/**
 	 * Creates a new spot.
 	 *
-	 * @param x
-	 *            the spot X coordinates, in image units.
-	 * @param y
-	 *            the spot Y coordinates, in image units.
-	 * @param z
-	 *            the spot Z coordinates, in image units.
-	 * @param radius
-	 *            the spot radius, in image units.
-	 * @param quality
-	 *            the spot quality.
-	 * @param name
-	 *            the spot name.
+	 * @param x       the spot X coordinates, in image units.
+	 * @param y       the spot Y coordinates, in image units.
+	 * @param z       the spot Z coordinates, in image units.
+	 * @param radius  the spot radius, in image units.
+	 * @param quality the spot quality.
+	 * @param name    the spot name.
 	 */
-	public Spot( final double x, final double y, final double z, final double radius, final double quality, final String name )
-	{
-		super( 3 );
+	public Spot(final double x, final double y, final double z, final double radius, final double quality,
+			final String name) {
+		super(3);
 		this.ID = IDcounter.incrementAndGet();
-		putFeature( POSITION_X, Double.valueOf( x ) );
-		putFeature( POSITION_Y, Double.valueOf( y ) );
-		putFeature( POSITION_Z, Double.valueOf( z ) );
-		putFeature( RADIUS, Double.valueOf( radius ) );
-		putFeature( QUALITY, Double.valueOf( quality ) );
-		if ( null == name )
-		{
+		putFeature(POSITION_X, Double.valueOf(x));
+		putFeature(POSITION_Y, Double.valueOf(y));
+		putFeature(POSITION_Z, Double.valueOf(z));
+		putFeature(RADIUS, Double.valueOf(radius));
+		putFeature(QUALITY, Double.valueOf(quality));
+		if (null == name) {
 			this.name = "ID" + ID;
-		}
-		else
-		{
+		} else {
 			this.name = name;
 		}
 	}
@@ -101,88 +91,67 @@ public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Com
 	/**
 	 * Creates a new spot, and gives it a default name.
 	 *
-	 * @param x
-	 *            the spot X coordinates, in image units.
-	 * @param y
-	 *            the spot Y coordinates, in image units.
-	 * @param z
-	 *            the spot Z coordinates, in image units.
-	 * @param radius
-	 *            the spot radius, in image units.
-	 * @param quality
-	 *            the spot quality.
+	 * @param x       the spot X coordinates, in image units.
+	 * @param y       the spot Y coordinates, in image units.
+	 * @param z       the spot Z coordinates, in image units.
+	 * @param radius  the spot radius, in image units.
+	 * @param quality the spot quality.
 	 */
-	public Spot( final double x, final double y, final double z, final double radius, final double quality )
-	{
-		this( x, y, z, radius, quality, null );
+	public Spot(final double x, final double y, final double z, final double radius, final double quality) {
+		this(x, y, z, radius, quality, null);
 	}
 
 	/**
-	 * Creates a new spot, taking its 3D coordinates from a
-	 * {@link RealLocalizable}. The {@link RealLocalizable} must have at least 3
-	 * dimensions, and must return coordinates in image units.
+	 * Creates a new spot, taking its 3D coordinates from a {@link RealLocalizable}.
+	 * The {@link RealLocalizable} must have at least 3 dimensions, and must return
+	 * coordinates in image units.
 	 *
-	 * @param location
-	 *            the {@link RealLocalizable} that contains the spot locatiob.
-	 * @param radius
-	 *            the spot radius, in image units.
-	 * @param quality
-	 *            the spot quality.
-	 * @param name
-	 *            the spot name.
+	 * @param location the {@link RealLocalizable} that contains the spot locatiob.
+	 * @param radius   the spot radius, in image units.
+	 * @param quality  the spot quality.
+	 * @param name     the spot name.
 	 */
-	public Spot( final RealLocalizable location, final double radius, final double quality, final String name )
-	{
-		this( location.getDoublePosition( 0 ), location.getDoublePosition( 1 ), location.getDoublePosition( 2 ), radius, quality, name );
+	public Spot(final RealLocalizable location, final double radius, final double quality, final String name) {
+		this(location.getDoublePosition(0), location.getDoublePosition(1), location.getDoublePosition(2), radius,
+				quality, name);
 	}
 
 	/**
-	 * Creates a new spot, taking its 3D coordinates from a
-	 * {@link RealLocalizable}. The {@link RealLocalizable} must have at least 3
-	 * dimensions, and must return coordinates in image units. The spot will get
-	 * a default name.
+	 * Creates a new spot, taking its 3D coordinates from a {@link RealLocalizable}.
+	 * The {@link RealLocalizable} must have at least 3 dimensions, and must return
+	 * coordinates in image units. The spot will get a default name.
 	 *
-	 * @param location
-	 *            the {@link RealLocalizable} that contains the spot locatiob.
-	 * @param radius
-	 *            the spot radius, in image units.
-	 * @param quality
-	 *            the spot quality.
+	 * @param location the {@link RealLocalizable} that contains the spot locatiob.
+	 * @param radius   the spot radius, in image units.
+	 * @param quality  the spot quality.
 	 */
-	public Spot( final RealLocalizable location, final double radius, final double quality )
-	{
-		this( location, radius, quality, null );
+	public Spot(final RealLocalizable location, final double radius, final double quality) {
+		this(location, radius, quality, null);
 	}
 
 	/**
-	 * Creates a new spot, taking its location, its radius, its quality value
-	 * and its name from the specified spot.
+	 * Creates a new spot, taking its location, its radius, its quality value and
+	 * its name from the specified spot.
 	 *
-	 * @param spot
-	 *            the spot to read from.
+	 * @param spot the spot to read from.
 	 */
-	public Spot( final Spot spot )
-	{
-		this( spot, spot.getFeature( RADIUS ), spot.getFeature( QUALITY ), spot.getName() );
+	public Spot(final Spot spot) {
+		this(spot, spot.getFeature(RADIUS), spot.getFeature(QUALITY), spot.getName());
 	}
 
 	/**
 	 * Blank constructor meant to be used when loading a spot collection from a
-	 * file. <b>Will</b> mess with the {@link #IDcounter} field, so this
-	 * constructor <u>should not be used for normal spot creation</u>.
+	 * file. <b>Will</b> mess with the {@link #IDcounter} field, so this constructor
+	 * <u>should not be used for normal spot creation</u>.
 	 *
-	 * @param ID
-	 *            the spot ID to set
+	 * @param ID the spot ID to set
 	 */
-	public Spot( final int ID )
-	{
-		super( 3 );
+	public Spot(final int ID) {
+		super(3);
 		this.ID = ID;
-		synchronized ( IDcounter )
-		{
-			if ( IDcounter.get() < ID )
-			{
-				IDcounter.set( ID );
+		synchronized (IDcounter) {
+			if (IDcounter.get() < ID) {
+				IDcounter.set(ID);
 			}
 		}
 	}
@@ -192,69 +161,59 @@ public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Com
 	 */
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return ID;
 	}
 
 	@Override
-	public int compareTo( final Spot o )
-	{
+	public int compareTo(final Spot o) {
 		return ID - o.ID;
 	}
 
 	@Override
-	public boolean equals( final Object other )
-	{
-		if ( other == null )
+	public boolean equals(final Object other) {
+		if (other == null)
 			return false;
-		if ( other == this )
+		if (other == this)
 			return true;
-		if ( !( other instanceof Spot ) )
+		if (!(other instanceof Spot))
 			return false;
-		final Spot os = ( Spot ) other;
+		final Spot os = (Spot) other;
 		return os.ID == this.ID;
 	}
 
-	public void setRoi( final SpotRoi roi )
-	{
+	public void setRoi(final SpotRoi roi) {
 		this.roi = roi;
 	}
 
-	public SpotRoi getRoi()
-	{
+	public SpotRoi getRoi() {
 		return roi;
 	}
 
 	/**
 	 * @return the name for this Spot.
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return this.name;
 	}
 
 	/**
 	 * Set the name of this Spot.
 	 * 
-	 * @param name
-	 *            the name to use.
+	 * @param name the name to use.
 	 */
-	public void setName( final String name )
-	{
+	public void setName(final String name) {
 		this.name = name;
 	}
 
-	public int ID()
-	{
+	public int ID() {
 		return ID;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		String str;
-		if ( null == name || name.equals( "" ) )
+		if (null == name || name.equals(""))
 			str = "ID" + ID;
 		else
 			str = name;
@@ -266,40 +225,37 @@ public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Com
 	 * 
 	 * @return a string representation of the spot.
 	 */
-	public String echo()
-	{
+	public String echo() {
 		final StringBuilder s = new StringBuilder();
 
 		// Name
-		if ( null == name )
-			s.append( "Spot: <no name>\n" );
+		if (null == name)
+			s.append("Spot: <no name>\n");
 		else
-			s.append( "Spot: " + name + "\n" );
+			s.append("Spot: " + name + "\n");
 
 		// Frame
-		s.append( "Time: " + getFeature( POSITION_T ) + '\n' );
+		s.append("Time: " + getFeature(POSITION_T) + '\n');
 
 		// Coordinates
-		final double[] coordinates = new double[ 3 ];
-		localize( coordinates );
-		s.append( "Position: " + Util.printCoordinates( coordinates ) + "\n" );
+		final double[] coordinates = new double[3];
+		localize(coordinates);
+		s.append("Position: " + Util.printCoordinates(coordinates) + "\n");
 
 		// Feature list
-		if ( null == features || features.size() < 1 )
-			s.append( "No features calculated\n" );
-		else
-		{
-			s.append( "Feature list:\n" );
+		if (null == features || features.size() < 1)
+			s.append("No features calculated\n");
+		else {
+			s.append("Feature list:\n");
 			double val;
-			for ( final String key : features.keySet() )
-			{
-				s.append( "\t" + key.toString() + ": " );
-				val = features.get( key );
-				if ( val >= 1e4 )
-					s.append( String.format( "%.1g", val ) );
+			for (final String key : features.keySet()) {
+				s.append("\t" + key.toString() + ": ");
+				val = features.get(key);
+				if (val >= 1e4)
+					s.append(String.format("%.1g", val));
 				else
-					s.append( String.format( "%.1f", val ) );
-				s.append( '\n' );
+					s.append(String.format("%.1f", val));
+				s.append('\n');
 			}
 		}
 		return s.toString();
@@ -310,108 +266,92 @@ public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Com
 	 */
 
 	/**
-	 * Exposes the storage map of features for this spot. Altering the returned
-	 * map will alter the spot.
+	 * Exposes the storage map of features for this spot. Altering the returned map
+	 * will alter the spot.
 	 *
 	 * @return a map of {@link String}s to {@link Double}s.
 	 */
-	public Map< String, Double > getFeatures()
-	{
+	public Map<String, Double> getFeatures() {
 		return features;
 	}
 
 	/**
 	 * Returns the value corresponding to the specified spot feature.
 	 *
-	 * @param feature
-	 *            The feature string to retrieve the stored value for.
-	 * @return the feature value, as a {@link Double}. Will be <code>null</code>
-	 *         if it has not been set.
+	 * @param feature The feature string to retrieve the stored value for.
+	 * @return the feature value, as a {@link Double}. Will be <code>null</code> if
+	 *         it has not been set.
 	 */
-	public Double getFeature( final String feature )
-	{
-		return features.get( feature );
+	public Double getFeature(final String feature) {
+		return features.get(feature);
 	}
 
 	/**
 	 * Stores the specified feature value for this spot.
 	 *
-	 * @param feature
-	 *            the name of the feature to store, as a {@link String}.
-	 * @param value
-	 *            the value to store, as a {@link Double}. Using
-	 *            <code>null</code> will have unpredicted outcomes.
+	 * @param feature the name of the feature to store, as a {@link String}.
+	 * @param value   the value to store, as a {@link Double}. Using
+	 *                <code>null</code> will have unpredicted outcomes.
 	 */
-	public void putFeature( final String feature, final Double value )
-	{
-		features.put( feature, value );
+	public void putFeature(final String feature, final Double value) {
+		features.put(feature, value);
 	}
 
 	/**
-	 * Returns the difference of the feature value for this spot with the one of
-	 * the specified spot. By construction, this operation is anti-symmetric (
+	 * Returns the difference of the feature value for this spot with the one of the
+	 * specified spot. By construction, this operation is anti-symmetric (
 	 * <code>A.diffTo(B) = - B.diffTo(A)</code>).
 	 * <p>
 	 * Will generate a {@link NullPointerException} if one of the spots does not
 	 * store the named feature.
 	 *
-	 * @param s
-	 *            the spot to compare to.
-	 * @param feature
-	 *            the name of the feature to use for calculation.
+	 * @param s       the spot to compare to.
+	 * @param feature the name of the feature to use for calculation.
 	 * @return the difference in feature value.
 	 */
-	public double diffTo( final Spot s, final String feature )
-	{
-		final double f1 = features.get( feature ).doubleValue();
-		final double f2 = s.getFeature( feature ).doubleValue();
+	public double diffTo(final Spot s, final String feature) {
+		final double f1 = features.get(feature).doubleValue();
+		final double f2 = s.getFeature(feature).doubleValue();
 		return f1 - f2;
 	}
 
 	/**
-	 * Returns the absolute normalized difference of the feature value of this
-	 * spot with the one of the given spot.
+	 * Returns the absolute normalized difference of the feature value of this spot
+	 * with the one of the given spot.
 	 * <p>
 	 * If <code>a</code> and <code>b</code> are the feature values, then the
 	 * absolute normalized difference is defined as
 	 * <code>Math.abs( a - b) / ( (a+b)/2 )</code>.
 	 * <p>
-	 * By construction, this operation is symmetric (
-	 * <code>A.normalizeDiffTo(B) =
+	 * By construction, this operation is symmetric ( <code>A.normalizeDiffTo(B) =
 	 * B.normalizeDiffTo(A)</code>).
 	 * <p>
 	 * Will generate a {@link NullPointerException} if one of the spots does not
 	 * store the named feature.
 	 *
-	 * @param s
-	 *            the spot to compare to.
-	 * @param feature
-	 *            the name of the feature to use for calculation.
+	 * @param s       the spot to compare to.
+	 * @param feature the name of the feature to use for calculation.
 	 * @return the absolute normalized difference feature value.
 	 */
-	public double normalizeDiffTo( final Spot s, final String feature )
-	{
-		final double a = features.get( feature ).doubleValue();
-		final double b = s.getFeature( feature ).doubleValue();
-		if ( a == -b )
+	public double normalizeDiffTo(final Spot s, final String feature) {
+		final double a = features.get(feature).doubleValue();
+		final double b = s.getFeature(feature).doubleValue();
+		if (a == -b)
 			return 0d;
-		
-		return Math.abs( a - b ) / ( ( a + b ) / 2 );
+
+		return Math.abs(a - b) / ((a + b) / 2);
 	}
 
 	/**
 	 * Returns the square distance from this spot to the specified spot.
 	 *
-	 * @param s
-	 *            the spot to compute the square distance to.
+	 * @param s the spot to compute the square distance to.
 	 * @return the square distance as a <code>double</code>.
 	 */
-	public double squareDistanceTo( final RealLocalizable s )
-	{
+	public double squareDistanceTo(final RealLocalizable s) {
 		double sumSquared = 0d;
-		for ( int d = 0; d < 3; d++ )
-		{
-			final double dx = this.getDoublePosition( d ) - s.getDoublePosition( d );
+		for (int d = 0; d < 3; d++) {
+			final double dx = this.getDoublePosition(d) - s.getDoublePosition(d);
 			sumSquared += dx * dx;
 		}
 		return sumSquared;
@@ -452,97 +392,91 @@ public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Com
 	/**
 	 * The 7 privileged spot features that must be set by a spot detector:
 	 * {@link #QUALITY}, {@link #POSITION_X}, {@link #POSITION_Y},
-	 * {@link #POSITION_Z}, {@link #POSITION_Z}, {@link #RADIUS}, {@link #FRAME}
-	 * .
+	 * {@link #POSITION_Z}, {@link #POSITION_Z}, {@link #RADIUS}, {@link #FRAME} .
 	 */
-	public final static Collection< String > FEATURES = new ArrayList< >( 7 );
+	public final static Collection<String> FEATURES = new ArrayList<>(7);
 
 	/** The 7 privileged spot feature names. */
-	public final static Map< String, String > FEATURE_NAMES = new HashMap< >( 7 );
+	public final static Map<String, String> FEATURE_NAMES = new HashMap<>(7);
 
 	/** The 7 privileged spot feature short names. */
-	public final static Map< String, String > FEATURE_SHORT_NAMES = new HashMap< >( 7 );
+	public final static Map<String, String> FEATURE_SHORT_NAMES = new HashMap<>(7);
 
 	/** The 7 privileged spot feature dimensions. */
-	public final static Map< String, Dimension > FEATURE_DIMENSIONS = new HashMap< >( 7 );
+	public final static Map<String, Dimension> FEATURE_DIMENSIONS = new HashMap<>(7);
 
 	/** The 7 privileged spot feature isInt flags. */
-	public final static Map< String, Boolean > IS_INT = new HashMap< >( 7 );
+	public final static Map<String, Boolean> IS_INT = new HashMap<>(7);
 
-	static
-	{
-		FEATURES.add( QUALITY );
-		FEATURES.add( POSITION_X );
-		FEATURES.add( POSITION_Y );
-		FEATURES.add( POSITION_Z );
-		FEATURES.add( POSITION_T );
-		FEATURES.add( FRAME );
-		FEATURES.add( RADIUS );
-		FEATURES.add( SpotCollection.VISIBILITY );
+	static {
+		FEATURES.add(QUALITY);
+		FEATURES.add(POSITION_X);
+		FEATURES.add(POSITION_Y);
+		FEATURES.add(POSITION_Z);
+		FEATURES.add(POSITION_T);
+		FEATURES.add(FRAME);
+		FEATURES.add(RADIUS);
+		FEATURES.add(SpotCollection.VISIBILITY);
 
-		FEATURE_NAMES.put( POSITION_X, "X" );
-		FEATURE_NAMES.put( POSITION_Y, "Y" );
-		FEATURE_NAMES.put( POSITION_Z, "Z" );
-		FEATURE_NAMES.put( POSITION_T, "T" );
-		FEATURE_NAMES.put( FRAME, "Frame" );
-		FEATURE_NAMES.put( RADIUS, "Radius" );
-		FEATURE_NAMES.put( QUALITY, "Quality" );
-		FEATURE_NAMES.put( VISIBILITY, "Visibility" );
+		FEATURE_NAMES.put(POSITION_X, "X");
+		FEATURE_NAMES.put(POSITION_Y, "Y");
+		FEATURE_NAMES.put(POSITION_Z, "Z");
+		FEATURE_NAMES.put(POSITION_T, "T");
+		FEATURE_NAMES.put(FRAME, "Frame");
+		FEATURE_NAMES.put(RADIUS, "Radius");
+		FEATURE_NAMES.put(QUALITY, "Quality");
+		FEATURE_NAMES.put(VISIBILITY, "Visibility");
 
-		FEATURE_SHORT_NAMES.put( POSITION_X, "X" );
-		FEATURE_SHORT_NAMES.put( POSITION_Y, "Y" );
-		FEATURE_SHORT_NAMES.put( POSITION_Z, "Z" );
-		FEATURE_SHORT_NAMES.put( POSITION_T, "T" );
-		FEATURE_SHORT_NAMES.put( FRAME, "Frame" );
-		FEATURE_SHORT_NAMES.put( RADIUS, "R" );
-		FEATURE_SHORT_NAMES.put( QUALITY, "Quality" );
-		FEATURE_SHORT_NAMES.put( VISIBILITY, "Visibility" );
+		FEATURE_SHORT_NAMES.put(POSITION_X, "X");
+		FEATURE_SHORT_NAMES.put(POSITION_Y, "Y");
+		FEATURE_SHORT_NAMES.put(POSITION_Z, "Z");
+		FEATURE_SHORT_NAMES.put(POSITION_T, "T");
+		FEATURE_SHORT_NAMES.put(FRAME, "Frame");
+		FEATURE_SHORT_NAMES.put(RADIUS, "R");
+		FEATURE_SHORT_NAMES.put(QUALITY, "Quality");
+		FEATURE_SHORT_NAMES.put(VISIBILITY, "Visibility");
 
-		FEATURE_DIMENSIONS.put( POSITION_X, Dimension.POSITION );
-		FEATURE_DIMENSIONS.put( POSITION_Y, Dimension.POSITION );
-		FEATURE_DIMENSIONS.put( POSITION_Z, Dimension.POSITION );
-		FEATURE_DIMENSIONS.put( POSITION_T, Dimension.TIME );
-		FEATURE_DIMENSIONS.put( FRAME, Dimension.NONE );
-		FEATURE_DIMENSIONS.put( RADIUS, Dimension.LENGTH );
-		FEATURE_DIMENSIONS.put( QUALITY, Dimension.QUALITY );
-		FEATURE_DIMENSIONS.put( VISIBILITY, Dimension.NONE );
+		FEATURE_DIMENSIONS.put(POSITION_X, Dimension.POSITION);
+		FEATURE_DIMENSIONS.put(POSITION_Y, Dimension.POSITION);
+		FEATURE_DIMENSIONS.put(POSITION_Z, Dimension.POSITION);
+		FEATURE_DIMENSIONS.put(POSITION_T, Dimension.TIME);
+		FEATURE_DIMENSIONS.put(FRAME, Dimension.NONE);
+		FEATURE_DIMENSIONS.put(RADIUS, Dimension.LENGTH);
+		FEATURE_DIMENSIONS.put(QUALITY, Dimension.QUALITY);
+		FEATURE_DIMENSIONS.put(VISIBILITY, Dimension.NONE);
 
-		IS_INT.put( POSITION_X, Boolean.FALSE );
-		IS_INT.put( POSITION_Y, Boolean.FALSE );
-		IS_INT.put( POSITION_Z, Boolean.FALSE );
-		IS_INT.put( POSITION_T, Boolean.FALSE );
-		IS_INT.put( FRAME, Boolean.TRUE );
-		IS_INT.put( RADIUS, Boolean.FALSE );
-		IS_INT.put( QUALITY, Boolean.FALSE );
-		IS_INT.put( VISIBILITY, Boolean.TRUE );
+		IS_INT.put(POSITION_X, Boolean.FALSE);
+		IS_INT.put(POSITION_Y, Boolean.FALSE);
+		IS_INT.put(POSITION_Z, Boolean.FALSE);
+		IS_INT.put(POSITION_T, Boolean.FALSE);
+		IS_INT.put(FRAME, Boolean.TRUE);
+		IS_INT.put(RADIUS, Boolean.FALSE);
+		IS_INT.put(QUALITY, Boolean.FALSE);
+		IS_INT.put(VISIBILITY, Boolean.TRUE);
 	}
 
 	@Override
-	public void localize( final float[] position )
-	{
-		assert ( position.length >= n );
-		for ( int d = 0; d < n; ++d )
-			position[ d ] = getFloatPosition( d );
+	public void localize(final float[] position) {
+		assert (position.length >= n);
+		for (int d = 0; d < n; ++d)
+			position[d] = getFloatPosition(d);
 	}
 
 	@Override
-	public void localize( final double[] position )
-	{
-		assert ( position.length >= n );
-		for ( int d = 0; d < n; ++d )
-			position[ d ] = getDoublePosition( d );
+	public void localize(final double[] position) {
+		assert (position.length >= n);
+		for (int d = 0; d < n; ++d)
+			position[d] = getDoublePosition(d);
 	}
 
 	@Override
-	public float getFloatPosition( final int d )
-	{
-		return ( float ) getDoublePosition( d );
+	public float getFloatPosition(final int d) {
+		return (float) getDoublePosition(d);
 	}
 
 	@Override
-	public double getDoublePosition( final int d )
-	{
-		return getFeature( POSITION_FEATURES[ d ] );
+	public double getDoublePosition(final int d) {
+		return getFeature(POSITION_FEATURES[d]);
 	}
 
 	/*
@@ -552,23 +486,19 @@ public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Com
 	/**
 	 * A comparator used to sort spots by ascending feature values.
 	 *
-	 * @param feature
-	 *            the feature to use for comparison. It is the caller
-	 *            responsibility to ensure that all spots have the target
-	 *            feature.
+	 * @param feature the feature to use for comparison. It is the caller
+	 *                responsibility to ensure that all spots have the target
+	 *                feature.
 	 * @return a new {@link Comparator}.
 	 */
-	public final static Comparator< Spot > featureComparator( final String feature )
-	{
-		final Comparator< Spot > comparator = new Comparator< Spot >()
-		{
+	public final static Comparator<Spot> featureComparator(final String feature) {
+		final Comparator<Spot> comparator = new Comparator<Spot>() {
 			@Override
-			public int compare( final Spot o1, final Spot o2 )
-			{
-				final double diff = o2.diffTo( o1, feature );
-				if ( diff == 0 )
+			public int compare(final Spot o1, final Spot o2) {
+				final double diff = o2.diffTo(o1, feature);
+				if (diff == 0)
 					return 0;
-				else if ( diff < 0 )
+				else if (diff < 0)
 					return 1;
 				else
 					return -1;
@@ -578,23 +508,21 @@ public class Spot extends AbstractEuclideanSpace implements RealLocalizable, Com
 	}
 
 	/** A comparator used to sort spots by ascending time feature. */
-	public final static Comparator< Spot > timeComparator = featureComparator( POSITION_T );
+	public final static Comparator<Spot> timeComparator = featureComparator(POSITION_T);
 
 	/** A comparator used to sort spots by ascending frame. */
-	public final static Comparator< Spot > frameComparator = featureComparator( FRAME );
+	public final static Comparator<Spot> frameComparator = featureComparator(FRAME);
 
 	/**
 	 * A comparator used to sort spots by name. The comparison uses numerical
 	 * natural sorting, So that "Spot_4" comes before "Spot_122".
 	 */
-	public final static Comparator< Spot > nameComparator = new Comparator< Spot >()
-	{
+	public final static Comparator<Spot> nameComparator = new Comparator<Spot>() {
 		private final AlphanumComparator comparator = AlphanumComparator.instance;
 
 		@Override
-		public int compare( final Spot o1, final Spot o2 )
-		{
-			return comparator.compare( o1.getName(), o2.getName() );
+		public int compare(final Spot o1, final Spot o2) {
+			return comparator.compare(o1.getName(), o2.getName());
 		}
 	};
 }

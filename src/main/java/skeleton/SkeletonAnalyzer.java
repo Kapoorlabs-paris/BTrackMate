@@ -1,6 +1,5 @@
 package skeleton;
 
-
 import net.imagej.ops.OpService;
 import net.imglib2.Cursor;
 import net.imglib2.RandomAccessibleInterval;
@@ -10,10 +9,9 @@ import net.imglib2.view.Views;
 
 import java.util.ArrayList;
 
-public class SkeletonAnalyzer< R extends RealType< R > >
-{
+public class SkeletonAnalyzer<R extends RealType<R>> {
 
-	final RandomAccessibleInterval< BitType > skeleton;
+	final RandomAccessibleInterval<BitType> skeleton;
 	final OpService opService;
 
 	double totalSkeletonLength;
@@ -22,63 +20,53 @@ public class SkeletonAnalyzer< R extends RealType< R > >
 	private RandomAccessibleInterval<BitType> branchpoints;
 	private RandomAccessibleInterval<BitType> endpoints;
 	private long longestBranchLength;
-	private ArrayList< Long > branchLengths;
+	private ArrayList<Long> branchLengths;
 
-	public SkeletonAnalyzer(
-			RandomAccessibleInterval< BitType > skeleton,
-			OpService opService )
-	{
+	public SkeletonAnalyzer(RandomAccessibleInterval<BitType> skeleton, OpService opService) {
 		this.skeleton = skeleton;
 		this.opService = opService;
 
 		run();
 	}
 
-
-	private void run()
-	{
-		totalSkeletonLength = measureSum( skeleton );
+	private void run() {
+		totalSkeletonLength = measureSum(skeleton);
 
 		branchpoints = detectBranchpoints();
-		
+
 		endpoints = detectEndpoints();
 
-		branchLengths = Skeletons.branchLengths( skeleton );
+		branchLengths = Skeletons.branchLengths(skeleton);
 	}
 
-	private RandomAccessibleInterval< BitType > detectBranchpoints()
-	{
-		RandomAccessibleInterval< BitType > branchpoints = Skeletons.branchPoints( skeleton );
+	private RandomAccessibleInterval<BitType> detectBranchpoints() {
+		RandomAccessibleInterval<BitType> branchpoints = Skeletons.branchPoints(skeleton);
 
-		numBranchPoints = measureSum( branchpoints );
+		numBranchPoints = measureSum(branchpoints);
 
 		return branchpoints;
 	}
-	
-	private RandomAccessibleInterval< BitType > detectEndpoints()
-	{
-		RandomAccessibleInterval< BitType > endpoints = Skeletons.endPoints( skeleton );
 
-		numEndPoints = measureSum( endpoints );
+	private RandomAccessibleInterval<BitType> detectEndpoints() {
+		RandomAccessibleInterval<BitType> endpoints = Skeletons.endPoints(skeleton);
+
+		numEndPoints = measureSum(endpoints);
 
 		return endpoints;
 	}
 
-
-	public long getNumBranches()
-	{
+	public long getNumBranches() {
 		return branchLengths.size();
 	}
 
+	public double getAverageBranchLength() {
 
-	public double getAverageBranchLength()
-	{
-
-		if ( branchLengths.size() == 0 ) return 0;
+		if (branchLengths.size() == 0)
+			return 0;
 
 		double avg = 0;
 
-		for ( long length : branchLengths )
+		for (long length : branchLengths)
 			avg += length;
 
 		avg /= branchLengths.size();
@@ -86,42 +74,38 @@ public class SkeletonAnalyzer< R extends RealType< R > >
 		return avg;
 	}
 
+	public long getLongestBranchLength() {
+		if (branchLengths.size() == 0)
+			return 0;
 
-	public long getLongestBranchLength()
-	{
-		if ( branchLengths.size() == 0 ) return 0;
-
-		return branchLengths.get( 0 );
+		return branchLengths.get(0);
 	}
 
-	public long getNumBranchPoints()
-	{
+	public long getNumBranchPoints() {
 		return numBranchPoints;
 	}
 
-	public RandomAccessibleInterval< BitType > getBranchpoints()
-	{
+	public RandomAccessibleInterval<BitType> getBranchpoints() {
 		return branchpoints;
 	}
-	public RandomAccessibleInterval< BitType > getEndpoints()
-	{
+
+	public RandomAccessibleInterval<BitType> getEndpoints() {
 		return endpoints;
 	}
 
-	public double getTotalSkeletonLength() { return totalSkeletonLength; }
+	public double getTotalSkeletonLength() {
+		return totalSkeletonLength;
+	}
 
-	public static long measureSum( RandomAccessibleInterval< BitType > rai )
-	{
-		final Cursor< BitType > cursor = Views.iterable( rai ).cursor();
+	public static long measureSum(RandomAccessibleInterval<BitType> rai) {
+		final Cursor<BitType> cursor = Views.iterable(rai).cursor();
 
 		long sum = 0;
 
-		while ( cursor.hasNext() )
+		while (cursor.hasNext())
 			sum += cursor.next().getRealDouble();
 
 		return sum;
 	}
-
-
 
 }

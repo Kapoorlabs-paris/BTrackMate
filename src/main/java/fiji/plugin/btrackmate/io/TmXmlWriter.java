@@ -99,6 +99,7 @@ import fiji.plugin.btrackmate.Settings;
 import fiji.plugin.btrackmate.Spot;
 import fiji.plugin.btrackmate.SpotCollection;
 import fiji.plugin.btrackmate.SpotRoi;
+import fiji.plugin.btrackmate.Logger.StringBuilderLogger;
 import fiji.plugin.btrackmate.features.FeatureFilter;
 import fiji.plugin.btrackmate.features.edges.EdgeAnalyzer;
 import fiji.plugin.btrackmate.features.edges.EdgeTargetAnalyzer;
@@ -117,7 +118,7 @@ public class TmXmlWriter
 
 	protected final Element root;
 
-	protected final Logger logger;
+	protected  Logger logger;
 
 	private final File file;
 
@@ -169,7 +170,9 @@ public class TmXmlWriter
 			final Document document = new Document( root );
 			final XMLOutputter outputter = new XMLOutputter( Format.getPrettyFormat() );
 			outputter.output( document, fos );
+			
 		}
+		
 	}
 
 	@Override
@@ -269,6 +272,7 @@ public class TmXmlWriter
 			root.addContent( logElement );
 			logger.log( "  Added log.\n" );
 		}
+		
 	}
 
 	/**

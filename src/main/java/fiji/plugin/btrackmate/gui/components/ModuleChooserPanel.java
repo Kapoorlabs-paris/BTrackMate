@@ -19,17 +19,15 @@ import javax.swing.JPanel;
 import fiji.plugin.btrackmate.TrackMateModule;
 import fiji.plugin.btrackmate.providers.AbstractProvider;
 
-public class ModuleChooserPanel< K extends TrackMateModule > extends JPanel
-{
+public class ModuleChooserPanel<K extends TrackMateModule> extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private final AbstractProvider< K > provider;
+	private final AbstractProvider<K> provider;
 
-	private final JComboBox< String > cmbbox;
+	private final JComboBox<String> cmbbox;
 
-	public ModuleChooserPanel( final AbstractProvider< K > provider, final String typeName, final String selectedKey )
-	{
+	public ModuleChooserPanel(final AbstractProvider<K> provider, final String typeName, final String selectedKey) {
 		this.provider = provider;
 
 		final GridBagLayout gridBagLayout = new GridBagLayout();
@@ -37,81 +35,73 @@ public class ModuleChooserPanel< K extends TrackMateModule > extends JPanel
 		gridBagLayout.rowHeights = new int[] { 16, 27, 209, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		setLayout( gridBagLayout );
+		setLayout(gridBagLayout);
 
 		final JLabel lblHeader = new JLabel();
 		final GridBagConstraints gbcLblHeader = new GridBagConstraints();
 		gbcLblHeader.fill = GridBagConstraints.BOTH;
-		gbcLblHeader.insets = new Insets( 5, 5, 5, 5 );
+		gbcLblHeader.insets = new Insets(5, 5, 5, 5);
 		gbcLblHeader.gridx = 0;
 		gbcLblHeader.gridy = 0;
-		this.add( lblHeader, gbcLblHeader );
-		lblHeader.setFont( BIG_FONT );
-		lblHeader.setText( "<html>"
-				+ "Select "
-				+ ( startWithVowel( typeName ) ? "an " : "a " )
-				+ "<b>" + typeName + "</b>"
-				+ "</html>" );
+		this.add(lblHeader, gbcLblHeader);
+		lblHeader.setFont(BIG_FONT);
+		lblHeader.setText("<html>" + "Select " + (startWithVowel(typeName) ? "an " : "a ") + "<b>" + typeName + "</b>"
+				+ "</html>");
 
 		cmbbox = new JComboBox<>();
-		cmbbox.setModel( new DefaultComboBoxModel<>( provider.getVisibleKeys().toArray( new String[] {} ) ) );
-		cmbbox.setRenderer( new MyListCellRenderer() );
+		cmbbox.setModel(new DefaultComboBoxModel<>(provider.getVisibleKeys().toArray(new String[] {})));
+		cmbbox.setRenderer(new MyListCellRenderer());
 		final GridBagConstraints gbcCmbbox = new GridBagConstraints();
 		gbcCmbbox.fill = GridBagConstraints.BOTH;
-		gbcCmbbox.insets = new Insets( 5, 5, 5, 5 );
+		gbcCmbbox.insets = new Insets(5, 5, 5, 5);
 		gbcCmbbox.gridx = 0;
 		gbcCmbbox.gridy = 1;
-		this.add( cmbbox, gbcCmbbox );
-		cmbbox.setFont( FONT );
+		this.add(cmbbox, gbcCmbbox);
+		cmbbox.setFont(FONT);
 
 		final JLabel lblInfo = new JLabel();
-		lblInfo.setFont( FONT.deriveFont( Font.ITALIC ) );
+		lblInfo.setFont(FONT.deriveFont(Font.ITALIC));
 		final GridBagConstraints gbcLblInfo = new GridBagConstraints();
-		gbcLblInfo.insets = new Insets( 5, 5, 5, 5 );
+		gbcLblInfo.insets = new Insets(5, 5, 5, 5);
 		gbcLblInfo.fill = GridBagConstraints.BOTH;
 		gbcLblInfo.gridx = 0;
 		gbcLblInfo.gridy = 2;
-		this.add( lblInfo, gbcLblInfo );
+		this.add(lblInfo, gbcLblInfo);
 
-		cmbbox.addActionListener( e -> {
-			final K factory = provider.getFactory( ( String ) cmbbox.getSelectedItem() );
-			lblInfo.setText( factory.getInfoText()
-					.replace( "<br>", "" )
-					.replace( "<p>", "<p align=\"justify\">" )
-					.replace( "<html>", "<html><p align=\"justify\">" ) );
-		} );
+		cmbbox.addActionListener(e -> {
+			final K factory = provider.getFactory((String) cmbbox.getSelectedItem());
+			lblInfo.setText(factory.getInfoText().replace("<br>", "").replace("<p>", "<p align=\"justify\">")
+					.replace("<html>", "<html><p align=\"justify\">"));
+		});
 
-		cmbbox.setSelectedItem( selectedKey );
+		cmbbox.setSelectedItem(selectedKey);
 	}
 
-	public void setSelectedModuleKey( final String moduleKey )
-	{
-		cmbbox.setSelectedItem( moduleKey );
+	public void setSelectedModuleKey(final String moduleKey) {
+		cmbbox.setSelectedItem(moduleKey);
 	}
 
-	public String getSelectedModuleKey()
-	{
-		return ( String ) cmbbox.getSelectedItem();
+	public String getSelectedModuleKey() {
+		return (String) cmbbox.getSelectedItem();
 	}
 
-	private static final boolean startWithVowel( final String word )
-	{
-		return "eaiouEAIOU".indexOf( word.charAt( 0 ) ) >= 0;
+	private static final boolean startWithVowel(final String word) {
+		return "eaiouEAIOU".indexOf(word.charAt(0)) >= 0;
 	}
 
-	private final class MyListCellRenderer extends DefaultListCellRenderer
-	{
+	private final class MyListCellRenderer extends DefaultListCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Component getListCellRendererComponent( final JList< ? > list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus )
-		{
-			final JLabel lbl = ( JLabel ) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-			final String key = ( String ) value;
-			final K factory = provider.getFactory( key );
-			lbl.setIcon( factory.getIcon() );
-			lbl.setText( factory.getName() );
+		public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index,
+				final boolean isSelected, final boolean cellHasFocus) {
+			final JLabel lbl = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
+					cellHasFocus);
+			final String key = (String) value;
+			final K factory = provider.getFactory(key);
+			lbl.setIcon(factory.getIcon());
+			lbl.setText(factory.getName());
 			return lbl;
 		}
 	}

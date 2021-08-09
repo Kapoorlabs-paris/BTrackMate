@@ -15,36 +15,38 @@ import net.imglib2.IterableInterval;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.util.Util;
 
-public class SpotIntensityMultiCAnalyzer< T extends RealType< T > > extends AbstractSpotFeatureAnalyzer< T >
-{
+public class SpotIntensityMultiCAnalyzer<T extends RealType<T>> extends AbstractSpotFeatureAnalyzer<T> {
 
 	private final int channel;
 
-	private final ImgPlus< T > imgCT;
+	private final ImgPlus<T> imgCT;
 
-	public SpotIntensityMultiCAnalyzer( final ImgPlus< T > imgCT, final int channel )
-	{
+	public SpotIntensityMultiCAnalyzer(final ImgPlus<T> imgCT, final int channel) {
 		this.imgCT = imgCT;
 		this.channel = channel;
 	}
 
 	@Override
-	public void process( final Spot spot )
-	{
-		final IterableInterval< T > neighborhood = SpotUtil.iterable( spot, imgCT );
-		final double[] intensities = new double[ ( int ) neighborhood.size() ];
+	public void process(final Spot spot) {
+		final IterableInterval<T> neighborhood = SpotUtil.iterable(spot, imgCT);
+		final double[] intensities = new double[(int) neighborhood.size()];
 		int n = 0;
-		for ( final T pixel : neighborhood )
-		{
+		for (final T pixel : neighborhood) {
 			final double val = pixel.getRealDouble();
-			intensities[ n++ ] = val;
+			intensities[n++] = val;
 		}
-		Util.quicksort( intensities );
-		spot.putFeature( SpotIntensityMultiCAnalyzerFactory.makeFeatureKey( MEAN_INTENSITY, channel ), Double.valueOf( Util.average( intensities ) ) );
-		spot.putFeature( SpotIntensityMultiCAnalyzerFactory.makeFeatureKey( MEDIAN_INTENSITY, channel ), Double.valueOf( intensities[ intensities.length / 2 ] ) );
-		spot.putFeature( SpotIntensityMultiCAnalyzerFactory.makeFeatureKey( MIN_INTENSITY, channel ), Double.valueOf( intensities[ 0 ] ) );
-		spot.putFeature( SpotIntensityMultiCAnalyzerFactory.makeFeatureKey( MAX_INTENSITY, channel ), Double.valueOf( intensities[ intensities.length - 1 ] ) );
-		spot.putFeature( SpotIntensityMultiCAnalyzerFactory.makeFeatureKey( TOTAL_INTENSITY, channel ), Double.valueOf( TMUtils.sum( intensities ) ) );
-		spot.putFeature( SpotIntensityMultiCAnalyzerFactory.makeFeatureKey( STD_INTENSITY, channel ), Double.valueOf( TMUtils.standardDeviation( intensities ) ) );
+		Util.quicksort(intensities);
+		spot.putFeature(SpotIntensityMultiCAnalyzerFactory.makeFeatureKey(MEAN_INTENSITY, channel),
+				Double.valueOf(Util.average(intensities)));
+		spot.putFeature(SpotIntensityMultiCAnalyzerFactory.makeFeatureKey(MEDIAN_INTENSITY, channel),
+				Double.valueOf(intensities[intensities.length / 2]));
+		spot.putFeature(SpotIntensityMultiCAnalyzerFactory.makeFeatureKey(MIN_INTENSITY, channel),
+				Double.valueOf(intensities[0]));
+		spot.putFeature(SpotIntensityMultiCAnalyzerFactory.makeFeatureKey(MAX_INTENSITY, channel),
+				Double.valueOf(intensities[intensities.length - 1]));
+		spot.putFeature(SpotIntensityMultiCAnalyzerFactory.makeFeatureKey(TOTAL_INTENSITY, channel),
+				Double.valueOf(TMUtils.sum(intensities)));
+		spot.putFeature(SpotIntensityMultiCAnalyzerFactory.makeFeatureKey(STD_INTENSITY, channel),
+				Double.valueOf(TMUtils.standardDeviation(intensities)));
 	}
 }

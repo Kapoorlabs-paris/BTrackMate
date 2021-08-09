@@ -20,7 +20,6 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
-
 import budDetector.Budpointobject;
 import budDetector.Distance;
 import budDetector.Roiobject;
@@ -81,7 +80,6 @@ public class BUDDYDisplaySelectedTrack {
 					// Still to write this function
 					displayclicked(parent, parent.rowchoice);
 
-
 				}
 
 				// To select or deselect a point
@@ -94,8 +92,8 @@ public class BUDDYDisplaySelectedTrack {
 					int X = (int) Math.round(nearest.Location[0]);
 					int Y = (int) Math.round(nearest.Location[1]);
 
-
-					OvalRoi points = new OvalRoi((int) X- parent.BudDotsize/2, (int) Y- parent.BudDotsize/2 , parent.BudDotsize, parent.BudDotsize);
+					OvalRoi points = new OvalRoi((int) X - parent.BudDotsize / 2, (int) Y - parent.BudDotsize / 2,
+							parent.BudDotsize, parent.BudDotsize);
 
 					Roiobject nearestroi = getNearestRois(parent.BudOvalRois.get(Integer.toString(time)),
 							new double[] { X, Y });
@@ -108,32 +106,35 @@ public class BUDDYDisplaySelectedTrack {
 						points.setStrokeWidth(parent.BudDotsize);
 						parent.overlay.remove(nearestroi.roi);
 						parent.overlay.add(points);
-						
+
 						for (int i = 0; i < parent.overlay.size(); ++i) {
 
 							OvalRoi roi = (OvalRoi) parent.overlay.get(i);
-							
-							double[] point = new double[] {roi.getContourCentroid()[0] , roi.getContourCentroid()[1] };
-							
+
+							double[] point = new double[] { roi.getContourCentroid()[0], roi.getContourCentroid()[1] };
+
 							Budpointobject nearestBPO = getNearestBPO(Budpointlist, point);
-							
-							Localizable labelpoint = new Point(new long[] {(long)nearestBPO.Budcenter.getDoublePosition(0),(long)nearestBPO.Budcenter.getDoublePosition(1)});
-							  Interval interval = Intervals.expand(  parent.CurrentViewInt, -parent.borderexpand );
-							  
-						        // create a view on the source with this interval
-							  HyperSphere< IntType > hyperSphere =
-							            new HyperSphere<IntType>( Views.interval(  parent.CurrentViewInt, interval ), labelpoint, parent.borderexpand - 1 );
-							  HyperSphereCursor< IntType > cursor = hyperSphere.cursor();
-							  int label = 0;
-							  while(cursor.hasNext()) {
-								  
-								  cursor.fwd();
-								  
-								  if(cursor.get().get() > 0) {
-									  label = cursor.get().get();
-								      break;
-								  }
-							  }
+
+							Localizable labelpoint = new Point(
+									new long[] { (long) nearestBPO.Budcenter.getDoublePosition(0),
+											(long) nearestBPO.Budcenter.getDoublePosition(1) });
+							Interval interval = Intervals.expand(parent.CurrentViewInt, -parent.borderexpand);
+
+							// create a view on the source with this interval
+							HyperSphere<IntType> hyperSphere = new HyperSphere<IntType>(
+									Views.interval(parent.CurrentViewInt, interval), labelpoint,
+									parent.borderexpand - 1);
+							HyperSphereCursor<IntType> cursor = hyperSphere.cursor();
+							int label = 0;
+							while (cursor.hasNext()) {
+
+								cursor.fwd();
+
+								if (cursor.get().get() > 0) {
+									label = cursor.get().get();
+									break;
+								}
+							}
 							if (roi.getStrokeColor() == parent.RemoveBudColor
 									|| roi.getStrokeColor() == parent.BudColor)
 								Allrois.add(new Roiobject(roi.getStrokeColor(), roi, new RealPoint(point), label));
@@ -141,7 +142,6 @@ public class BUDDYDisplaySelectedTrack {
 						}
 
 						parent.BudOvalRois.put(Integer.toString(parent.thirdDimension), Allrois);
-					
 
 						parent.imp.updateAndDraw();
 					}
@@ -155,40 +155,42 @@ public class BUDDYDisplaySelectedTrack {
 					checkintranac.setPosition(new int[] { x, y });
 
 					int checklabel = checkintranac.get().get();
-					if(checklabel > 0) {
-						OvalRoi points = new OvalRoi((int) x -parent.BudDotsize / 2, (int) y - parent.BudDotsize / 2, parent.BudDotsize, parent.BudDotsize);
+					if (checklabel > 0) {
+						OvalRoi points = new OvalRoi((int) x - parent.BudDotsize / 2, (int) y - parent.BudDotsize / 2,
+								parent.BudDotsize, parent.BudDotsize);
 						points.setStrokeColor(parent.BudColor);
 						points.setStrokeWidth(parent.BudDotsize);
 						parent.overlay.add(points);
 
-						
-
 						for (int i = 0; i < parent.overlay.size(); ++i) {
 
 							OvalRoi roi = (OvalRoi) parent.overlay.get(i);
-							
-	                            double[] point = new double[] {roi.getContourCentroid()[0] , roi.getContourCentroid()[1] };
-							
+
+							double[] point = new double[] { roi.getContourCentroid()[0], roi.getContourCentroid()[1] };
+
 							Budpointobject nearestBPO = getNearestBPO(Budpointlist, point);
-							Localizable labelpoint = new Point(new long[] {(long)nearestBPO.Budcenter.getDoublePosition(0),(long)nearestBPO.Budcenter.getDoublePosition(1)});
-							Interval interval = Intervals.expand(  parent.CurrentViewInt, -parent.borderexpand );
-							  
-					        // create a view on the source with this interval
-						  HyperSphere< IntType > hyperSphere =
-						            new HyperSphere<IntType>( Views.interval(  parent.CurrentViewInt, interval ), labelpoint, parent.borderexpand - 1 );
-							  HyperSphereCursor< IntType > cursor = hyperSphere.cursor();
-							  int label = 0;
-							  while(cursor.hasNext()) {
-								  
-								  cursor.fwd();
-								  
-								  if(cursor.get().get() > 0) {
-									  label = cursor.get().get();
-								      break;
-								  }
-								  
-							  }
-							
+							Localizable labelpoint = new Point(
+									new long[] { (long) nearestBPO.Budcenter.getDoublePosition(0),
+											(long) nearestBPO.Budcenter.getDoublePosition(1) });
+							Interval interval = Intervals.expand(parent.CurrentViewInt, -parent.borderexpand);
+
+							// create a view on the source with this interval
+							HyperSphere<IntType> hyperSphere = new HyperSphere<IntType>(
+									Views.interval(parent.CurrentViewInt, interval), labelpoint,
+									parent.borderexpand - 1);
+							HyperSphereCursor<IntType> cursor = hyperSphere.cursor();
+							int label = 0;
+							while (cursor.hasNext()) {
+
+								cursor.fwd();
+
+								if (cursor.get().get() > 0) {
+									label = cursor.get().get();
+									break;
+								}
+
+							}
+
 							if (roi.getStrokeColor() == parent.RemoveBudColor
 									|| roi.getStrokeColor() == parent.BudColor)
 								Allrois.add(new Roiobject(roi.getStrokeColor(), roi, new RealPoint(point), label));
@@ -198,7 +200,6 @@ public class BUDDYDisplaySelectedTrack {
 						parent.BudOvalRois.put(Integer.toString(parent.thirdDimension), Allrois);
 
 						parent.imp.updateAndDraw();
-
 
 						for (Budpointobject currentbud : Budpointlist) {
 
@@ -222,11 +223,11 @@ public class BUDDYDisplaySelectedTrack {
 
 						}
 					}
-						parent.AllBudpoints.put(Integer.toString(time), Budpointlist);
-					
-					//Change the keyboard click to a
+					parent.AllBudpoints.put(Integer.toString(time), Budpointlist);
+
+					// Change the keyboard click to a
 					parent.AddDot = "b";
-				
+
 				}
 
 			}
@@ -234,7 +235,6 @@ public class BUDDYDisplaySelectedTrack {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 
-				
 			}
 
 			@Override
@@ -244,13 +244,9 @@ public class BUDDYDisplaySelectedTrack {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				
 
-				
 			}
-			
-			
-			
+
 		});
 
 	}
@@ -330,97 +326,97 @@ public class BUDDYDisplaySelectedTrack {
 
 		parent.Drawcolor = Color.ORANGE;
 
-		if (parent.table!=null) 
-		parent.table.addMouseListener(parent.tvl = new MouseListener() {
+		if (parent.table != null)
+			parent.table.addMouseListener(parent.tvl = new MouseListener() {
 
-			@Override
-			public void mouseClicked(MouseEvent event) {
+				@Override
+				public void mouseClicked(MouseEvent event) {
 
-				Roi[] Roipoints = parent.imp.getOverlay().toArray();
+					Roi[] Roipoints = parent.imp.getOverlay().toArray();
 
-				for (Roi point : Roipoints) {
-					if (Roi.getColor() == parent.Drawcolor) {
+					for (Roi point : Roipoints) {
+						if (Roi.getColor() == parent.Drawcolor) {
 
-						parent.imp.getOverlay().remove(point);
+							parent.imp.getOverlay().remove(point);
 
-					}
-
-				}
-				parent.imp.updateAndDraw();
-
-				java.awt.Point point = event.getPoint();
-				int row = parent.table.rowAtPoint(point);
-
-				parent.rowchoice = row;
-				String ID = (String) parent.table.getValueAt(row, 0);
-				String CordX = (String) parent.table.getValueAt(row, 1);
-				String CordY = (String) parent.table.getValueAt(row, 2);
-
-				for (ValuePair<String, Budpointobject> Track : parent.Tracklist) {
-
-					String ImageID = Track.getA();
-
-					if (ID.equals(ImageID)) {
-
-						OvalRoi points = new OvalRoi((int) Integer.parseInt(CordX), (int) Integer.parseInt(CordY), 25,
-								25);
-						parent.imp.getOverlay().add(points);
-						points.setStrokeColor(parent.Drawcolor);
-						points.setStrokeWidth(40);
-						parent.imp.updateAndDraw();
-					}
-
-				}
-				parent.imp.updateAndDraw();
-				displayclicked(parent, row);
-				parent.table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-					@Override
-					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-							boolean hasFocus, int row, int col) {
-
-						super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-						if (row == parent.rowchoice) {
-							setBackground(Color.green);
-
-						} else {
-							setBackground(Color.white);
 						}
-						return this;
+
 					}
-				});
+					parent.imp.updateAndDraw();
 
-				parent.table.validate();
-				parent.scrollPane.validate();
-				parent.panelFirst.repaint();
-				parent.panelFirst.validate();
+					java.awt.Point point = event.getPoint();
+					int row = parent.table.rowAtPoint(point);
 
-			}
+					parent.rowchoice = row;
+					String ID = (String) parent.table.getValueAt(row, 0);
+					String CordX = (String) parent.table.getValueAt(row, 1);
+					String CordY = (String) parent.table.getValueAt(row, 2);
 
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
+					for (ValuePair<String, Budpointobject> Track : parent.Tracklist) {
 
-			}
+						String ImageID = Track.getA();
 
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
+						if (ID.equals(ImageID)) {
 
-			}
+							OvalRoi points = new OvalRoi((int) Integer.parseInt(CordX), (int) Integer.parseInt(CordY),
+									25, 25);
+							parent.imp.getOverlay().add(points);
+							points.setStrokeColor(parent.Drawcolor);
+							points.setStrokeWidth(40);
+							parent.imp.updateAndDraw();
+						}
 
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
+					}
+					parent.imp.updateAndDraw();
+					displayclicked(parent, row);
+					parent.table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+						@Override
+						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+								boolean hasFocus, int row, int col) {
 
-			}
+							super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+							if (row == parent.rowchoice) {
+								setBackground(Color.green);
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
+							} else {
+								setBackground(Color.white);
+							}
+							return this;
+						}
+					});
 
-			}
+					parent.table.validate();
+					parent.scrollPane.validate();
+					parent.panelFirst.repaint();
+					parent.panelFirst.validate();
 
-		});
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+			});
 
 		if (parent.ml != null)
 			parent.imp.getCanvas().removeMouseMotionListener(parent.ml);
@@ -508,37 +504,37 @@ public class BUDDYDisplaySelectedTrack {
 	public static void displayclicked(InteractiveBud parent, int trackindex) {
 
 		// Make something happen
-		if(parent.Tracklist.size() > 0) {
-		parent.row = trackindex;
-		String ID = (String) parent.table.getValueAt(trackindex, 0);
-		if (parent.resultimp != null)
-			parent.resultimp.close();
-		BUDDYDisplayTrack display = new BUDDYDisplayTrack(parent, parent.Globalmodel);
-		display.getImp();
+		if (parent.Tracklist.size() > 0) {
+			parent.row = trackindex;
+			String ID = (String) parent.table.getValueAt(trackindex, 0);
+			if (parent.resultimp != null)
+				parent.resultimp.close();
+			BUDDYDisplayTrack display = new BUDDYDisplayTrack(parent, parent.Globalmodel);
+			display.getImp();
 
-		HashMap<Integer, Double> VelocityID = parent.BudVelocityMap.get(Integer.parseInt(ID));
-		ArrayList<double[]> Trackinfo = new ArrayList<double[]>();
+			HashMap<Integer, Double> VelocityID = parent.BudVelocityMap.get(Integer.parseInt(ID));
+			ArrayList<double[]> Trackinfo = new ArrayList<double[]>();
 
-		for (Pair<String, Budpointobject> Track : parent.Tracklist) {
+			for (Pair<String, Budpointobject> Track : parent.Tracklist) {
 
-			if (Track.getA().equals(ID)) {
+				if (Track.getA().equals(ID)) {
 
-				double time = Track.getB().t * parent.timecal;
-				double LocationX = Track.getB().Location[0] * parent.calibrationX;
-				double LocationY = Track.getB().Location[1] * parent.calibrationY;
-				double Velocity = 0;
-				if (VelocityID.get(Track.getB().t) != null)
-					Velocity = VelocityID.get(Track.getB().t);
-				Trackinfo.add(new double[] { time, LocationX, LocationY, Velocity });
+					double time = Track.getB().t * parent.timecal;
+					double LocationX = Track.getB().Location[0] * parent.calibrationX;
+					double LocationY = Track.getB().Location[1] * parent.calibrationY;
+					double Velocity = 0;
+					if (VelocityID.get(Track.getB().t) != null)
+						Velocity = VelocityID.get(Track.getB().t);
+					Trackinfo.add(new double[] { time, LocationX, LocationY, Velocity });
+
+				}
 
 			}
 
-		}
-
-		if (parent.imp != null) {
-			parent.imp.setOverlay(parent.overlay);
-			parent.imp.updateAndDraw();
-		}
+			if (parent.imp != null) {
+				parent.imp.setOverlay(parent.overlay);
+				parent.imp.updateAndDraw();
+			}
 
 		}
 

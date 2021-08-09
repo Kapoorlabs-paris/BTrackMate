@@ -16,10 +16,10 @@ import javax.swing.border.TitledBorder;
 public class CovistoFunctionPanel {
 
 	public static JPanel FunctionPanel = new JPanel();
-	
+
 	public static Label Functionlabel, gradientlabel, distlabel;
 	public static TextField Functioniter, gradientthresh, maxdist;
-	
+
 	public static int Functioniterations = 200;
 	public static int displayFunction = Functioniterations / 2;
 	public static int Gradthresh = 1;
@@ -36,23 +36,19 @@ public class CovistoFunctionPanel {
 	// regulari1ation factors, min and max
 	public static double reg = 5;
 	public static double regmin, regmax;
-	
-	
-	
-	
+
 	public static JPanel FunctionPanel() {
-		
+
 		regmin = reg / 2.0;
 		regmax = reg;
-		
-		
+
 		layoutManager.Setlayout.LayoutSetter(FunctionPanel);
 		Border Functionborder = new CompoundBorder(new TitledBorder("User requested Function computer"),
 				new EmptyBorder(layoutManager.Setlayout.c.insets));
 		Functionlabel = new Label("My function parameter");
 		gradientlabel = new Label("My second function parameter");
 		distlabel = new Label("Just a little bit more");
-		
+
 		Functioniter = new TextField(1);
 		gradientthresh = new TextField(1);
 		maxdist = new TextField(1);
@@ -75,14 +71,10 @@ public class CovistoFunctionPanel {
 		FunctionPanel.add(maxdist, new GridBagConstraints(3, 1, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
 
-
-
 		FunctionPanel.setBorder(Functionborder);
-		
-		
+
 		return FunctionPanel;
-		
+
 	}
-	
-	
+
 }

@@ -52,30 +52,23 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 		parent.prestack = new ImageStack((int) parent.originalimg.dimension(0), (int) parent.originalimg.dimension(1),
 				java.awt.image.ColorModel.getRGBdefault());
 
-	
 		parent.PanelSelectFile.add(parent.scrollPane, BorderLayout.CENTER);
 		parent.Tracklist.clear();
 		parent.IDlist.clear();
 		parent.Finalresult.clear();
-		
-		
+
 		BUDDYTrackingFunctions track = new BUDDYTrackingFunctions(parent);
 		SimpleWeightedGraph<Budpointobject, DefaultWeightedEdge> simplegraph = track.Trackfunction();
 		SimpleWeightedGraph<Budobject, DefaultWeightedEdge> Budsimplegraph = track.BudTrackfunction();
 		// Display Graph results, make table etc
 		BudDisplayGraph(Budsimplegraph);
 		DisplayGraph(simplegraph);
-		
-	
-		
-		
-		
 
 		return null;
 	}
-	
+
 	public static List<Budpointobject> sortTrack(List<Budpointobject> Angleset) {
-		
+
 		List<Budpointobject> sortedlist = new ArrayList<Budpointobject>();
 		Collections.sort(Angleset, new Comparator<Budpointobject>() {
 
@@ -84,21 +77,15 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 				// TODO Auto-generated method stub
 				return o1.t - o2.t;
 			}
-			
-			
-			
-			
-			
+
 		});
-		
+
 		for (Iterator<Budpointobject> it = Angleset.iterator(); it.hasNext();) {
-			Budpointobject entry =  it.next();
+			Budpointobject entry = it.next();
 			sortedlist.add(entry);
 		}
 		return sortedlist;
-		
-		
-		
+
 	}
 
 	public static HashMap<Integer, Integer> sortByInteger(HashMap<Integer, Integer> map) {
@@ -108,7 +95,7 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 
 			@Override
 			public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
-				
+
 				return -o1.getValue() + o2.getValue();
 			}
 		});
@@ -123,20 +110,18 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 		return sortedHashMap;
 	}
 
-	
 	protected void DisplayGraph(SimpleWeightedGraph<Budpointobject, DefaultWeightedEdge> simplegraph) {
 
 		int minid = Integer.MAX_VALUE;
 		int maxid = Integer.MIN_VALUE;
-		
+
 		BUDDYModel model = new BUDDYModel();
 		model.setTracks(simplegraph, false);
-		BudTrackVelocityAnalyzer TrackVelocity =  new BudTrackVelocityAnalyzer(parent);
+		BudTrackVelocityAnalyzer TrackVelocity = new BudTrackVelocityAnalyzer(parent);
 		TrackVelocity.process(model.getTrackModel().trackIDs(false), model);
-		HashMap<Integer, HashMap<Integer,Double>> VelocityMap = TrackVelocity.getVelocityMap();
-	    parent.BudVelocityMap = VelocityMap;
-	    
-	    
+		HashMap<Integer, HashMap<Integer, Double>> VelocityMap = TrackVelocity.getVelocityMap();
+		parent.BudVelocityMap = VelocityMap;
+
 		for (final Integer id : model.getTrackModel().trackIDs(false)) {
 
 			if (id > maxid)
@@ -144,118 +129,103 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 
 			if (id < minid)
 				minid = id;
-			
-			
-			final HashSet<Budpointobject> Angleset = model.getTrackModel().trackBudpointobjects(id);
-			
-			int tracklength = Angleset.size();
-			//if(tracklength >= CovistoKalmanPanel.trackduration * (parent.AutoendTime - parent.AutostartTime)/100)
-			parent.IDlist.put(id, tracklength);
-			
-		}
-		parent.IDlist= sortByInteger(parent.IDlist);
-		
 
-		
-		
+			final HashSet<Budpointobject> Angleset = model.getTrackModel().trackBudpointobjects(id);
+
+			int tracklength = Angleset.size();
+			// if(tracklength >= CovistoKalmanPanel.trackduration * (parent.AutoendTime -
+			// parent.AutostartTime)/100)
+			parent.IDlist.put(id, tracklength);
+
+		}
+		parent.IDlist = sortByInteger(parent.IDlist);
+
 		if (minid != Integer.MAX_VALUE) {
 
-			for(Map.Entry<Integer, Integer> tracks: parent.IDlist.entrySet()) {
+			for (Map.Entry<Integer, Integer> tracks : parent.IDlist.entrySet()) {
 
 				int id = tracks.getKey();
 				int tracklength = tracks.getValue();
-		
 
 				String ID = Integer.toString(id);
-			
+
 				model.getTrackModel().setName(id, "Track" + id + tracklength);
 				parent.Globalmodel = model.getTrackModel();
 				final HashSet<Budpointobject> Angleset = model.getTrackModel().trackBudpointobjects(id);
-				
-				
-		          List<Budpointobject> unsortedList = new ArrayList<Budpointobject>(Angleset);
-		          List<Budpointobject> sortedList  =  sortTrack(unsortedList);
-			
 
-				
+				List<Budpointobject> unsortedList = new ArrayList<Budpointobject>(Angleset);
+				List<Budpointobject> sortedList = sortTrack(unsortedList);
+
 				Iterator<Budpointobject> listiter = sortedList.iterator();
 				Budpointobject previousbud = null;
 				while (listiter.hasNext()) {
-					
-					
-	                double velocity = 0; 
+
+					double velocity = 0;
 					Budpointobject currentbud = listiter.next();
-					if(previousbud!=null) { 
-							velocity = Math.sqrt(Distance.DistanceSq(currentbud.Location, previousbud.Location));
-					
-					velocity = velocity * (parent.calibrationX/parent.timecal);
-					Budpointobject newbud = new Budpointobject(currentbud.Budcenter, currentbud.linelist, currentbud.dynamiclinelist,currentbud.perimeter, currentbud.label, currentbud.Location, currentbud.t, velocity);
-					
-					
-					parent.Tracklist.add(new ValuePair<String,Budpointobject > (ID, newbud));
+					if (previousbud != null) {
+						velocity = Math.sqrt(Distance.DistanceSq(currentbud.Location, previousbud.Location));
+
+						velocity = velocity * (parent.calibrationX / parent.timecal);
+						Budpointobject newbud = new Budpointobject(currentbud.Budcenter, currentbud.linelist,
+								currentbud.dynamiclinelist, currentbud.perimeter, currentbud.label, currentbud.Location,
+								currentbud.t, velocity);
+
+						parent.Tracklist.add(new ValuePair<String, Budpointobject>(ID, newbud));
 					}
 					previousbud = currentbud;
 				}
-				
-				
-				double trackmeanspeed = model.getFeatureModel().getTrackFeature(id, BudTrackVelocityAnalyzer.TRACK_MEAN_SPEED);
-				double trackmaxspeed = model.getFeatureModel().getTrackFeature(id, BudTrackVelocityAnalyzer.TRACK_MAX_SPEED);
-				
-				trackmeanspeed = trackmeanspeed* (parent.calibrationX/parent.timecal);
-				if(trackmeanspeed == Double.NaN)
-					trackmeanspeed = 0;
-				
-				trackmaxspeed = trackmaxspeed* (parent.calibrationX/parent.timecal);
-				if(trackmaxspeed == Double.NaN)
-					trackmaxspeed = 0;
-					
-				
-				parent.TrackMeanVelocitylist.put(ID, trackmeanspeed* (parent.calibrationX/parent.timecal));
-				parent.TrackMaxVelocitylist.put(ID, trackmaxspeed* (parent.calibrationX/parent.timecal));
-				
-			}
-			
-			
-			
-			
 
-			for(Map.Entry<Integer, Integer> tracks: parent.IDlist.entrySet()) {
+				double trackmeanspeed = model.getFeatureModel().getTrackFeature(id,
+						BudTrackVelocityAnalyzer.TRACK_MEAN_SPEED);
+				double trackmaxspeed = model.getFeatureModel().getTrackFeature(id,
+						BudTrackVelocityAnalyzer.TRACK_MAX_SPEED);
+
+				trackmeanspeed = trackmeanspeed * (parent.calibrationX / parent.timecal);
+				if (trackmeanspeed == Double.NaN)
+					trackmeanspeed = 0;
+
+				trackmaxspeed = trackmaxspeed * (parent.calibrationX / parent.timecal);
+				if (trackmaxspeed == Double.NaN)
+					trackmaxspeed = 0;
+
+				parent.TrackMeanVelocitylist.put(ID, trackmeanspeed * (parent.calibrationX / parent.timecal));
+				parent.TrackMaxVelocitylist.put(ID, trackmaxspeed * (parent.calibrationX / parent.timecal));
+
+			}
+
+			for (Map.Entry<Integer, Integer> tracks : parent.IDlist.entrySet()) {
 				int id = tracks.getKey();
 				Budpointobject bestbud = null;
-				
 
-					List<Budpointobject> sortedList = new ArrayList<Budpointobject>(model.getTrackModel().trackBudpointobjects(id));
+				List<Budpointobject> sortedList = new ArrayList<Budpointobject>(
+						model.getTrackModel().trackBudpointobjects(id));
 
-			
-					Iterator<Budpointobject> iterator = sortedList.iterator();
+				Iterator<Budpointobject> iterator = sortedList.iterator();
 
-					double tmax = Double.MIN_VALUE;
-					while (iterator.hasNext()) {
+				double tmax = Double.MIN_VALUE;
+				while (iterator.hasNext()) {
 
-						Budpointobject currentbud = iterator.next();
-						int time = currentbud.t;
-						if (time > tmax) {
-							
-							
-						    tmax = time;
-							bestbud = currentbud;
-						
-							
-						}
+					Budpointobject currentbud = iterator.next();
+					int time = currentbud.t;
+					if (time > tmax) {
+
+						tmax = time;
+						bestbud = currentbud;
 
 					}
-					parent.Finalresult.put(Integer.toString(id) , bestbud);
-					
+
+				}
+				parent.Finalresult.put(Integer.toString(id), bestbud);
 
 			}
-			
-			
+
 			CreateTableView(parent);
 			BUDDYDisplaySelectedTrack.Select(parent, VelocityMap);
 			BUDDYDisplaySelectedTrack.Mark(parent, VelocityMap);
 
 		}
 	}
+
 	public static HashMap<String, Budpointobject> sortByIntegerInter(HashMap<String, Budpointobject> map) {
 		List<Entry<String, Budpointobject>> list = new LinkedList<Entry<String, Budpointobject>>(map.entrySet());
 		// Defined Custom Comparator here
@@ -263,7 +233,7 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 
 			@Override
 			public int compare(Entry<String, Budpointobject> o1, Entry<String, Budpointobject> o2) {
-				
+
 				return -o1.getValue().t + o2.getValue().t;
 			}
 		});
@@ -277,13 +247,13 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 		}
 		return sortedHashMap;
 	}
+
 	protected void BudDisplayGraph(SimpleWeightedGraph<Budobject, DefaultWeightedEdge> simplegraph) {
 
 		int minid = Integer.MAX_VALUE;
 		int maxid = Integer.MIN_VALUE;
 		BUDDYBudTrackModel model = new BUDDYBudTrackModel(simplegraph);
 
-	
 		for (final Integer id : model.trackIDs(false)) {
 			if (id > maxid)
 				maxid = id;
@@ -310,17 +280,15 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 				model.setName(id, "Track" + id);
 				parent.BudGlobalModel = model;
 				final HashSet<Budobject> Angleset = model.trackBudobjects(id);
-			
+
 				Iterator<Budobject> Angleiter = Angleset.iterator();
 				while (Angleiter.hasNext()) {
-					
-					
-                    Budobject currentbud = Angleiter.next();
-					
+
+					Budobject currentbud = Angleiter.next();
+
 					parent.BudTracklist.add(new ValuePair<String, Budobject>(ID, currentbud));
 				}
 				Collections.sort(parent.BudTracklist, ThirdDimcomparison);
-				
 
 			}
 
@@ -329,9 +297,8 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 
 	public void CreateTableView(InteractiveBud parent) {
 
-
-
-		Object[] colnames = new Object[] { "Track Id", "Location X", "Location Y", "Location T", "Mean Growth Rate", "Max Growth Rate" };
+		Object[] colnames = new Object[] { "Track Id", "Location X", "Location Y", "Location T", "Mean Growth Rate",
+				"Max Growth Rate" };
 
 		Object[][] rowvalues = new Object[0][colnames.length];
 
@@ -342,10 +309,9 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 		f.setGroupingUsed(false);
 		parent.row = 0;
 
+		for (Map.Entry<Integer, Integer> tracks : parent.IDlist.entrySet()) {
 
-		for(Map.Entry<Integer, Integer> tracks: parent.IDlist.entrySet()) {
-
-			String ID =  Integer.toString(tracks.getKey());
+			String ID = Integer.toString(tracks.getKey());
 			double meanRate = parent.TrackMeanVelocitylist.get(ID);
 			double maxRate = parent.TrackMaxVelocitylist.get(ID);
 			Budpointobject currentbud = parent.Finalresult.get(ID);
@@ -363,47 +329,43 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 		makeGUI(parent);
 
 	}
-	
-	
+
 	public static void makeGUI(final InteractiveBud parent) {
-		
-		
-		  parent.PanelSelectFile.removeAll();
-			
-			parent.table.setFillsViewportHeight(true);
 
-			parent.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
+		parent.PanelSelectFile.removeAll();
 
-			int size = 100;
-			parent.table.getColumnModel().getColumn(0).setPreferredWidth(size);
-			parent.table.getColumnModel().getColumn(1).setPreferredWidth(size);
-			parent.table.getColumnModel().getColumn(2).setPreferredWidth(size);
-			parent.table.getColumnModel().getColumn(3).setPreferredWidth(size);
-			parent.table.getColumnModel().getColumn(4).setPreferredWidth(size);
-			parent.table.setPreferredScrollableViewportSize(parent.table.getPreferredSize());
-			
-			parent.table.setMinimumSize(parent.table.getPreferredSize());
+		parent.table.setFillsViewportHeight(true);
 
-			parent.scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			parent.scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-			parent.scrollPane = new JScrollPane(parent.table);
+		parent.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-			parent.scrollPane.getViewport().add(parent.table);
-			parent.scrollPane.setAutoscrolls(true);
-			
-			parent.PanelSelectFile.add(parent.scrollPane, BorderLayout.CENTER);
+		int size = 100;
+		parent.table.getColumnModel().getColumn(0).setPreferredWidth(size);
+		parent.table.getColumnModel().getColumn(1).setPreferredWidth(size);
+		parent.table.getColumnModel().getColumn(2).setPreferredWidth(size);
+		parent.table.getColumnModel().getColumn(3).setPreferredWidth(size);
+		parent.table.getColumnModel().getColumn(4).setPreferredWidth(size);
+		parent.table.setPreferredScrollableViewportSize(parent.table.getPreferredSize());
 
-			parent.PanelSelectFile.setBorder(parent.selectfile);
+		parent.table.setMinimumSize(parent.table.getPreferredSize());
 
-			
-			parent.table.isOpaque();
-			parent.scrollPane.setMinimumSize(new Dimension(300, 200));
-			parent.scrollPane.setPreferredSize(new Dimension(300, 200));
-		
+		parent.scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		parent.scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		parent.scrollPane = new JScrollPane(parent.table);
+
+		parent.scrollPane.getViewport().add(parent.table);
+		parent.scrollPane.setAutoscrolls(true);
+
+		parent.PanelSelectFile.add(parent.scrollPane, BorderLayout.CENTER);
+
+		parent.PanelSelectFile.setBorder(parent.selectfile);
+
+		parent.table.isOpaque();
+		parent.scrollPane.setMinimumSize(new Dimension(300, 200));
+		parent.scrollPane.setPreferredSize(new Dimension(300, 200));
+
 		parent.table.repaint();
 		parent.table.validate();
-		
+
 		parent.scrollPane.repaint();
 		parent.scrollPane.validate();
 		parent.PanelSelectFile.repaint();

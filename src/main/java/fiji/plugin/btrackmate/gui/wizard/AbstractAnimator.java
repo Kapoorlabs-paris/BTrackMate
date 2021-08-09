@@ -28,7 +28,6 @@
  */
 package fiji.plugin.btrackmate.gui.wizard;
 
-
 /**
  * Mother abstract class for animators that can animatethings. The time unit for
  * animation duration, start time and current time is not specified, for example
@@ -40,8 +39,7 @@ package fiji.plugin.btrackmate.gui.wizard;
  * @author Tobias Pietzsch
  * @author Jean-Yves Tinevez
  */
-public class AbstractAnimator
-{
+public class AbstractAnimator {
 	/** Expected duration length of the animation (in time units). */
 	private final long duration;
 
@@ -55,47 +53,40 @@ public class AbstractAnimator
 	private double complete;
 
 	/**
-	 * Create new animator with the given duration. The animation will start
-	 * with the first call to {@link #setTime(long)}.
+	 * Create new animator with the given duration. The animation will start with
+	 * the first call to {@link #setTime(long)}.
 	 *
-	 * @param duration
-	 *            animation duration (in time units)
+	 * @param duration animation duration (in time units)
 	 */
-	public AbstractAnimator( final long duration )
-	{
+	public AbstractAnimator(final long duration) {
 		this.duration = duration;
 		started = false;
 		complete = 0;
 	}
 
 	/**
-	 * Cosine shape acceleration/ deceleration curve  of linear [0,1]
+	 * Cosine shape acceleration/ deceleration curve of linear [0,1]
 	 */
-	private double cos( final double t )
-	{
-		return 0.5 - 0.5 * Math.cos( Math.PI * t );
+	private double cos(final double t) {
+		return 0.5 - 0.5 * Math.cos(Math.PI * t);
 	}
 
 	/**
-	 * Sets the current time for the animation.
-	 * The first call starts the animation.
+	 * Sets the current time for the animation. The first call starts the animation.
 	 *
-	 * @param time
-	 *            current time (in time units)
+	 * @param time current time (in time units)
 	 */
-	public void setTime( final long time )
-	{
-		if ( ! started )
-		{
+	public void setTime(final long time) {
+		if (!started) {
 			started = true;
 			startTime = time;
 		}
 
-		complete = ( time - startTime ) / ( double ) duration;
-		if ( complete >= 1 )
+		complete = (time - startTime) / (double) duration;
+		if (complete >= 1)
 			complete = 1;
 		else
-			complete = cos( cos( complete ) );
+			complete = cos(cos(complete));
 	}
 
 	/**
@@ -104,20 +95,17 @@ public class AbstractAnimator
 	 *
 	 * @return true if the animation completed.
 	 */
-	public boolean isComplete()
-	{
+	public boolean isComplete() {
 		return complete == 1;
 	}
 
 	/**
 	 * Returns the completion ratio. It is a double ranging from 0 to 1, 0
-	 * indicating that the animation just started, 1 indicating that it
-	 * completed.
+	 * indicating that the animation just started, 1 indicating that it completed.
 	 *
 	 * @return the completion ratio.
 	 */
-	public double ratioComplete()
-	{
+	public double ratioComplete() {
 		return complete;
 	}
 }

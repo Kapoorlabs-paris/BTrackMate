@@ -78,7 +78,7 @@ import net.imglib2.type.numeric.integer.UnsignedShortType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.util.Pair;
 import net.imglib2.view.Views;
-import pluginTools.simplifiedio.SimplifiedIO;
+import pluginTools.BTracksimplifiedio.SimplifiedIO;
 
 public class StartDialogDescriptor extends WizardPanelDescriptor {
 
@@ -89,22 +89,23 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 	public Model model;
 
 	private final Logger logger;
-	
+
 	public boolean secondrun;
 
-	public StartDialogDescriptor(final Model model, final Settings settings, final Logger logger, final boolean secondrun) {
+	public StartDialogDescriptor(final Model model, final Settings settings, final Logger logger,
+			final boolean secondrun) {
 		super(KEY);
-		
+
 		this.settings = settings;
 		this.logger = logger;
 		this.model = model;
-        this.secondrun = secondrun;
+		this.secondrun = secondrun;
 		updatemodel = model;
 		updatesettings = settings;
 		updateimp = settings.imp;
 		updatelogger = logger;
 		this.targetPanel = new RoiSettingsPanel(settings.imp, this.secondrun);
-		
+
 	}
 
 	@Override
@@ -157,10 +158,10 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 	public static TrackMate updatedbtrackmate;
 	public static Model updatemodel;
 	public static SpotCollection spots;
-	public static Pair<SpotCollection,HashMap<Integer, ArrayList<Spot>>>  SpotListFrame;
+	public static Pair<SpotCollection, HashMap<Integer, ArrayList<Spot>>> SpotListFrame;
 	public static Logger updatelogger;
 
-	private  static  class  RoiSettingsPanel extends JPanel {
+	private static class RoiSettingsPanel extends JPanel {
 
 		private static final long serialVersionUID = -1L;
 		/** ActionEvent fired when the user press the refresh button. */
@@ -178,8 +179,7 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 		private final JFormattedTextField tfZEnd;
 		private final JFormattedTextField tfTStart;
 		private final JFormattedTextField tfTEnd;
-		
-		
+
 		public JPanel Panelfile = new JPanel();
 		public JPanel PanelDualfile = new JPanel();
 		public boolean DoMask = false;
@@ -228,10 +228,10 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 		double[] calibration;
 		public HashMap<Integer, ArrayList<Cellobject>> CSV = new HashMap<Integer, ArrayList<Cellobject>>();
 
-		public< T extends Type< T > > RoiSettingsPanel(final ImagePlus imp, final Boolean secondrun) {
-			
+		public <T extends Type<T>> RoiSettingsPanel(final ImagePlus imp, final Boolean secondrun) {
+
 			this.setPreferredSize(new Dimension(400, 500));
-			
+
 			final GridBagLayout gridBagLayout = new GridBagLayout();
 			gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 					0.0, 1.0 };
@@ -407,26 +407,26 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 
 			for (int i = 0; i < imageNames.length; ++i)
 				blankimageNames[i + 1] = imageNames[i];
-			if(!secondrun) {
-			ImageMode.setFont(SMALL_FONT);
-			final GridBagConstraints gbcChooseImage = new GridBagConstraints();
-			gbcChooseImage.anchor = GridBagConstraints.EAST;
-			gbcChooseImage.fill = GridBagConstraints.HORIZONTAL;
-			gbcChooseImage.insets = new Insets(5, 5, 5, 5);
-			gbcChooseImage.gridx = 0;
-			gbcChooseImage.gridy = 9;
-			add(ImageMode, gbcChooseImage);
+			if (!secondrun) {
+				ImageMode.setFont(SMALL_FONT);
+				final GridBagConstraints gbcChooseImage = new GridBagConstraints();
+				gbcChooseImage.anchor = GridBagConstraints.EAST;
+				gbcChooseImage.fill = GridBagConstraints.HORIZONTAL;
+				gbcChooseImage.insets = new Insets(5, 5, 5, 5);
+				gbcChooseImage.gridx = 0;
+				gbcChooseImage.gridy = 9;
+				add(ImageMode, gbcChooseImage);
 
-			CsvMode.setFont(SMALL_FONT);
-			final GridBagConstraints gbcChooseCSV = new GridBagConstraints();
-			gbcChooseCSV.anchor = GridBagConstraints.EAST;
-			gbcChooseCSV.fill = GridBagConstraints.HORIZONTAL;
-			gbcChooseCSV.insets = new Insets(5, 5, 5, 5);
-			gbcChooseCSV.gridx = 0;
-			gbcChooseCSV.gridy = 10;
-			add(ImageMode, gbcChooseImage);
+				CsvMode.setFont(SMALL_FONT);
+				final GridBagConstraints gbcChooseCSV = new GridBagConstraints();
+				gbcChooseCSV.anchor = GridBagConstraints.EAST;
+				gbcChooseCSV.fill = GridBagConstraints.HORIZONTAL;
+				gbcChooseCSV.insets = new Insets(5, 5, 5, 5);
+				gbcChooseCSV.gridx = 0;
+				gbcChooseCSV.gridy = 10;
+				add(ImageMode, gbcChooseImage);
 
-			add(CsvMode, gbcChooseCSV);
+				add(CsvMode, gbcChooseCSV);
 			}
 
 			tfXStart = new JFormattedTextField(Integer.valueOf(0));
@@ -454,9 +454,9 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 			gbcButtonRefresh.gridwidth = 4;
 			gbcButtonRefresh.gridx = 0;
 			gbcButtonRefresh.gridy = 16;
-			if(!secondrun)
-			add(btnRefreshROI, gbcButtonRefresh);
-			
+			if (!secondrun)
+				add(btnRefreshROI, gbcButtonRefresh);
+
 			btnRefreshROI.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(final ActionEvent e) {
@@ -479,13 +479,12 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 
 				}
 			});
-			
-			if(secondrun) {
-				
+
+			if (secondrun) {
+
 				final JLabel secCitation = new JLabel("<html>" + "You have choosen your run mode,"
-                          +  " the calibration settings are taken from your chosen image. \n"   + "<p>"
-						  + " Click next to start the tracking process.\n" + "<p>"
-						 + "</html>");
+						+ " the calibration settings are taken from your chosen image. \n" + "<p>"
+						+ " Click next to start the tracking process.\n" + "<p>" + "</html>");
 				secCitation.setFont(SMALL_FONT);
 
 				final GridBagConstraints gbcsecCitation = new GridBagConstraints();
@@ -497,58 +496,58 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 				add(secCitation, gbcsecCitation);
 			}
 
-			if(!secondrun) {
-			FreeMode.setFont(SMALL_FONT);
+			if (!secondrun) {
+				FreeMode.setFont(SMALL_FONT);
 
-			gbcChooseFree.anchor = GridBagConstraints.WEST;
-			gbcChooseFree.fill = GridBagConstraints.HORIZONTAL;
-			gbcChooseFree.insets = new Insets(5, 5, 5, 5);
-			gbcChooseFree.gridx = 3;
-			gbcChooseFree.gridy = 9;
+				gbcChooseFree.anchor = GridBagConstraints.WEST;
+				gbcChooseFree.fill = GridBagConstraints.HORIZONTAL;
+				gbcChooseFree.insets = new Insets(5, 5, 5, 5);
+				gbcChooseFree.gridx = 3;
+				gbcChooseFree.gridy = 9;
 
-			MaskMode.setFont(SMALL_FONT);
+				MaskMode.setFont(SMALL_FONT);
 
-			gbcChooseMask.anchor = GridBagConstraints.WEST;
-			gbcChooseMask.fill = GridBagConstraints.HORIZONTAL;
-			gbcChooseMask.insets = new Insets(5, 5, 5, 5);
-			gbcChooseMask.gridx = 3;
-			gbcChooseMask.gridy = 10;
+				gbcChooseMask.anchor = GridBagConstraints.WEST;
+				gbcChooseMask.fill = GridBagConstraints.HORIZONTAL;
+				gbcChooseMask.insets = new Insets(5, 5, 5, 5);
+				gbcChooseMask.gridx = 3;
+				gbcChooseMask.gridy = 10;
 
-			Checkpointbutton.setFont(SMALL_FONT);
+				Checkpointbutton.setFont(SMALL_FONT);
 
-			gbcChooseCheck.anchor = GridBagConstraints.EAST;
-			gbcChooseCheck.fill = GridBagConstraints.HORIZONTAL;
-			gbcChooseCheck.insets = new Insets(5, 5, 5, 5);
-			gbcChooseCheck.gridx = 0;
-			gbcChooseCheck.gridy = 11;
-			add(Checkpointbutton, gbcChooseCheck);
+				gbcChooseCheck.anchor = GridBagConstraints.EAST;
+				gbcChooseCheck.fill = GridBagConstraints.HORIZONTAL;
+				gbcChooseCheck.insets = new Insets(5, 5, 5, 5);
+				gbcChooseCheck.gridx = 0;
+				gbcChooseCheck.gridy = 11;
+				add(Checkpointbutton, gbcChooseCheck);
 
-			gbcChooseSegLoad.anchor = GridBagConstraints.EAST;
-			gbcChooseSegLoad.fill = GridBagConstraints.HORIZONTAL;
-			gbcChooseSegLoad.insets = new Insets(5, 5, 5, 5);
-			gbcChooseSegLoad.gridwidth = 4;
-			gbcChooseSegLoad.gridx = 0;
-			gbcChooseSegLoad.gridy = 13;
+				gbcChooseSegLoad.anchor = GridBagConstraints.EAST;
+				gbcChooseSegLoad.fill = GridBagConstraints.HORIZONTAL;
+				gbcChooseSegLoad.insets = new Insets(5, 5, 5, 5);
+				gbcChooseSegLoad.gridwidth = 4;
+				gbcChooseSegLoad.gridx = 0;
+				gbcChooseSegLoad.gridy = 13;
 
-			gbcChooseMaskLoad.anchor = GridBagConstraints.EAST;
-			gbcChooseMaskLoad.fill = GridBagConstraints.HORIZONTAL;
-			gbcChooseMaskLoad.insets = new Insets(5, 5, 5, 5);
-			gbcChooseMaskLoad.gridwidth = 4;
-			gbcChooseMaskLoad.gridx = 0;
-			gbcChooseMaskLoad.gridy = 14;
+				gbcChooseMaskLoad.anchor = GridBagConstraints.EAST;
+				gbcChooseMaskLoad.fill = GridBagConstraints.HORIZONTAL;
+				gbcChooseMaskLoad.insets = new Insets(5, 5, 5, 5);
+				gbcChooseMaskLoad.gridwidth = 4;
+				gbcChooseMaskLoad.gridx = 0;
+				gbcChooseMaskLoad.gridy = 14;
 
-			gbcExecDet.anchor = GridBagConstraints.EAST;
-			ExecuteDetection.setFont(SMALL_FONT);
-			gbcExecDet.fill = GridBagConstraints.HORIZONTAL;
-			gbcExecDet.insets = new Insets(5, 5, 5, 5);
-			gbcExecDet.gridwidth = 4;
-			gbcExecDet.gridx = 2;
-			gbcExecDet.gridy = 14;
+				gbcExecDet.anchor = GridBagConstraints.EAST;
+				ExecuteDetection.setFont(SMALL_FONT);
+				gbcExecDet.fill = GridBagConstraints.HORIZONTAL;
+				gbcExecDet.insets = new Insets(5, 5, 5, 5);
+				gbcExecDet.gridwidth = 4;
+				gbcExecDet.gridx = 2;
+				gbcExecDet.gridy = 14;
 			}
 			Panelfile.setFont(SMALL_FONT);
 			Calibration cal = imp.getCalibration();
 			calibration = new double[3];
-			
+
 			int ndims = imp.getNDimensions();
 			if (ndims == 2)
 				calibration = new double[] { cal.pixelWidth, cal.pixelHeight, 1 };
@@ -599,13 +598,11 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 
 					String imagename = (String) segmentation.ChooseImage.getSelectedItem();
 					impSeg = WindowManager.getImage(imagename);
-					
+
 					NoMask = true;
 					DoMask = false;
-					
+
 					ExecuteDetection.setEnabled(true);
-				    
-					
 
 				}
 			});
@@ -616,7 +613,7 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 
 					String imagename = (String) Dualsegmentation.ChooseImage.getSelectedItem();
 					impSeg = WindowManager.getImage(imagename);
-					
+
 				}
 			});
 
@@ -628,7 +625,6 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 					String imagename = (String) Dualsegmentation.ChoosesecImage.getSelectedItem();
 					impMask = WindowManager.getImage(imagename);
 					ExecuteDetection.setEnabled(true);
-					
 
 				}
 			});
@@ -648,9 +644,6 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 
 						validate();
 						repaint();
-
-						
-
 
 					} else if (e.getStateChange() == ItemEvent.DESELECTED) {
 
@@ -684,9 +677,6 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 						NoMask = false;
 						DoMask = true;
 
-						
-
-
 					} else if (e.getStateChange() == ItemEvent.DESELECTED) {
 						NoMask = false;
 						DoMask = false;
@@ -699,30 +689,28 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 				}
 
 			});
-			
+
 			ExecuteDetection.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					if (impSeg != null&& impMask == null) {
+					if (impSeg != null && impMask == null) {
 
-						ImgPlus<FloatType> output =  createHyperStack(imp, impSeg);
+						ImgPlus<FloatType> output = createHyperStack(imp, impSeg);
 						ImagePlus localimp = ImageJFunctions.show(output, "Channels");
-						localimp.setCalibration(imp.getCalibration()); 
-						
-						TrackMatePlugIn.ModelUpdate( updatelogger,imp, localimp);
+						localimp.setCalibration(imp.getCalibration());
+
+						TrackMatePlugIn.ModelUpdate(updatelogger, imp, localimp);
 					}
 
 					if (impSeg != null && impMask != null) {
 
-						
-						ImgPlus<FloatType> output =  createmaskedHyperStack(imp, impSeg, impMask);
+						ImgPlus<FloatType> output = createmaskedHyperStack(imp, impSeg, impMask);
 						ImagePlus localimp = ImageJFunctions.show(output, "Channels");
-					    localimp.setCalibration(imp.getCalibration()); 
-						
-						
-						TrackMatePlugIn.ModelUpdate( updatelogger,imp, localimp);
+						localimp.setCalibration(imp.getCalibration());
+
+						TrackMatePlugIn.ModelUpdate(updatelogger, imp, localimp);
 					}
 
 				}
@@ -740,7 +728,7 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 						remove(MaskMode);
 						remove(Panelfile);
 						remove(PanelDualfile);
-						
+
 						validate();
 						repaint();
 
@@ -842,13 +830,13 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 						fireAction(IMAGEPLUS_REFRESHED);
 
 						SpotListFrame = MaskUtils.fromSimpleCSV(CSV, ndims, calibration);
-						
+
 						TrackMate.CsvSpots = SpotListFrame.getA();
 						TrackMate.Framespots = SpotListFrame.getB();
-						
+
 						ImagePlus localimp = imp.duplicate();
 						localimp.show();
-						TrackMatePlugIn.ModelUpdate(updatelogger,imp, localimp);
+						TrackMatePlugIn.ModelUpdate(updatelogger, imp, localimp);
 
 					} else
 						csvfile = null;
@@ -875,9 +863,7 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 			lblSpatialUnits2.setText(cal.getYUnit());
 			lblSpatialUnits3.setText(cal.getZUnit());
 			btnRefreshROI.doClick();
-			
-			
-			
+
 		}
 
 		protected ArrayList<ActionListener> actionListeners = new ArrayList<>();
@@ -975,10 +961,6 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 			updatedbtrackmate = updatemodel(model, updatesettings);
 
 		}
-		
-	
-
-
 
 	}
 
@@ -1008,86 +990,83 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 
 		return updatedbtrackmate;
 	}
+
 	public static ImgPlus<FloatType> createHyperStack(ImagePlus imp, ImagePlus impSeg) {
-		
-		RandomAccessibleInterval<FloatType> imageOrig = SimplifiedIO.openImage(
-				imp.getOriginalFileInfo().directory + imp.getOriginalFileInfo().fileName, new FloatType());
-		
+
+		RandomAccessibleInterval<FloatType> imageOrig = SimplifiedIO
+				.openImage(imp.getOriginalFileInfo().directory + imp.getOriginalFileInfo().fileName, new FloatType());
+
 		RandomAccessibleInterval<IntType> imageSeg = SimplifiedIO.openImage(
 				impSeg.getOriginalFileInfo().directory + impSeg.getOriginalFileInfo().fileName, new IntType());
-		
-		
-		long[] newDim = new long[] { imageOrig.dimension(0), imageOrig.dimension(1),2, imageOrig.dimension(2), imageOrig.dimension(3) };
+
+		long[] newDim = new long[] { imageOrig.dimension(0), imageOrig.dimension(1), 2, imageOrig.dimension(2),
+				imageOrig.dimension(3) };
 		final Img<FloatType> out = new CellImgFactory<FloatType>(new FloatType()).create(newDim);
 		ImgPlus<FloatType> output = new ImgPlus<FloatType>(out);
 		RandomAccessibleInterval<FloatType> channelRaw = Views.hyperSlice(output, 2, 0);
-    	RandomAccessibleInterval<FloatType> channelSeg = Views.hyperSlice(output, 2, 1);
-		LoopBuilder.setImages(imageOrig, imageSeg, channelRaw, channelSeg).multiThreaded().forEachPixel(
-			    (a, b, r, g) -> {
-			    	
-			            r.set(a.get());
-			            g.set(b.get());
-			        
-			    }
-			);
-		
+		RandomAccessibleInterval<FloatType> channelSeg = Views.hyperSlice(output, 2, 1);
+		LoopBuilder.setImages(imageOrig, imageSeg, channelRaw, channelSeg).multiThreaded()
+				.forEachPixel((a, b, r, g) -> {
+
+					r.set(a.get());
+					g.set(b.get());
+
+				});
+
 		return output;
-		
+
 	}
-	
+
 	public static ImgPlus<FloatType> createmaskedHyperStack(ImagePlus imp, ImagePlus impSeg, ImagePlus impMask) {
-		
-		RandomAccessibleInterval<FloatType> imageOrig = SimplifiedIO.openImage(
-				imp.getOriginalFileInfo().directory + imp.getOriginalFileInfo().fileName, new FloatType());
-		
+
+		RandomAccessibleInterval<FloatType> imageOrig = SimplifiedIO
+				.openImage(imp.getOriginalFileInfo().directory + imp.getOriginalFileInfo().fileName, new FloatType());
+
 		RandomAccessibleInterval<IntType> imageSeg = SimplifiedIO.openImage(
 				impSeg.getOriginalFileInfo().directory + impSeg.getOriginalFileInfo().fileName, new IntType());
-		
+
 		RandomAccessibleInterval<IntType> imageMask = SimplifiedIO.openImage(
 				impMask.getOriginalFileInfo().directory + impMask.getOriginalFileInfo().fileName, new IntType());
-		
-		if(imageSeg.numDimensions() > imageMask.numDimensions()) {
-			
+
+		if (imageSeg.numDimensions() > imageMask.numDimensions()) {
+
 			imageMask = MaskUtils.copyUpIntImage(imageMask, imageSeg);
 		}
-		
 
 		net.imglib2.Cursor<IntType> Bigcursor = Views.iterable(imageMask).localizingCursor();
-		
+
 		RandomAccessibleInterval<IntType> ClearedimageSeg = new CellImgFactory<IntType>(new IntType()).create(imageSeg);
 		RandomAccess<IntType> oldsegimage = imageSeg.randomAccess();
 		RandomAccess<IntType> segimage = ClearedimageSeg.randomAccess();
-		
-		while(Bigcursor.hasNext()) {
-			
+
+		while (Bigcursor.hasNext()) {
+
 			Bigcursor.fwd();
 			segimage.setPosition(Bigcursor);
 			oldsegimage.setPosition(Bigcursor);
-			if(Bigcursor.get().get() == 0 ) 
-				
+			if (Bigcursor.get().get() == 0)
+
 				segimage.get().setZero();
 			else
 				segimage.get().set(oldsegimage.get());
-			
+
 		}
-		long[] newDim = new long[] { imageOrig.dimension(0), imageOrig.dimension(1),2, imageOrig.dimension(2), imageOrig.dimension(3) };
+		long[] newDim = new long[] { imageOrig.dimension(0), imageOrig.dimension(1), 2, imageOrig.dimension(2),
+				imageOrig.dimension(3) };
 		final Img<FloatType> out = new CellImgFactory<FloatType>(new FloatType()).create(newDim);
 		ImgPlus<FloatType> output = new ImgPlus<FloatType>(out);
 		RandomAccessibleInterval<FloatType> channelRaw = Views.hyperSlice(output, 2, 0);
-    	RandomAccessibleInterval<FloatType> channelSeg = Views.hyperSlice(output, 2, 1);
-		LoopBuilder.setImages(imageOrig, ClearedimageSeg, channelRaw, channelSeg).multiThreaded().forEachPixel(
-			    (a, b, r, g) -> {
-			    	
-			            r.set(a.get());
-			            g.set(b.get());
-			        
-			    }
-			);
-		
+		RandomAccessibleInterval<FloatType> channelSeg = Views.hyperSlice(output, 2, 1);
+		LoopBuilder.setImages(imageOrig, ClearedimageSeg, channelRaw, channelSeg).multiThreaded()
+				.forEachPixel((a, b, r, g) -> {
+
+					r.set(a.get());
+					g.set(b.get());
+
+				});
+
 		return output;
-		
+
 	}
-	
-	
 
 }

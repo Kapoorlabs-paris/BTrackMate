@@ -13,8 +13,8 @@ import net.imglib2.algorithm.Benchmark;
 import net.imglib2.algorithm.MultiThreaded;
 import net.imglib2.type.numeric.RealType;
 
-public abstract class AbstractSpotFeatureAnalyzer< T extends RealType< T > > implements SpotAnalyzer< T >, MultiThreaded, Benchmark
-{
+public abstract class AbstractSpotFeatureAnalyzer<T extends RealType<T>>
+		implements SpotAnalyzer<T>, MultiThreaded, Benchmark {
 
 	protected String errorMessage;
 
@@ -22,49 +22,38 @@ public abstract class AbstractSpotFeatureAnalyzer< T extends RealType< T > > imp
 
 	private int numThreads;
 
-	public abstract void process( final Spot spot );
+	public abstract void process(final Spot spot);
 
-	public AbstractSpotFeatureAnalyzer()
-	{
+	public AbstractSpotFeatureAnalyzer() {
 		setNumThreads();
 	}
 
 	@Override
-	public void process( final Iterable< Spot > spots )
-	{
+	public void process(final Iterable<Spot> spots) {
 		final long start = System.currentTimeMillis();
 
-		final List< Callable< Void > > tasks = new ArrayList<>();
-		for ( final Spot spot : spots )
-		{
-			final Callable< Void > task = new Callable< Void >()
-			{
+		final List<Callable<Void>> tasks = new ArrayList<>();
+		for (final Spot spot : spots) {
+			final Callable<Void> task = new Callable<Void>() {
 				@Override
-				public Void call() throws Exception
-				{
-					try
-					{
-						process( spot );
-					}
-					catch ( final Exception e )
-					{
+				public Void call() throws Exception {
+					try {
+						process(spot);
+					} catch (final Exception e) {
 						e.printStackTrace();
 					}
 					return null;
 				}
 			};
-			tasks.add( task );
+			tasks.add(task);
 		}
 
-		final ExecutorService executorService = Executors.newFixedThreadPool( numThreads );
-		try
-		{
-			final List< Future< Void > > futures = executorService.invokeAll( tasks );
-			for ( final Future< Void > future : futures )
+		final ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
+		try {
+			final List<Future<Void>> futures = executorService.invokeAll(tasks);
+			for (final Future<Void> future : futures)
 				future.get();
-		}
-		catch ( final InterruptedException | ExecutionException e )
-		{
+		} catch (final InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
 
@@ -73,26 +62,22 @@ public abstract class AbstractSpotFeatureAnalyzer< T extends RealType< T > > imp
 	}
 
 	@Override
-	public int getNumThreads()
-	{
+	public int getNumThreads() {
 		return numThreads;
 	}
 
 	@Override
-	public void setNumThreads()
-	{
-		setNumThreads( Runtime.getRuntime().availableProcessors() / 2 );
+	public void setNumThreads() {
+		setNumThreads(Runtime.getRuntime().availableProcessors() / 2);
 	}
 
 	@Override
-	public void setNumThreads( final int numThreads )
-	{
+	public void setNumThreads(final int numThreads) {
 		this.numThreads = numThreads;
 	}
 
 	@Override
-	public long getProcessingTime()
-	{
+	public long getProcessingTime() {
 		return processingTime;
 	}
 }

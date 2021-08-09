@@ -16,10 +16,10 @@ import javax.swing.border.TitledBorder;
 public class CovistoSnakePanel {
 
 	public static JPanel SnakePanel = new JPanel();
-	
+
 	public static Label Snakelabel, gradientlabel, distlabel;
 	public static TextField Snakeiter, gradientthresh, maxdist;
-	
+
 	public static int snakeiterations = 200;
 	public static int displaysnake = snakeiterations / 2;
 	public static int Gradthresh = 1;
@@ -38,24 +38,21 @@ public class CovistoSnakePanel {
 	public static double regmin, regmax;
 	public static final JButton Singlesnake = new JButton("Apply snakes to CurrentView");
 	public static JButton AllSnake = new JButton("Snake in 3D/4D");
-	
+
 	public static final Checkbox advanced = new Checkbox("Display advanced Snake parameters");
-	
-	
-	
+
 	public static JPanel SnakePanel(int ndims) {
-		
+
 		regmin = reg / 2.0;
 		regmax = reg;
-		
-		
+
 		layoutManager.Setlayout.LayoutSetter(SnakePanel);
 		Border snakeborder = new CompoundBorder(new TitledBorder("Active Contour refinement"),
 				new EmptyBorder(layoutManager.Setlayout.c.insets));
 		Snakelabel = new Label("Enter number of max snake iterations");
 		gradientlabel = new Label("Enter gradient threshold");
 		distlabel = new Label("Enter max distance to search for edges");
-		
+
 		Snakeiter = new TextField(1);
 		gradientthresh = new TextField(1);
 		maxdist = new TextField(1);
@@ -85,16 +82,13 @@ public class CovistoSnakePanel {
 			SnakePanel.add(AllSnake, new GridBagConstraints(5, 2, 3, 1, 0.0, 0.0, GridBagConstraints.EAST,
 					GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
 
-	
 		SnakePanel.add(advanced, new GridBagConstraints(5, 3, 3, 1, 0.0, 0.0, GridBagConstraints.EAST,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
 
 		SnakePanel.setBorder(snakeborder);
-		
-		
+
 		return SnakePanel;
-		
+
 	}
-	
-	
+
 }

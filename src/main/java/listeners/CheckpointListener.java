@@ -22,103 +22,95 @@ import net.imglib2.RealPoint;
 public class CheckpointListener implements ActionListener {
 
 	final BTMStartDialogDescriptor parent;
-	
+
 	public CheckpointListener(final BTMStartDialogDescriptor parent) {
-		
+
 		this.parent = parent;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 
 		JFileChooser csvfile = new JFileChooser();
-		FileFilter csvfilter = new FileFilter() 
-		{
-		      //Override accept method
-		      public boolean accept(File file) {
-		              
-		             //if the file extension is .log return true, else false
-		             if (file.getName().endsWith(".csv")) {
-		                return true;
-		             }
-		             return false;
-		      }
+		FileFilter csvfilter = new FileFilter() {
+			// Override accept method
+			public boolean accept(File file) {
+
+				// if the file extension is .log return true, else false
+				if (file.getName().endsWith(".csv")) {
+					return true;
+				}
+				return false;
+			}
 
 			@Override
 			public String getDescription() {
-				
+
 				return null;
 			}
 		};
-        String line = "";
-        String cvsSplitBy = ",";
-		if (parent.impOrig!=null)
-		csvfile.setCurrentDirectory(new File(parent.impOrig.getOriginalFileInfo().directory));
-		else 
+		String line = "";
+		String cvsSplitBy = ",";
+		if (parent.impOrig != null)
+			csvfile.setCurrentDirectory(new File(parent.impOrig.getOriginalFileInfo().directory));
+		else
 			csvfile.setCurrentDirectory(new java.io.File("."));
 		csvfile.setDialogTitle(" Cell CSV file");
 		csvfile.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		csvfile.setFileFilter(csvfilter);
 		int count = 0;
-		
+
 		if (csvfile.showOpenDialog(parent.Cardframe) == JFileChooser.APPROVE_OPTION) {
-			
+
 			File budfile = new File(csvfile.getSelectedFile().getPath());
-			ArrayList<Cellobject> reloadcell = new ArrayList<Cellobject>(); 
-			
-	        try (BufferedReader br = new BufferedReader(new FileReader(budfile))) {
+			ArrayList<Cellobject> reloadcell = new ArrayList<Cellobject>();
 
-	            while ((line = br.readLine()) != null) {
+			try (BufferedReader br = new BufferedReader(new FileReader(budfile))) {
 
-	                // use comma as separator
-	                String[] budpoints = line.split(cvsSplitBy);
-                     
+				while ((line = br.readLine()) != null) {
 
-	                if(count > 0) {
-	                	
-		                int time = Integer.parseInt(budpoints[0]);
-		                double X = Double.parseDouble(budpoints[1]);
-		                double Y = Double.parseDouble(budpoints[2]);
-		                double Z = Double.parseDouble(budpoints[3]);
-		                int Label = Integer.parseInt(budpoints[4]);
-		                double Perimeter = Double.parseDouble(budpoints[5]);
-		                double Area = Double.parseDouble(budpoints[6]);
-		                int Intensity = Integer.parseInt(budpoints[7]);
-		                double sizeX =  Double.parseDouble(budpoints[8]);
-		                double sizeY = Double.parseDouble(budpoints[9]);
-		                double sizeZ = Double.parseDouble(budpoints[10]);
-		                
-		                double[] extents = new double[] {sizeX, sizeY, sizeZ};
-		                Point point = new Point(new long[] {(long)X,(long)Y,(long)Z});
-		                
-		                
-		                Cellobject currentcell = new Cellobject(point, time, Label, Perimeter, Area, Intensity, extents);
-		                
-                        if(parent.CSV.get(time)==null) {
-                        	reloadcell = new ArrayList<Cellobject>();
-                     	    parent.CSV.put(time, reloadcell);    
-                        }
-                        else
-                     	   parent.CSV.put(time, reloadcell);
-		                
-		                    reloadcell.add(currentcell);
-		         
-		            }
-		                 count = count +  1;
-		            }
-	            }
-	        
-	        catch (IOException e) {
-	            e.printStackTrace();
-	        }
-		}
-		else
+					// use comma as separator
+					String[] budpoints = line.split(cvsSplitBy);
+
+					if (count > 0) {
+
+						int time = Integer.parseInt(budpoints[0]);
+						double X = Double.parseDouble(budpoints[1]);
+						double Y = Double.parseDouble(budpoints[2]);
+						double Z = Double.parseDouble(budpoints[3]);
+						int Label = Integer.parseInt(budpoints[4]);
+						double Perimeter = Double.parseDouble(budpoints[5]);
+						double Area = Double.parseDouble(budpoints[6]);
+						int Intensity = Integer.parseInt(budpoints[7]);
+						double sizeX = Double.parseDouble(budpoints[8]);
+						double sizeY = Double.parseDouble(budpoints[9]);
+						double sizeZ = Double.parseDouble(budpoints[10]);
+
+						double[] extents = new double[] { sizeX, sizeY, sizeZ };
+						Point point = new Point(new long[] { (long) X, (long) Y, (long) Z });
+
+						Cellobject currentcell = new Cellobject(point, time, Label, Perimeter, Area, Intensity,
+								extents);
+
+						if (parent.CSV.get(time) == null) {
+							reloadcell = new ArrayList<Cellobject>();
+							parent.CSV.put(time, reloadcell);
+						} else
+							parent.CSV.put(time, reloadcell);
+
+						reloadcell.add(currentcell);
+
+					}
+					count = count + 1;
+				}
+			}
+
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
 			csvfile = null;
-	            
-	            
-	}  
-	        
-	
+
+	}
+
 }
-		
-		

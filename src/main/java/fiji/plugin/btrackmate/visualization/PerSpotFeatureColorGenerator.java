@@ -8,8 +8,7 @@ import fiji.plugin.btrackmate.Model;
 import fiji.plugin.btrackmate.Spot;
 import fiji.plugin.btrackmate.gui.displaysettings.Colormap;
 
-public class PerSpotFeatureColorGenerator implements TrackColorGenerator
-{
+public class PerSpotFeatureColorGenerator implements TrackColorGenerator {
 
 	private final Model model;
 
@@ -25,15 +24,8 @@ public class PerSpotFeatureColorGenerator implements TrackColorGenerator
 
 	private final double max;
 
-	public PerSpotFeatureColorGenerator(
-			final Model model,
-			final String spotFeature,
-			final Color missingValueColor,
-			final Color undefinedValueColor,
-			final Colormap colormap,
-			final double min,
-			final double max )
-	{
+	public PerSpotFeatureColorGenerator(final Model model, final String spotFeature, final Color missingValueColor,
+			final Color undefinedValueColor, final Colormap colormap, final double min, final double max) {
 		this.model = model;
 		this.spotFeature = spotFeature;
 		this.missingValueColor = missingValueColor;
@@ -44,18 +36,17 @@ public class PerSpotFeatureColorGenerator implements TrackColorGenerator
 	}
 
 	@Override
-	public Color color( final DefaultWeightedEdge edge )
-	{
-		final Spot spot = model.getTrackModel().getEdgeTarget( edge );
-		final Double feat = spot.getFeature( spotFeature );
+	public Color color(final DefaultWeightedEdge edge) {
+		final Spot spot = model.getTrackModel().getEdgeTarget(edge);
+		final Double feat = spot.getFeature(spotFeature);
 
-		if ( null == feat )
+		if (null == feat)
 			return missingValueColor;
 
-		if ( feat.isNaN() )
+		if (feat.isNaN())
 			return undefinedValueColor;
 
 		final double val = feat.doubleValue();
-		return colormap.getPaint( ( val - min ) / ( max - min ) );
+		return colormap.getPaint((val - min) / (max - min));
 	}
 }

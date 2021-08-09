@@ -45,11 +45,10 @@ import javax.swing.event.ChangeListener;
  * A {@link JSlider} with a {@link JSpinner} next to it, both modifying the same
  * {@link BoundedValue value}.
  */
-public class SliderPanel extends JPanel implements BoundedValue.UpdateListener
-{
+public class SliderPanel extends JPanel implements BoundedValue.UpdateListener {
 	private static final long serialVersionUID = 6444334522127424416L;
 
-	public static final Dimension PANEL_SIZE = new Dimension( 100, 20 );
+	public static final Dimension PANEL_SIZE = new Dimension(100, 20);
 
 	private final JSlider slider;
 
@@ -60,75 +59,66 @@ public class SliderPanel extends JPanel implements BoundedValue.UpdateListener
 	/**
 	 * Create a {@link SliderPanel} to modify a given {@link BoundedValue value}.
 	 *
-	 * @param name
-	 *            label to show next to the slider.
-	 * @param model
-	 *            the value that is modified.
+	 * @param name  label to show next to the slider.
+	 * @param model the value that is modified.
 	 */
-	public SliderPanel( final String name, final BoundedValue model, final int spinnerStepSize )
-	{
+	public SliderPanel(final String name, final BoundedValue model, final int spinnerStepSize) {
 		super();
-		setLayout( new BorderLayout( 10, 10 ) );
-		setPreferredSize( PANEL_SIZE );
+		setLayout(new BorderLayout(10, 10));
+		setPreferredSize(PANEL_SIZE);
 
-		slider = new JSlider( SwingConstants.HORIZONTAL, model.getRangeMin(), model.getRangeMax(), model.getCurrentValue() );
+		slider = new JSlider(SwingConstants.HORIZONTAL, model.getRangeMin(), model.getRangeMax(),
+				model.getCurrentValue());
 		spinner = new JSpinner();
-		spinner.setModel( new SpinnerNumberModel( model.getCurrentValue(), model.getRangeMin(), model.getRangeMax(), spinnerStepSize ) );
+		spinner.setModel(new SpinnerNumberModel(model.getCurrentValue(), model.getRangeMin(), model.getRangeMax(),
+				spinnerStepSize));
 
-		slider.addChangeListener( new ChangeListener()
-		{
+		slider.addChangeListener(new ChangeListener() {
 			@Override
-			public void stateChanged( final ChangeEvent e )
-			{
+			public void stateChanged(final ChangeEvent e) {
 				final int value = slider.getValue();
-				model.setCurrentValue( value );
+				model.setCurrentValue(value);
 			}
-		} );
+		});
 
-		spinner.addChangeListener( new ChangeListener()
-		{
+		spinner.addChangeListener(new ChangeListener() {
 			@Override
-			public void stateChanged( final ChangeEvent e )
-			{
-				final int value = ( ( Integer ) spinner.getValue() ).intValue();
-				model.setCurrentValue( value );
+			public void stateChanged(final ChangeEvent e) {
+				final int value = ((Integer) spinner.getValue()).intValue();
+				model.setCurrentValue(value);
 			}
-		} );
+		});
 
-		if ( name != null )
-		{
-			final JLabel label = new JLabel( name, SwingConstants.CENTER );
-			label.setAlignmentX( Component.CENTER_ALIGNMENT );
-			add( label, BorderLayout.WEST );
+		if (name != null) {
+			final JLabel label = new JLabel(name, SwingConstants.CENTER);
+			label.setAlignmentX(Component.CENTER_ALIGNMENT);
+			add(label, BorderLayout.WEST);
 		}
 
-		add( slider, BorderLayout.CENTER );
-		add( spinner, BorderLayout.EAST );
+		add(slider, BorderLayout.CENTER);
+		add(spinner, BorderLayout.EAST);
 
 		this.model = model;
-		model.setUpdateListener( this );
+		model.setUpdateListener(this);
 	}
 
-	public void setNumColummns( final int cols )
-	{
-		( ( JSpinner.NumberEditor ) spinner.getEditor() ).getTextField().setColumns( cols );
+	public void setNumColummns(final int cols) {
+		((JSpinner.NumberEditor) spinner.getEditor()).getTextField().setColumns(cols);
 	}
 
 	@Override
-	public void update()
-	{
+	public void update() {
 		final int value = model.getCurrentValue();
 		final int min = model.getRangeMin();
 		final int max = model.getRangeMax();
-		if (slider.getMaximum() != max || slider.getMinimum() != min)
-		{
-			slider.setMinimum( min );
-			slider.setMaximum( max );
-			final SpinnerNumberModel spinnerModel = ( SpinnerNumberModel ) spinner.getModel();
-			spinnerModel.setMinimum( min );
-			spinnerModel.setMaximum( max );
+		if (slider.getMaximum() != max || slider.getMinimum() != min) {
+			slider.setMinimum(min);
+			slider.setMaximum(max);
+			final SpinnerNumberModel spinnerModel = (SpinnerNumberModel) spinner.getModel();
+			spinnerModel.setMinimum(min);
+			spinnerModel.setMaximum(max);
 		}
-		slider.setValue( value );
-		spinner.setValue( value );
+		slider.setValue(value);
+		spinner.setValue(value);
 	}
 }

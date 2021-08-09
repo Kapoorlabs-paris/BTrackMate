@@ -27,9 +27,9 @@ import net.imglib2.type.numeric.RealType;
  *
  * @author Jean- Yves Tinevez
  */
-@Plugin( type = SpotAnalyzerFactory.class, priority = Priority.LOW )
-public class SpotContrastAndSNRAnalyzerFactory< T extends RealType< T > & NativeType< T >> implements SpotAnalyzerFactory< T >
-{
+@Plugin(type = SpotAnalyzerFactory.class, priority = Priority.LOW)
+public class SpotContrastAndSNRAnalyzerFactory<T extends RealType<T> & NativeType<T>>
+		implements SpotAnalyzerFactory<T> {
 
 	public static final String CONTRAST = "CONTRAST_CH";
 	public static final String SNR = "SNR_CH";
@@ -38,127 +38,108 @@ public class SpotContrastAndSNRAnalyzerFactory< T extends RealType< T > & Native
 	private static final String SNR_NAME = "Signal/Noise ratio ch";
 	private static final String CONTRAST_SHORTNAME = "Ctrst ch";
 	private static final String SNR_SHORTNAME = "SNR ch";
-	private static final List< String > FEATURES = Arrays.asList( new String[] {
-			CONTRAST, SNR } );
-	private static final List< String > FEATURE_SHORTNAMES = Arrays.asList( new String[] {
-			CONTRAST_SHORTNAME, SNR_SHORTNAME } );
-	private static final List< String > FEATURE_NAMES = Arrays.asList( new String[] {
-			CONTRAST_NAME, SNR_NAME } );
+	private static final List<String> FEATURES = Arrays.asList(new String[] { CONTRAST, SNR });
+	private static final List<String> FEATURE_SHORTNAMES = Arrays
+			.asList(new String[] { CONTRAST_SHORTNAME, SNR_SHORTNAME });
+	private static final List<String> FEATURE_NAMES = Arrays.asList(new String[] { CONTRAST_NAME, SNR_NAME });
 
 	public static final String KEY = "Spot contrast and SNR";
 
 	private int nChannels = 1;
 
-
 	/*
 	 * METHODS
 	 */
 
-
 	@Override
-	public SpotAnalyzer< T > getAnalyzer( final ImgPlus< T > img, final int frame, final int channel )
-	{
-		final ImgPlus< T > imgTC = TMUtils.hyperSlice( img, channel, frame );
-		return new SpotContrastAndSNRAnalyzer<>( imgTC, channel );
+	public SpotAnalyzer<T> getAnalyzer(final ImgPlus<T> img, final int frame, final int channel) {
+		final ImgPlus<T> imgTC = TMUtils.hyperSlice(img, channel, frame);
+		return new SpotContrastAndSNRAnalyzer<>(imgTC, channel);
 	}
 
 	@Override
-	public String getKey()
-	{
+	public String getKey() {
 		return KEY;
 	}
 
 	@Override
-	public List< String > getFeatures()
-	{
-		final List< String > features = new ArrayList<>( nChannels * FEATURES.size() );
-		for ( int c = 0; c < nChannels; c++ )
-			for ( final String feature : FEATURES )
-				features.add( makeFeatureKey( feature, c ) );
+	public List<String> getFeatures() {
+		final List<String> features = new ArrayList<>(nChannels * FEATURES.size());
+		for (int c = 0; c < nChannels; c++)
+			for (final String feature : FEATURES)
+				features.add(makeFeatureKey(feature, c));
 
 		return features;
 	}
 
 	@Override
-	public Map< String, String > getFeatureShortNames()
-	{
-		final Map< String, String > names = new LinkedHashMap<>( nChannels * FEATURES.size() );
-		for ( int c = 0; c < nChannels; c++ )
-			for ( int i = 0; i < FEATURES.size(); i++ )
-			{
-				final String feature = FEATURES.get( i );
-				final String shortName = FEATURE_SHORTNAMES.get( i );
-				names.put( makeFeatureKey( feature, c ), makeFeatureKey( shortName, c ) );
+	public Map<String, String> getFeatureShortNames() {
+		final Map<String, String> names = new LinkedHashMap<>(nChannels * FEATURES.size());
+		for (int c = 0; c < nChannels; c++)
+			for (int i = 0; i < FEATURES.size(); i++) {
+				final String feature = FEATURES.get(i);
+				final String shortName = FEATURE_SHORTNAMES.get(i);
+				names.put(makeFeatureKey(feature, c), makeFeatureKey(shortName, c));
 			}
 
 		return names;
 	}
 
 	@Override
-	public Map< String, String > getFeatureNames()
-	{
-		final Map< String, String > names = new LinkedHashMap<>( nChannels * FEATURES.size() );
-		for ( int c = 0; c < nChannels; c++ )
-			for ( int i = 0; i < FEATURES.size(); i++ )
-			{
-				final String feature = FEATURES.get( i );
-				final String shortName = FEATURE_NAMES.get( i );
-				names.put( makeFeatureKey( feature, c ), makeFeatureKey( shortName, c ) );
+	public Map<String, String> getFeatureNames() {
+		final Map<String, String> names = new LinkedHashMap<>(nChannels * FEATURES.size());
+		for (int c = 0; c < nChannels; c++)
+			for (int i = 0; i < FEATURES.size(); i++) {
+				final String feature = FEATURES.get(i);
+				final String shortName = FEATURE_NAMES.get(i);
+				names.put(makeFeatureKey(feature, c), makeFeatureKey(shortName, c));
 			}
 
 		return names;
 	}
 
 	@Override
-	public Map< String, Dimension > getFeatureDimensions()
-	{
-		final List< String > features = getFeatures();
-		final Map< String, Dimension > dimensions = new LinkedHashMap<>( features.size() );
-		for ( final String feature : features )
-			dimensions.put( feature, Dimension.NONE );
+	public Map<String, Dimension> getFeatureDimensions() {
+		final List<String> features = getFeatures();
+		final Map<String, Dimension> dimensions = new LinkedHashMap<>(features.size());
+		for (final String feature : features)
+			dimensions.put(feature, Dimension.NONE);
 
 		return dimensions;
 	}
 
 	@Override
-	public Map< String, Boolean > getIsIntFeature()
-	{
-		final List< String > features = getFeatures();
-		final Map< String, Boolean > isints = new LinkedHashMap<>( features.size() );
-		for ( final String feature : features )
-			isints.put( feature, Boolean.FALSE );
+	public Map<String, Boolean> getIsIntFeature() {
+		final List<String> features = getFeatures();
+		final Map<String, Boolean> isints = new LinkedHashMap<>(features.size());
+		for (final String feature : features)
+			isints.put(feature, Boolean.FALSE);
 
 		return isints;
 	}
 
-
 	@Override
-	public String getInfoText()
-	{
+	public String getInfoText() {
 		return null;
 	}
 
 	@Override
-	public ImageIcon getIcon()
-	{
+	public ImageIcon getIcon() {
 		return null;
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return KEY;
 	}
 
 	@Override
-	public boolean isManualFeature()
-	{
+	public boolean isManualFeature() {
 		return false;
 	}
 
 	@Override
-	public void setNChannels( final int nChannels )
-	{
+	public void setNChannels(final int nChannels) {
 		this.nChannels = nChannels;
 	}
 }

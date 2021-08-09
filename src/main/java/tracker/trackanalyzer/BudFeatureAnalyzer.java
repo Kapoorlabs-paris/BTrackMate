@@ -8,7 +8,7 @@ import fiji.plugin.btrackmate.TrackMateModule;
 import fiji.plugin.btrackmate.features.FeatureAnalyzer;
 import tracker.BUDDYDimension;
 
-public interface BudFeatureAnalyzer  extends TrackMateModule {
+public interface BudFeatureAnalyzer extends TrackMateModule {
 
 	/**
 	 * Returns the list of features this analyzer can compute.
@@ -54,4 +54,3 @@ public interface BudFeatureAnalyzer  extends TrackMateModule {
 	public boolean isManualFeature();
 
 }
-

@@ -10,21 +10,18 @@ import java.awt.image.BufferedImage;
  *
  * @author Ozzy
  */
-public class ImageHelper
-{
+public class ImageHelper {
 
 	/**
 	 * Capture a Swing Component and return as a BufferedImage
 	 *
-	 * @param component
-	 *            the component to capture.
+	 * @param component the component to capture.
 	 * @return a new image.
 	 */
-	public static BufferedImage captureComponent( final Component component )
-	{
-		final BufferedImage image = new BufferedImage( component.getWidth(), component.getHeight(),
-				BufferedImage.TYPE_INT_RGB );
-		component.paint( image.getGraphics() );
+	public static BufferedImage captureComponent(final Component component) {
+		final BufferedImage image = new BufferedImage(component.getWidth(), component.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
+		component.paint(image.getGraphics());
 		return image;
 	}
 
@@ -37,43 +34,35 @@ public class ImageHelper
 	/**
 	 * Helper method to combine two images, in the specified format.
 	 *
-	 * @param img1
-	 *            the first image to combine.
-	 * @param img2
-	 *            the second image to combine.
-	 * @param renderHint
-	 *            how to combine them.
+	 * @param img1       the first image to combine.
+	 * @param img2       the second image to combine.
+	 * @param renderHint how to combine them.
 	 * @return a new image.
 	 * @see #SIDE_BY_SIDE
 	 * @see #BOTTOM_TO_TOP
 	 */
-	public static BufferedImage combineImages( final BufferedImage img1, final BufferedImage img2, final int renderHint )
-	{
-		switch ( renderHint )
-		{
+	public static BufferedImage combineImages(final BufferedImage img1, final BufferedImage img2,
+			final int renderHint) {
+		switch (renderHint) {
 		default:
-		case SIDE_BY_SIDE:
-		{
+		case SIDE_BY_SIDE: {
 			/*
-			 * Create a new image that is the width of img1+img2. Take the
-			 * height of the taller image Paint the two images side-by-side.
+			 * Create a new image that is the width of img1+img2. Take the height of the
+			 * taller image Paint the two images side-by-side.
 			 */
-			final BufferedImage combined = new BufferedImage( img1.getWidth() + img2.getWidth(),
-					Math.max( img1.getHeight(), img2.getHeight() ), BufferedImage.TYPE_INT_RGB );
+			final BufferedImage combined = new BufferedImage(img1.getWidth() + img2.getWidth(),
+					Math.max(img1.getHeight(), img2.getHeight()), BufferedImage.TYPE_INT_RGB);
 			final Graphics g = combined.getGraphics();
-			g.drawImage( img1, 0, 0, null );
-			g.drawImage( img2, img1.getWidth(), 0, null );
+			g.drawImage(img1, 0, 0, null);
+			g.drawImage(img2, img1.getWidth(), 0, null);
 			return combined;
 		}
-		case BOTTOM_TO_TOP:
-		{
-			final BufferedImage combined = new BufferedImage(
-					Math.max( img1.getWidth(), img2.getWidth() ),
-					img1.getHeight() + img2.getHeight(),
-					BufferedImage.TYPE_INT_RGB );
+		case BOTTOM_TO_TOP: {
+			final BufferedImage combined = new BufferedImage(Math.max(img1.getWidth(), img2.getWidth()),
+					img1.getHeight() + img2.getHeight(), BufferedImage.TYPE_INT_RGB);
 			final Graphics g = combined.getGraphics();
-			g.drawImage( img1, 0, 0, null );
-			g.drawImage( img2, 0, img1.getHeight(), null );
+			g.drawImage(img1, 0, 0, null);
+			g.drawImage(img2, 0, img1.getHeight(), null);
 			return combined;
 		}
 		}

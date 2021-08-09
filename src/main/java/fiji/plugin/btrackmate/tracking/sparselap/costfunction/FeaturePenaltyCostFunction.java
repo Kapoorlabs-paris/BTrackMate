@@ -31,31 +31,26 @@ import fiji.plugin.btrackmate.Spot;
  * @author Jean-Yves Tinevez - 2014
  *
  */
-public class FeaturePenaltyCostFunction implements CostFunction< Spot, Spot >
-{
+public class FeaturePenaltyCostFunction implements CostFunction<Spot, Spot> {
 
-	private final Map< String, Double > featurePenalties;
+	private final Map<String, Double> featurePenalties;
 
-	public FeaturePenaltyCostFunction( final Map< String, Double > featurePenalties )
-	{
+	public FeaturePenaltyCostFunction(final Map<String, Double> featurePenalties) {
 		this.featurePenalties = featurePenalties;
 	}
 
 	@Override
-	public double linkingCost( final Spot source, final Spot target )
-	{
-		final double d1 = source.squareDistanceTo( target );
-		final double d2 = ( d1 == 0 ) ? Double.MIN_NORMAL : d1;
+	public double linkingCost(final Spot source, final Spot target) {
+		final double d1 = source.squareDistanceTo(target);
+		final double d2 = (d1 == 0) ? Double.MIN_NORMAL : d1;
 
 		double penalty = 1;
-		for ( final String feature : featurePenalties.keySet() )
-		{
-			final double ndiff = source.normalizeDiffTo( target, feature );
-			if ( Double.isNaN( ndiff ) )
-			{
+		for (final String feature : featurePenalties.keySet()) {
+			final double ndiff = source.normalizeDiffTo(target, feature);
+			if (Double.isNaN(ndiff)) {
 				continue;
 			}
-			final double factor = featurePenalties.get( feature );
+			final double factor = featurePenalties.get(feature);
 			penalty += factor * 1.5 * ndiff;
 		}
 

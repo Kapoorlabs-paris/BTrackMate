@@ -1,8 +1,9 @@
 package budDetector;
+
 public class FlagNode<K> {
 	private K value;
 	private boolean visited = false;
-	
+
 	public FlagNode(K value) {
 		this.setValue(value);
 	}

@@ -14,6 +14,7 @@ import org.jgrapht.traverse.GraphIterator;
 
 /**
  * A component of {@link Model} that handles spot and edges selection.
+ * 
  * @author Jean-Yves Tinevez
  */
 public class SelectionModel {
@@ -114,7 +115,7 @@ public class SelectionModel {
 		Map<Spot, Boolean> spotMap = new HashMap<>(1);
 		spotMap.put(spot, true);
 		if (DEBUG)
-			System.out.println("[SelectionModel] Seding event to listeners: "+selectionChangeListeners);
+			System.out.println("[SelectionModel] Seding event to listeners: " + selectionChangeListeners);
 		SelectionChangeEvent event = new SelectionChangeEvent(this, spotMap, null);
 		for (SelectionChangeListener listener : selectionChangeListeners)
 			listener.selectionChanged(event);
@@ -142,8 +143,9 @@ public class SelectionModel {
 			}
 		}
 		SelectionChangeEvent event = new SelectionChangeEvent(this, spotMap, null);
-		if (DEBUG) 
-			System.out.println("[SelectionModel] Seding event "+event.hashCode()+" to "+selectionChangeListeners.size()+" listeners: "+selectionChangeListeners);
+		if (DEBUG)
+			System.out.println("[SelectionModel] Seding event " + event.hashCode() + " to "
+					+ selectionChangeListeners.size() + " listeners: " + selectionChangeListeners);
 		for (SelectionChangeListener listener : selectionChangeListeners)
 			listener.selectionChanged(event);
 	}
@@ -228,46 +230,50 @@ public class SelectionModel {
 	 * SPECIAL METHODS
 	 */
 
-
 	/**
-	 * Search and add all spots and links belonging to the same track(s) that of given <code>spots</code> and 
-	 * <code>edges</code> to current selection. A <code>direction</code> parameter allow specifying
-	 * whether we should include only parts upwards in time, downwards in time or all the way through. 
-	 * @param spots  the spots to include in search
-	 * @param edges  the edges to include in search
-	 * @param direction  the direction to go when searching. Positive integers will result in searching
-	 * upwards in time, negative integers downwards in time and 0 all the way through.
+	 * Search and add all spots and links belonging to the same track(s) that of
+	 * given <code>spots</code> and <code>edges</code> to current selection. A
+	 * <code>direction</code> parameter allow specifying whether we should include
+	 * only parts upwards in time, downwards in time or all the way through.
+	 * 
+	 * @param spots     the spots to include in search
+	 * @param edges     the edges to include in search
+	 * @param direction the direction to go when searching. Positive integers will
+	 *                  result in searching upwards in time, negative integers
+	 *                  downwards in time and 0 all the way through.
 	 */
-	public void selectTrack(final Collection<Spot> spots, final Collection<DefaultWeightedEdge> edges, final int direction) {
+	public void selectTrack(final Collection<Spot> spots, final Collection<DefaultWeightedEdge> edges,
+			final int direction) {
 
 		HashSet<Spot> inspectionSpots = new HashSet<>(spots);
 
-		for(DefaultWeightedEdge edge : edges) {
+		for (DefaultWeightedEdge edge : edges) {
 			// We add connected spots to the list of spots to inspect
 			inspectionSpots.add(model.getTrackModel().getEdgeSource(edge));
 			inspectionSpots.add(model.getTrackModel().getEdgeTarget(edge));
 		}
 
 		// Walk across tracks to build selection
-		final HashSet<Spot> lSpotSelection 					= new HashSet<>();
-		final HashSet<DefaultWeightedEdge> lEdgeSelection 	= new HashSet<>();
+		final HashSet<Spot> lSpotSelection = new HashSet<>();
+		final HashSet<DefaultWeightedEdge> lEdgeSelection = new HashSet<>();
 
 		if (direction == 0) { // Unconditionally
 			for (Spot spot : inspectionSpots) {
 				lSpotSelection.add(spot);
-				GraphIterator<Spot, DefaultWeightedEdge> walker = model.getTrackModel().getDepthFirstIterator(spot, false);
-				while (walker.hasNext()) { 
+				GraphIterator<Spot, DefaultWeightedEdge> walker = model.getTrackModel().getDepthFirstIterator(spot,
+						false);
+				while (walker.hasNext()) {
 					Spot target = walker.next();
-					lSpotSelection.add(target); 
+					lSpotSelection.add(target);
 					// Deal with edges
 					Set<DefaultWeightedEdge> targetEdges = model.getTrackModel().edgesOf(target);
-					for(DefaultWeightedEdge targetEdge : targetEdges) {
+					for (DefaultWeightedEdge targetEdge : targetEdges) {
 						lEdgeSelection.add(targetEdge);
 					}
 				}
 			}
 
-		} else { // Only upward or backward in time 
+		} else { // Only upward or backward in time
 			for (Spot spot : inspectionSpots) {
 				lSpotSelection.add(spot);
 
@@ -275,10 +281,10 @@ public class SelectionModel {
 				// when branching is occurring, we do not want to get back in time.
 				Stack<Spot> stack = new Stack<>();
 				stack.add(spot);
-				while (!stack.isEmpty()) { 
+				while (!stack.isEmpty()) {
 					Spot inspected = stack.pop();
 					Set<DefaultWeightedEdge> targetEdges = model.getTrackModel().edgesOf(inspected);
-					for(DefaultWeightedEdge targetEdge : targetEdges) {
+					for (DefaultWeightedEdge targetEdge : targetEdges) {
 						Spot other;
 						if (direction > 0) {
 							// Upward in time: we just have to search through edges using their source spots
@@ -297,13 +303,14 @@ public class SelectionModel {
 			}
 		}
 
-		// Cut "tail": remove the first an last edges in time, so that the selection only has conencted 
+		// Cut "tail": remove the first an last edges in time, so that the selection
+		// only has conencted
 		// edges in it.
 		ArrayList<DefaultWeightedEdge> edgesToRemove = new ArrayList<>();
-		for(DefaultWeightedEdge edge : lEdgeSelection) {
+		for (DefaultWeightedEdge edge : lEdgeSelection) {
 			Spot source = model.getTrackModel().getEdgeSource(edge);
 			Spot target = model.getTrackModel().getEdgeTarget(edge);
-			if ( !(lSpotSelection.contains(source) && lSpotSelection.contains(target)) ) {
+			if (!(lSpotSelection.contains(source) && lSpotSelection.contains(target))) {
 				edgesToRemove.add(edge);
 			}
 		}

@@ -1,6 +1,5 @@
 package listeners;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,18 +19,16 @@ import pluginTools.InteractiveBud;
 import tracker.BUDDYTrackResult;
 import utility.SavePink;
 
-
 public class BudLinkobjectListener implements ActionListener {
-	
+
 	final InteractiveBud parent;
-	
+
 	public BudLinkobjectListener(final InteractiveBud parent) {
-		
+
 		this.parent = parent;
-		
+
 	}
-	
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent arg0) {
 
@@ -46,11 +43,9 @@ public class BudLinkobjectListener implements ActionListener {
 		});
 
 	}
-	
 
 	public void go() {
 
-		
 		parent.Tracklist.clear();
 		parent.Finalresult.clear();
 		parent.PanelSelectFile.removeAll();
@@ -65,20 +60,19 @@ public class BudLinkobjectListener implements ActionListener {
 		parent.scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		parent.PanelSelectFile.add(parent.scrollPane, BorderLayout.CENTER);
 
-		if (parent.imp.getOverlay()!=null) {
-		Roi[] rois = parent.imp.getOverlay().toArray();
-		
-		for(int i = 0; i<rois.length;++i) {
-			
-			Color roicolor = rois[i].getStrokeColor();
-			
-			if(roicolor == parent.Drawcolor)
-	        parent.imp.getOverlay().remove(rois[i]);			
-				
-				
+		if (parent.imp.getOverlay() != null) {
+			Roi[] rois = parent.imp.getOverlay().toArray();
+
+			for (int i = 0; i < rois.length; ++i) {
+
+				Color roicolor = rois[i].getStrokeColor();
+
+				if (roicolor == parent.Drawcolor)
+					parent.imp.getOverlay().remove(rois[i]);
+
+			}
 		}
-		}
-		parent.imp.updateAndDraw();		
+		parent.imp.updateAndDraw();
 		parent.PanelSelectFile.setBorder(parent.selectfile);
 		int size = 100;
 		parent.table.getColumnModel().getColumn(0).setPreferredWidth(size);
@@ -91,9 +85,7 @@ public class BudLinkobjectListener implements ActionListener {
 		parent.table.isOpaque();
 		parent.scrollPane.setMinimumSize(new Dimension(300, 200));
 		parent.scrollPane.setPreferredSize(new Dimension(300, 200));
-		
-		
-		
+
 		BUDDYTrackResult track = new BUDDYTrackResult(parent);
 		track.execute();
 		SavePink pinkies = new SavePink(parent);

@@ -5,11 +5,10 @@ import java.util.Map;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-
 /**
- * An event that characterizes a change in the current selection. 
- * {@link Spot} selection and {@link DefaultWeightedEdge} selection are dealt with separately, 
- * to keep the use of this class general.
+ * An event that characterizes a change in the current selection. {@link Spot}
+ * selection and {@link DefaultWeightedEdge} selection are dealt with
+ * separately, to keep the use of this class general.
  */
 public class SelectionChangeEvent extends EventObject {
 
@@ -22,61 +21,59 @@ public class SelectionChangeEvent extends EventObject {
 	protected Map<Spot, Boolean> spots;
 
 	/*
-	 * CONSTRUCTORS 
+	 * CONSTRUCTORS
 	 */
-	
+
 	/**
 	 * Represents a change in the selection of a displayed TM model.
 	 * <p>
-	 * Two maps are given. The first one represent changes in the spot
-	 * selection. The {@link Boolean} mapped to a {@link Spot} key specifies if
-	 * the spot was added to the selection (<code>true</code>) or removed from
-	 * it (<code>false</code>). The same goes for the
-	 * {@link DefaultWeightedEdge} map. <code>null</code>s are accepted for the
-	 * two maps, to specify that no changes happened for the corresponding type.
+	 * Two maps are given. The first one represent changes in the spot selection.
+	 * The {@link Boolean} mapped to a {@link Spot} key specifies if the spot was
+	 * added to the selection (<code>true</code>) or removed from it
+	 * (<code>false</code>). The same goes for the {@link DefaultWeightedEdge} map.
+	 * <code>null</code>s are accepted for the two maps, to specify that no changes
+	 * happened for the corresponding type.
 	 * 
-	 * @param source
-	 *            the source object that fires this event.
-	 * @param spots
-	 *            the spots that are added or removed from the selection by this
-	 *            event.
-	 * @param edges
-	 *            the edges that are added or removed from the selection by this
-	 *            event.
+	 * @param source the source object that fires this event.
+	 * @param spots  the spots that are added or removed from the selection by this
+	 *               event.
+	 * @param edges  the edges that are added or removed from the selection by this
+	 *               event.
 	 */
-	public SelectionChangeEvent(final Object source, final Map<Spot, Boolean> spots, final Map<DefaultWeightedEdge, Boolean> edges) {
+	public SelectionChangeEvent(final Object source, final Map<Spot, Boolean> spots,
+			final Map<DefaultWeightedEdge, Boolean> edges) {
 		super(source);
 		this.spots = spots;
 		this.edges = edges;
 	}
-	
+
 	/*
 	 * METHODS
 	 */
-	
+
 	/**
-	 * Returns the spots that have been added or removed from the selection.
-	 * The {@link Boolean} 
-	 * mapped to a {@link Spot} key specifies if the spot was added to the selection (<code>true</code>)
-	 * or removed from it (<code>false</code>).
-	 * @return added or removed spots, can be <code>null</code> if no changes on spot selection happened.
+	 * Returns the spots that have been added or removed from the selection. The
+	 * {@link Boolean} mapped to a {@link Spot} key specifies if the spot was added
+	 * to the selection (<code>true</code>) or removed from it (<code>false</code>).
+	 * 
+	 * @return added or removed spots, can be <code>null</code> if no changes on
+	 *         spot selection happened.
 	 */
 	public Map<Spot, Boolean> getSpots() {
 		return spots;
 	}
-	
+
 	/**
-	 * Returns the edges that have been added or removed from the selection.
-	 * The {@link Boolean} mapped to a {@link DefaultWeightedEdge} key specifies 
-	 * if the edge was added to the selection (<code>true</code>)
-	 * or removed from it (<code>false</code>).
-	 * @return added or removed edges, can be <code>null</code> if no changes on edge selection happened.
+	 * Returns the edges that have been added or removed from the selection. The
+	 * {@link Boolean} mapped to a {@link DefaultWeightedEdge} key specifies if the
+	 * edge was added to the selection (<code>true</code>) or removed from it
+	 * (<code>false</code>).
+	 * 
+	 * @return added or removed edges, can be <code>null</code> if no changes on
+	 *         edge selection happened.
 	 */
 	public Map<DefaultWeightedEdge, Boolean> getEdges() {
 		return edges;
 	}
-
-	
-
 
 }

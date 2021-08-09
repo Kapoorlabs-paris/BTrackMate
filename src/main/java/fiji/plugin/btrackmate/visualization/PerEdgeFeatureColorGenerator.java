@@ -7,8 +7,7 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import fiji.plugin.btrackmate.Model;
 import fiji.plugin.btrackmate.gui.displaysettings.Colormap;
 
-public class PerEdgeFeatureColorGenerator implements TrackColorGenerator
-{
+public class PerEdgeFeatureColorGenerator implements TrackColorGenerator {
 
 	private final Model model;
 
@@ -24,15 +23,8 @@ public class PerEdgeFeatureColorGenerator implements TrackColorGenerator
 
 	private final double max;
 
-	public PerEdgeFeatureColorGenerator(
-			final Model model,
-			final String edgeFeature,
-			final Color missingValueColor,
-			final Color undefinedValueColor,
-			final Colormap colormap,
-			final double min,
-			final double max )
-	{
+	public PerEdgeFeatureColorGenerator(final Model model, final String edgeFeature, final Color missingValueColor,
+			final Color undefinedValueColor, final Colormap colormap, final double min, final double max) {
 		this.model = model;
 		this.edgeFeature = edgeFeature;
 		this.missingValueColor = missingValueColor;
@@ -43,16 +35,15 @@ public class PerEdgeFeatureColorGenerator implements TrackColorGenerator
 	}
 
 	@Override
-	public Color color( final DefaultWeightedEdge edge )
-	{
-		final Double feat = model.getFeatureModel().getEdgeFeature( edge, edgeFeature );
-		if ( null == feat )
+	public Color color(final DefaultWeightedEdge edge) {
+		final Double feat = model.getFeatureModel().getEdgeFeature(edge, edgeFeature);
+		if (null == feat)
 			return missingValueColor;
 
-		if ( feat.isNaN() )
+		if (feat.isNaN())
 			return undefinedValueColor;
 
 		final double val = feat.doubleValue();
-		return colormap.getPaint( ( val - min ) / ( max - min ) );
+		return colormap.getPaint((val - min) / (max - min));
 	}
 }

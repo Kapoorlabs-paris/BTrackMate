@@ -9,33 +9,24 @@ import fiji.plugin.btrack.gui.descriptors.BTStartDialogDescriptor;
 import ij.WindowManager;
 
 public class ChooseBudSecOrigMap implements ActionListener {
-	
-	
+
 	final BTStartDialogDescriptor parent;
 	final JComboBox<String> choice;
-	
-	
-	public ChooseBudSecOrigMap(final BTStartDialogDescriptor parent, final JComboBox<String> choice ) {
-		
-		
+
+	public ChooseBudSecOrigMap(final BTStartDialogDescriptor parent, final JComboBox<String> choice) {
+
 		this.parent = parent;
 		this.choice = choice;
-		
-	}
 
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		String imagename = (String) choice.getSelectedItem();
-		
-		
-		
-    	parent.impOrigRGB = WindowManager.getImage(imagename);
-    	
 
-		
+		String imagename = (String) choice.getSelectedItem();
+
+		parent.impOrigRGB = WindowManager.getImage(imagename);
+
 	}
-	
 
 }

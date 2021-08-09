@@ -41,8 +41,8 @@ import ij.gui.FreehandRoi;
 import ij.gui.ImageCanvas;
 import ij.gui.Toolbar;
 
-public class SpotEditTool extends AbstractTool implements MouseMotionListener, MouseListener, MouseWheelListener, KeyListener, ToolWithOptions
-{
+public class SpotEditTool extends AbstractTool
+		implements MouseMotionListener, MouseListener, MouseWheelListener, KeyListener, ToolWithOptions {
 
 	private static final boolean DEBUG = false;
 
@@ -52,16 +52,11 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 
 	private static final String TOOL_NAME = "Spot edit tool";
 
-	private static final String TOOL_ICON = "CeacD70Cd8bD80"
-			+ "D71Cc69D81CfefD91"
-			+ "CdbcD72Cb9bD82"
-			+ "Cd9bD73Cc8aD83CfefD93"
-			+ "CdddD54CbaaD64Cb69D74Cb59D84Cb9aD94CdddDa4"
+	private static final String TOOL_ICON = "CeacD70Cd8bD80" + "D71Cc69D81CfefD91" + "CdbcD72Cb9bD82"
+			+ "Cd9bD73Cc8aD83CfefD93" + "CdddD54CbaaD64Cb69D74Cb59D84Cb9aD94CdddDa4"
 			+ "CfefD25Cd9bD35Cb8aD45CaaaD55CcccD65CfdeL7585CdccD95CaaaDa5Cb8aDb5Cd7aDc5CfceDd5"
-			+ "CfeeD26Cc69D36Cc8aD46CdacDb6Cb59Dc6CecdDd6"
-			+ "Cb9aD37CdcdD47CeeeDb7Ca89Dc7"
-			+ "CfefD28Cc7aD38Cd9cD48CecdDb8Cb79Dc8CfdeDd8"
-			+ "CcabD29Cb59D39Cb69D49CedeD59CeacDb9Cc59Dc9CebdDd9"
+			+ "CfeeD26Cc69D36Cc8aD46CdacDb6Cb59Dc6CecdDd6" + "Cb9aD37CdcdD47CeeeDb7Ca89Dc7"
+			+ "CfefD28Cc7aD38Cd9cD48CecdDb8Cb79Dc8CfdeDd8" + "CcabD29Cb59D39Cb69D49CedeD59CeacDb9Cc59Dc9CebdDd9"
 			+ "CfdeD0aCc7aD1aCb8aD2aCedeD3aCcbcD4aCb7aD5aCe9cD6aCeeeDbaCa89DcaCfefDda"
 			+ "CebdD0bCc59D1bCebdD2bCfefD4bCc7aL5b6bCeceDbbCb79DcbCfdeDdb"
 			+ "CfeeD0cCa89D1cCfefD2cCcabL5c6cCc9bDbcCc59DccCdabDdc"
@@ -70,8 +65,8 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 			+ "CfefD0fCdbcD1fCdddD4fCdcdL5f6fCdddD7fCfdeD9fCdbdDafCebdDefCfefDff";
 
 	/**
-	 * Fall back default radius when the settings does not give a default radius
-	 * to use.
+	 * Fall back default radius when the settings does not give a default radius to
+	 * use.
 	 */
 	private static final double FALL_BACK_RADIUS = 5.;
 
@@ -79,10 +74,10 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 	private static SpotEditTool instance;
 
 	/** Stores the edited spot in each {@link ImagePlus}. */
-	private final HashMap< ImagePlus, Spot > editedSpots = new HashMap<>();
+	private final HashMap<ImagePlus, Spot> editedSpots = new HashMap<>();
 
 	/** Stores the view possible attached to each {@link ImagePlus}. */
-	HashMap< ImagePlus, HyperStackDisplayer > displayers = new HashMap<>();
+	HashMap<ImagePlus, HyperStackDisplayer> displayers = new HashMap<>();
 
 	/** The radius of the previously edited spot. */
 	private Double previousRadius = null;
@@ -112,33 +107,30 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 	/**
 	 * Singleton
 	 */
-	private SpotEditTool()
-	{}
+	private SpotEditTool() {
+	}
 
 	/**
 	 * Return the singleton instance for this tool. If it was not previously
 	 * instantiated, this calls instantiates it.
 	 */
-	public static SpotEditTool getInstance()
-	{
-		if ( null == instance )
-		{
+	public static SpotEditTool getInstance() {
+		if (null == instance) {
 			instance = new SpotEditTool();
-			if ( DEBUG )
-				System.out.println( "[SpotEditTool] Instantiating: " + instance );
+			if (DEBUG)
+				System.out.println("[SpotEditTool] Instantiating: " + instance);
 		}
-		if ( DEBUG )
-			System.out.println( "[SpotEditTool] Returning instance: " + instance );
+		if (DEBUG)
+			System.out.println("[SpotEditTool] Returning instance: " + instance);
 		return instance;
 	}
 
 	/**
 	 * Return true if the tool is currently present in ImageJ toolbar.
 	 */
-	public static boolean isLaunched()
-	{
+	public static boolean isLaunched() {
 		final Toolbar toolbar = Toolbar.getInstance();
-		if ( null != toolbar && toolbar.getToolId( TOOL_NAME ) >= 0 )
+		if (null != toolbar && toolbar.getToolId(TOOL_NAME) >= 0)
 			return true;
 		return false;
 	}
@@ -148,48 +140,43 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 	 */
 
 	@Override
-	public String getToolName()
-	{
+	public String getToolName() {
 		return TOOL_NAME;
 	}
 
 	@Override
-	public String getToolIcon()
-	{
+	public String getToolIcon() {
 		return TOOL_ICON;
 	}
 
 	/**
-	 * Overridden so that we can keep track of the last ImagePlus actions are
-	 * taken on. Very much like ImageJ.
+	 * Overridden so that we can keep track of the last ImagePlus actions are taken
+	 * on. Very much like ImageJ.
 	 */
 	@Override
-	public ImagePlus getImagePlus( final ComponentEvent e )
-	{
-		imp = super.getImagePlus( e );
+	public ImagePlus getImagePlus(final ComponentEvent e) {
+		imp = super.getImagePlus(e);
 		return imp;
 	}
 
 	/**
-	 * Register the given {@link HyperStackDisplayer}. If this method id not
-	 * called, the tool will not respond.
+	 * Register the given {@link HyperStackDisplayer}. If this method id not called,
+	 * the tool will not respond.
 	 */
-	public void register( final ImagePlus lImp, final HyperStackDisplayer displayer )
-	{
-		if ( DEBUG )
-			System.out.println( "[SpotEditTool] Currently registered: " + displayers );
+	public void register(final ImagePlus lImp, final HyperStackDisplayer displayer) {
+		if (DEBUG)
+			System.out.println("[SpotEditTool] Currently registered: " + displayers);
 
-		if ( displayers.containsKey( lImp ) )
-		{
-			unregisterTool( lImp );
-			if ( DEBUG )
-				System.out.println( "[SpotEditTool] De-registering " + lImp + " as tool listener." );
+		if (displayers.containsKey(lImp)) {
+			unregisterTool(lImp);
+			if (DEBUG)
+				System.out.println("[SpotEditTool] De-registering " + lImp + " as tool listener.");
 		}
 
-		displayers.put( lImp, displayer );
-		if ( DEBUG )
-		{
-			System.out.println( "[SpotEditTool] Registering " + lImp + " and " + displayer + "." + " Currently registered: " + displayers );
+		displayers.put(lImp, displayer);
+		if (DEBUG) {
+			System.out.println("[SpotEditTool] Registering " + lImp + " and " + displayer + "."
+					+ " Currently registered: " + displayers);
 		}
 	}
 
@@ -198,179 +185,148 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 	 */
 
 	@Override
-	public void mouseClicked( final MouseEvent e )
-	{
-		final ImagePlus lImp = getImagePlus( e );
-		final HyperStackDisplayer displayer = displayers.get( lImp );
-		if ( DEBUG )
-		{
-			System.out.println( "[SpotEditTool] @mouseClicked" );
-			System.out.println( "[SpotEditTool] Got " + lImp + " as ImagePlus" );
-			System.out.println( "[SpotEditTool] Matching displayer: " + displayer );
+	public void mouseClicked(final MouseEvent e) {
+		final ImagePlus lImp = getImagePlus(e);
+		final HyperStackDisplayer displayer = displayers.get(lImp);
+		if (DEBUG) {
+			System.out.println("[SpotEditTool] @mouseClicked");
+			System.out.println("[SpotEditTool] Got " + lImp + " as ImagePlus");
+			System.out.println("[SpotEditTool] Matching displayer: " + displayer);
 
-			for ( final MouseListener ml : lImp.getCanvas().getMouseListeners() )
-				System.out.println( "[SpotEditTool] mouse listener: " + ml );
+			for (final MouseListener ml : lImp.getCanvas().getMouseListeners())
+				System.out.println("[SpotEditTool] mouse listener: " + ml);
 		}
 
-		if ( null == displayer )
+		if (null == displayer)
 			return;
 
-		final Spot clickLocation = makeSpot( lImp, displayer, getImageCanvas( e ), e.getPoint() );
+		final Spot clickLocation = makeSpot(lImp, displayer, getImageCanvas(e), e.getPoint());
 		final int frame = displayer.imp.getFrame() - 1;
 		final Model model = displayer.getModel();
-		Spot target = model.getSpots().getSpotAt( clickLocation, frame, true );
-		Spot editedSpot = editedSpots.get( lImp );
+		Spot target = model.getSpots().getSpotAt(clickLocation, frame, true);
+		Spot editedSpot = editedSpots.get(lImp);
 
 		final SelectionModel selectionModel = displayer.getSelectionModel();
 
 		// Check desired behavior
-		switch ( e.getClickCount() )
-		{
+		switch (e.getClickCount()) {
 
-		case 1:
-		{
+		case 1: {
 			// Change selection
 			// only if we are not currently editing.
-			if ( null != editedSpot )
-			{ return; }
+			if (null != editedSpot) {
+				return;
+			}
 			// If no target, we clear selection
-			if ( null == target )
-			{
-				if ( !autolinkingmode )
-				{
+			if (null == target) {
+				if (!autolinkingmode) {
 					selectionModel.clearSelection();
-					logger.log( "Cleared selection.\n" );
+					logger.log("Cleared selection.\n");
 				}
 				roiedit = null;
-				lImp.setRoi( roiedit );
-			}
-			else
-			{
+				lImp.setRoi(roiedit);
+			} else {
 
-				updateStatusBar( target, lImp.getCalibration().getUnits() );
+				updateStatusBar(target, lImp.getCalibration().getUnits());
 				final int addToSelectionMask = InputEvent.SHIFT_DOWN_MASK;
-				if ( ( e.getModifiersEx() & addToSelectionMask ) == addToSelectionMask )
-				{
-					if ( selectionModel.getSpotSelection().contains( target ) )
-						selectionModel.removeSpotFromSelection( target );
+				if ((e.getModifiersEx() & addToSelectionMask) == addToSelectionMask) {
+					if (selectionModel.getSpotSelection().contains(target))
+						selectionModel.removeSpotFromSelection(target);
 					else
-						selectionModel.addSpotToSelection( target );
-				}
-				else
-				{
+						selectionModel.addSpotToSelection(target);
+				} else {
 					selectionModel.clearSpotSelection();
-					selectionModel.addSpotToSelection( target );
+					selectionModel.addSpotToSelection(target);
 				}
 			}
 			break;
 		}
 
-		case 2:
-		{
+		case 2: {
 			// Edit spot
 
-			if ( null == editedSpot )
-			{
+			if (null == editedSpot) {
 				// No spot is currently edited, we pick one to edit
 				Double radius;
-				if ( null != target && null != target.getFeature( Spot.RADIUS ) )
-				{
-					radius = target.getFeature( Spot.RADIUS );
-					logger.log( "Editing spot " + target + ".\n" );
-				}
-				else
-				{
+				if (null != target && null != target.getFeature(Spot.RADIUS)) {
+					radius = target.getFeature(Spot.RADIUS);
+					logger.log("Editing spot " + target + ".\n");
+				} else {
 					radius = previousRadius;
-					if ( null == radius )
+					if (null == radius)
 						radius = FALL_BACK_RADIUS;
 				}
-				if ( null == target || target.squareDistanceTo( clickLocation ) > radius * radius )
-				{
+				if (null == target || target.squareDistanceTo(clickLocation) > radius * radius) {
 					// Create a new spot if not inside one
 					target = clickLocation;
-					if ( null == previousRadius )
+					if (null == previousRadius)
 						previousRadius = radius;
 
-					target.putFeature( Spot.RADIUS, previousRadius );
-					logger.log( "Creating new spot.\n" );
+					target.putFeature(Spot.RADIUS, previousRadius);
+					logger.log("Creating new spot.\n");
 
 				}
 				editedSpot = target;
 				displayer.spotOverlay.editingSpot = editedSpot;
 				displayer.refresh();
 				// Edit spot
-				if ( DEBUG )
-					System.out.println( "[SpotEditTool] mouseClicked: Set " + editedSpot + " as editing spot for this imp." );
+				if (DEBUG)
+					System.out.println(
+							"[SpotEditTool] mouseClicked: Set " + editedSpot + " as editing spot for this imp.");
 
-			}
-			else
-			{
+			} else {
 				// We leave editing mode
-				if ( DEBUG )
-					System.out.println( "[SpotEditTool] mouseClicked: Got " + editedSpot + " as editing spot for this imp, leaving editing mode." );
+				if (DEBUG)
+					System.out.println("[SpotEditTool] mouseClicked: Got " + editedSpot
+							+ " as editing spot for this imp, leaving editing mode.");
 
 				/*
-				 * A hack: we update the current z and t of the edited spot to
-				 * the current one, because it is not updated otherwise: there
-				 * is no way to listen to slice change
+				 * A hack: we update the current z and t of the edited spot to the current one,
+				 * because it is not updated otherwise: there is no way to listen to slice
+				 * change
 				 */
-				final double calibration[] = TMUtils.getSpatialCalibration( lImp );
-				final double zslice = ( displayer.imp.getSlice() - 1 ) * calibration[ 2 ];
-				editedSpot.putFeature( Spot.POSITION_Z, zslice );
-				final Double initFrame = editedSpot.getFeature( Spot.FRAME );
+				final double calibration[] = TMUtils.getSpatialCalibration(lImp);
+				final double zslice = (displayer.imp.getSlice() - 1) * calibration[2];
+				editedSpot.putFeature(Spot.POSITION_Z, zslice);
+				final Double initFrame = editedSpot.getFeature(Spot.FRAME);
 				// Move it in Z
-				final double z = ( displayer.imp.getSlice() - 1 ) * calibration[ 2 ];
-				editedSpot.putFeature( Spot.POSITION_Z, z );
-				editedSpot.putFeature( Spot.POSITION_T, frame * lImp.getCalibration().frameInterval );
-				editedSpot.putFeature( Spot.FRAME, Double.valueOf( frame ) );
+				final double z = (displayer.imp.getSlice() - 1) * calibration[2];
+				editedSpot.putFeature(Spot.POSITION_Z, z);
+				editedSpot.putFeature(Spot.POSITION_T, frame * lImp.getCalibration().frameInterval);
+				editedSpot.putFeature(Spot.FRAME, Double.valueOf(frame));
 
 				model.beginUpdate();
-				try
-				{
-					if ( initFrame == null )
-					{
+				try {
+					if (initFrame == null) {
 						// Means that the spot was created
-						model.addSpotTo( editedSpot, frame );
-					}
-					else if ( initFrame != frame )
-					{
+						model.addSpotTo(editedSpot, frame);
+					} else if (initFrame != frame) {
 						// Move it to the new frame
-						model.moveSpotFrom( editedSpot, initFrame.intValue(), frame );
-					}
-					else
-					{
+						model.moveSpotFrom(editedSpot, initFrame.intValue(), frame);
+					} else {
 						// The spots pre-existed and was not moved across frames
-						model.updateFeatures( editedSpot );
+						model.updateFeatures(editedSpot);
 					}
-					logger.log( "Finished editing spot " + editedSpot + ".\n" );
+					logger.log("Finished editing spot " + editedSpot + ".\n");
 
-				}
-				finally
-				{
+				} finally {
 					model.endUpdate();
 				}
 
 				/*
-				 * If we are in auto-link mode, we create an edge with spot in
-				 * selection, if there is just one and if it is in a previous
-				 * frame
+				 * If we are in auto-link mode, we create an edge with spot in selection, if
+				 * there is just one and if it is in a previous frame
 				 */
-				if ( autolinkingmode )
-				{
-					final Set< Spot > spotSelection = selectionModel.getSpotSelection();
-					if ( spotSelection.size() == 1 )
-					{
+				if (autolinkingmode) {
+					final Set<Spot> spotSelection = selectionModel.getSpotSelection();
+					if (spotSelection.size() == 1) {
 						final Spot source = spotSelection.iterator().next();
-						if ( editedSpot.diffTo( source, Spot.FRAME ) > 0 )
-						{
+						if (editedSpot.diffTo(source, Spot.FRAME) > 0) {
 							model.beginUpdate();
-							try
-							{
-								model.addEdge( source, editedSpot, -1 );
-								logger.log( "Created a link between " + source + " and " + editedSpot + ".\n" );
-							}
-							finally
-							{
+							try {
+								model.addEdge(source, editedSpot, -1);
+								logger.log("Created a link between " + source + " and " + editedSpot + ".\n");
+							} finally {
 								model.endUpdate();
 							}
 						}
@@ -379,69 +335,63 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 
 				// Set selection
 				selectionModel.clearSpotSelection();
-				selectionModel.addSpotToSelection( editedSpot );
+				selectionModel.addSpotToSelection(editedSpot);
 
 				// Forget edited spot, but remember its radius
-				previousRadius = editedSpot.getFeature( Spot.RADIUS );
+				previousRadius = editedSpot.getFeature(Spot.RADIUS);
 				editedSpot = null;
 				displayer.spotOverlay.editingSpot = null;
 			}
 			break;
 		}
 		}
-		editedSpots.put( lImp, editedSpot );
+		editedSpots.put(lImp, editedSpot);
 	}
 
 	@Override
-	public void mousePressed( final MouseEvent e )
-	{}
+	public void mousePressed(final MouseEvent e) {
+	}
 
 	@Override
-	public void mouseReleased( final MouseEvent e )
-	{
-		if ( null != roiedit )
-		{
-			new Thread( "SpotEditTool roiedit processing" )
-			{
+	public void mouseReleased(final MouseEvent e) {
+		if (null != roiedit) {
+			new Thread("SpotEditTool roiedit processing") {
 				@Override
-				public void run()
-				{
-					roiedit.mouseReleased( e );
-					final ImagePlus lImp = getImagePlus( e );
-					final HyperStackDisplayer displayer = displayers.get( lImp );
+				public void run() {
+					roiedit.mouseReleased(e);
+					final ImagePlus lImp = getImagePlus(e);
+					final HyperStackDisplayer displayer = displayers.get(lImp);
 					final int frame = displayer.imp.getFrame() - 1;
 					final Model model = displayer.getModel();
 					final SelectionModel selectionModel = displayer.getSelectionModel();
 
-					final Iterator< Spot > it;
-					if ( IJ.shiftKeyDown() )
-						it = model.getSpots().iterator( true );
+					final Iterator<Spot> it;
+					if (IJ.shiftKeyDown())
+						it = model.getSpots().iterator(true);
 					else
-						it = model.getSpots().iterator( frame, true );
+						it = model.getSpots().iterator(frame, true);
 
-					final Collection< Spot > added = new ArrayList<>();
-					final double calibration[] = TMUtils.getSpatialCalibration( lImp );
+					final Collection<Spot> added = new ArrayList<>();
+					final double calibration[] = TMUtils.getSpatialCalibration(lImp);
 
-					while ( it.hasNext() )
-					{
+					while (it.hasNext()) {
 						final Spot spot = it.next();
-						final double x = spot.getFeature( Spot.POSITION_X );
-						final double y = spot.getFeature( Spot.POSITION_Y );
+						final double x = spot.getFeature(Spot.POSITION_X);
+						final double y = spot.getFeature(Spot.POSITION_Y);
 						// In pixel units
-						final int xp = ( int ) ( x / calibration[ 0 ] + 0.5f );
-						final int yp = ( int ) ( y / calibration[ 1 ] + 0.5f );
+						final int xp = (int) (x / calibration[0] + 0.5f);
+						final int yp = (int) (y / calibration[1] + 0.5f);
 
-						if ( null != roiedit && roiedit.contains( xp, yp ) )
-							added.add( spot );
+						if (null != roiedit && roiedit.contains(xp, yp))
+							added.add(spot);
 					}
 
-					if ( !added.isEmpty() )
-					{
-						selectionModel.addSpotToSelection( added );
-						if ( added.size() == 1 )
-							logger.log( "Added one spot to selection.\n" );
+					if (!added.isEmpty()) {
+						selectionModel.addSpotToSelection(added);
+						if (added.size() == 1)
+							logger.log("Added one spot to selection.\n");
 						else
-							logger.log( "Added " + added.size() + " spots to selection.\n" );
+							logger.log("Added " + added.size() + " spots to selection.\n");
 					}
 					roiedit = null;
 				}
@@ -450,85 +400,74 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 	}
 
 	@Override
-	public void mouseEntered( final MouseEvent e )
-	{}
+	public void mouseEntered(final MouseEvent e) {
+	}
 
 	@Override
-	public void mouseExited( final MouseEvent e )
-	{}
+	public void mouseExited(final MouseEvent e) {
+	}
 
 	@Override
-	public void mouseDragged( final MouseEvent e )
-	{
-		final ImagePlus lImp = getImagePlus( e );
-		final double[] calibration = TMUtils.getSpatialCalibration( lImp );
-		final HyperStackDisplayer displayer = displayers.get( lImp );
-		if ( null == displayer )
+	public void mouseDragged(final MouseEvent e) {
+		final ImagePlus lImp = getImagePlus(e);
+		final double[] calibration = TMUtils.getSpatialCalibration(lImp);
+		final HyperStackDisplayer displayer = displayers.get(lImp);
+		if (null == displayer)
 			return;
-		final Spot editedSpot = editedSpots.get( lImp );
-		if ( null != editedSpot )
-		{
+		final Spot editedSpot = editedSpots.get(lImp);
+		if (null != editedSpot) {
 			final Point mouseLocation = e.getPoint();
-			final ImageCanvas canvas = getImageCanvas( e );
-			final double x = ( -0.5 + canvas.offScreenXD( mouseLocation.x ) ) * calibration[ 0 ];
-			final double y = ( -0.5 + canvas.offScreenYD( mouseLocation.y ) ) * calibration[ 1 ];
-			final double z = ( lImp.getSlice() - 1 ) * calibration[ 2 ];
-			editedSpot.putFeature( Spot.POSITION_X, x );
-			editedSpot.putFeature( Spot.POSITION_Y, y );
-			editedSpot.putFeature( Spot.POSITION_Z, z );
+			final ImageCanvas canvas = getImageCanvas(e);
+			final double x = (-0.5 + canvas.offScreenXD(mouseLocation.x)) * calibration[0];
+			final double y = (-0.5 + canvas.offScreenYD(mouseLocation.y)) * calibration[1];
+			final double z = (lImp.getSlice() - 1) * calibration[2];
+			editedSpot.putFeature(Spot.POSITION_X, x);
+			editedSpot.putFeature(Spot.POSITION_Y, y);
+			editedSpot.putFeature(Spot.POSITION_Z, z);
 			displayer.imp.updateAndDraw();
-			updateStatusBar( editedSpot, lImp.getCalibration().getUnits() );
-		}
-		else
-		{
-			if ( null == roiedit )
-			{
-				if ( !IJ.spaceBarDown() )
-				{
-					roiedit = new FreehandRoi( e.getX(), e.getY(), lImp )
-					{
+			updateStatusBar(editedSpot, lImp.getCalibration().getUnits());
+		} else {
+			if (null == roiedit) {
+				if (!IJ.spaceBarDown()) {
+					roiedit = new FreehandRoi(e.getX(), e.getY(), lImp) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
-						protected void handleMouseUp( final int screenX, final int screenY )
-						{
+						protected void handleMouseUp(final int screenX, final int screenY) {
 							type = FREEROI;
-							super.handleMouseUp( screenX, screenY );
+							super.handleMouseUp(screenX, screenY);
 						}
 					};
-					lImp.setRoi( roiedit );
+					lImp.setRoi(roiedit);
 				}
-			}
-			else
-			{
-				roiedit.mouseDragged( e );
+			} else {
+				roiedit.mouseDragged(e);
 			}
 		}
 	}
 
 	@Override
-	public void mouseMoved( final MouseEvent e )
-	{
-		if ( quickEditedSpot == null )
+	public void mouseMoved(final MouseEvent e) {
+		if (quickEditedSpot == null)
 			return;
-		final ImagePlus lImp = getImagePlus( e );
-		final double[] calibration = TMUtils.getSpatialCalibration( lImp );
-		final HyperStackDisplayer displayer = displayers.get( lImp );
-		if ( null == displayer )
+		final ImagePlus lImp = getImagePlus(e);
+		final double[] calibration = TMUtils.getSpatialCalibration(lImp);
+		final HyperStackDisplayer displayer = displayers.get(lImp);
+		if (null == displayer)
 			return;
-		final Spot editedSpot = editedSpots.get( lImp );
-		if ( null != editedSpot )
+		final Spot editedSpot = editedSpots.get(lImp);
+		if (null != editedSpot)
 			return;
 
 		final Point mouseLocation = e.getPoint();
-		final ImageCanvas canvas = getImageCanvas( e );
-		final double x = ( -0.5 + canvas.offScreenXD( mouseLocation.x ) ) * calibration[ 0 ];
-		final double y = ( -0.5 + canvas.offScreenYD( mouseLocation.y ) ) * calibration[ 1 ];
-		final double z = ( lImp.getSlice() - 1 ) * calibration[ 2 ];
+		final ImageCanvas canvas = getImageCanvas(e);
+		final double x = (-0.5 + canvas.offScreenXD(mouseLocation.x)) * calibration[0];
+		final double y = (-0.5 + canvas.offScreenYD(mouseLocation.y)) * calibration[1];
+		final double z = (lImp.getSlice() - 1) * calibration[2];
 
-		quickEditedSpot.putFeature( Spot.POSITION_X, x );
-		quickEditedSpot.putFeature( Spot.POSITION_Y, y );
-		quickEditedSpot.putFeature( Spot.POSITION_Z, z );
+		quickEditedSpot.putFeature(Spot.POSITION_X, x);
+		quickEditedSpot.putFeature(Spot.POSITION_Y, y);
+		quickEditedSpot.putFeature(Spot.POSITION_Z, z);
 		displayer.imp.updateAndDraw();
 
 	}
@@ -538,32 +477,30 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 	 */
 
 	@Override
-	public void mouseWheelMoved( final MouseWheelEvent e )
-	{
-		final ImagePlus lImp = getImagePlus( e );
-		final HyperStackDisplayer displayer = displayers.get( lImp );
-		if ( null == displayer )
+	public void mouseWheelMoved(final MouseWheelEvent e) {
+		final ImagePlus lImp = getImagePlus(e);
+		final HyperStackDisplayer displayer = displayers.get(lImp);
+		if (null == displayer)
 			return;
-		final Spot editedSpot = editedSpots.get( lImp );
-		if ( null == editedSpot || !e.isAltDown() )
+		final Spot editedSpot = editedSpots.get(lImp);
+		if (null == editedSpot || !e.isAltDown())
 			return;
-		double radius = editedSpot.getFeature( Spot.RADIUS );
+		double radius = editedSpot.getFeature(Spot.RADIUS);
 		final double dx = lImp.getCalibration().pixelWidth;
-		if ( e.isShiftDown() )
+		if (e.isShiftDown())
 			radius += e.getWheelRotation() * dx * COARSE_STEP;
 		else
 			radius += e.getWheelRotation() * dx * FINE_STEP;
 
-		if ( radius < dx )
-		{
+		if (radius < dx) {
 			e.consume();
 			return;
 		}
 
-		editedSpot.putFeature( Spot.RADIUS, radius );
+		editedSpot.putFeature(Spot.RADIUS, radius);
 		displayer.imp.updateAndDraw();
 		e.consume();
-		updateStatusBar( editedSpot, lImp.getCalibration().getUnits() );
+		updateStatusBar(editedSpot, lImp.getCalibration().getUnits());
 	}
 
 	/*
@@ -571,75 +508,61 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 	 */
 
 	@Override
-	public void keyTyped( final KeyEvent e )
-	{}
+	public void keyTyped(final KeyEvent e) {
+	}
 
 	@Override
-	public void keyPressed( final KeyEvent e )
-	{
+	public void keyPressed(final KeyEvent e) {
 
-		if ( DEBUG )
-			System.out.println( "[SpotEditTool] keyPressed: " + e.getKeyChar() );
+		if (DEBUG)
+			System.out.println("[SpotEditTool] keyPressed: " + e.getKeyChar());
 
-		final ImagePlus lImp = getImagePlus( e );
-		if ( lImp == null )
+		final ImagePlus lImp = getImagePlus(e);
+		if (lImp == null)
 			return;
-		final HyperStackDisplayer displayer = displayers.get( lImp );
-		if ( null == displayer )
+		final HyperStackDisplayer displayer = displayers.get(lImp);
+		if (null == displayer)
 			return;
 
 		final Model model = displayer.getModel();
 		final SelectionModel selectionModel = displayer.getSelectionModel();
-		Spot editedSpot = editedSpots.get( lImp );
-		final ImageCanvas canvas = getImageCanvas( e );
+		Spot editedSpot = editedSpots.get(lImp);
+		final ImageCanvas canvas = getImageCanvas(e);
 
 		final int keycode = e.getKeyCode();
 
-		switch ( keycode )
-		{
+		switch (keycode) {
 
 		// Delete currently edited spot
-		case KeyEvent.VK_DELETE:
-		{
-			if ( null == editedSpot )
-			{
-				final ArrayList< Spot > spotSelection = new ArrayList<>( selectionModel.getSpotSelection() );
-				final ArrayList< DefaultWeightedEdge > edgeSelection = new ArrayList<>( selectionModel.getEdgeSelection() );
+		case KeyEvent.VK_DELETE: {
+			if (null == editedSpot) {
+				final ArrayList<Spot> spotSelection = new ArrayList<>(selectionModel.getSpotSelection());
+				final ArrayList<DefaultWeightedEdge> edgeSelection = new ArrayList<>(selectionModel.getEdgeSelection());
 				model.beginUpdate();
-				try
-				{
+				try {
 					selectionModel.clearSelection();
-					for ( final DefaultWeightedEdge edge : edgeSelection )
-					{
-						model.removeEdge( edge );
-						logger.log( "Removed edge " + edge + ".\n" );
+					for (final DefaultWeightedEdge edge : edgeSelection) {
+						model.removeEdge(edge);
+						logger.log("Removed edge " + edge + ".\n");
 					}
-					for ( final Spot spot : spotSelection )
-					{
-						model.removeSpot( spot );
-						logger.log( "Removed spot " + spot + ".\n" );
+					for (final Spot spot : spotSelection) {
+						model.removeSpot(spot);
+						logger.log("Removed spot " + spot + ".\n");
 					}
-				}
-				finally
-				{
+				} finally {
 					model.endUpdate();
 				}
 
-			}
-			else
-			{
+			} else {
 				model.beginUpdate();
-				try
-				{
-					model.removeSpot( editedSpot );
-					logger.log( "Removed " + editedSpot + ".\n" );
-				}
-				finally
-				{
+				try {
+					model.removeSpot(editedSpot);
+					logger.log("Removed " + editedSpot + ".\n");
+				} finally {
 					model.endUpdate();
 				}
 				editedSpot = null;
-				editedSpots.put( lImp, null );
+				editedSpots.put(lImp, null);
 			}
 			lImp.updateAndDraw();
 			e.consume();
@@ -647,121 +570,94 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 		}
 
 		// Quick add spot at mouse
-		case KeyEvent.VK_A:
-		{
+		case KeyEvent.VK_A: {
 
-			if ( null == editedSpot )
-			{
+			if (null == editedSpot) {
 
-				if ( e.isShiftDown() )
-				{
-					logger.log( "Semi-automatic tracking.\n" );
+				if (e.isShiftDown()) {
+					logger.log("Semi-automatic tracking.\n");
 					// Semi-auto tracking
-					semiAutoTracking( model, selectionModel, lImp );
+					semiAutoTracking(model, selectionModel, lImp);
 
-				}
-				else
-				{
+				} else {
 
 					// Create and drop a new spot
-					final double radius = ( null != previousRadius )
-							? previousRadius
-							: FALL_BACK_RADIUS;
+					final double radius = (null != previousRadius) ? previousRadius : FALL_BACK_RADIUS;
 
-					final Spot newSpot = makeSpot( lImp, displayer, canvas, null );
+					final Spot newSpot = makeSpot(lImp, displayer, canvas, null);
 					final double dt = lImp.getCalibration().frameInterval;
 					final int frame = displayer.imp.getFrame() - 1;
-					newSpot.putFeature( Spot.POSITION_T, frame * dt );
-					newSpot.putFeature( Spot.FRAME, Double.valueOf( frame ) );
-					newSpot.putFeature( Spot.RADIUS, radius );
-					newSpot.putFeature( Spot.QUALITY, -1d );
+					newSpot.putFeature(Spot.POSITION_T, frame * dt);
+					newSpot.putFeature(Spot.FRAME, Double.valueOf(frame));
+					newSpot.putFeature(Spot.RADIUS, radius);
+					newSpot.putFeature(Spot.QUALITY, -1d);
 
 					model.beginUpdate();
-					try
-					{
-						model.addSpotTo( newSpot, frame );
-						logger.log( "Added spot " + newSpot + " to frame " + frame + ".\n" );
-					}
-					finally
-					{
+					try {
+						model.addSpotTo(newSpot, frame);
+						logger.log("Added spot " + newSpot + " to frame " + frame + ".\n");
+					} finally {
 						model.endUpdate();
 					}
 
 					/*
-					 * If we are in auto-link mode, we create an edge with spot
-					 * in selection, if there is just one and if it is in a
-					 * previous frame
+					 * If we are in auto-link mode, we create an edge with spot in selection, if
+					 * there is just one and if it is in a previous frame
 					 */
-					if ( autolinkingmode )
-					{
-						final Set< Spot > spotSelection = selectionModel.getSpotSelection();
-						if ( spotSelection.size() == 1 )
-						{
+					if (autolinkingmode) {
+						final Set<Spot> spotSelection = selectionModel.getSpotSelection();
+						if (spotSelection.size() == 1) {
 							final Spot source = spotSelection.iterator().next();
-							if ( newSpot.diffTo( source, Spot.FRAME ) != 0 )
-							{
+							if (newSpot.diffTo(source, Spot.FRAME) != 0) {
 								model.beginUpdate();
-								try
-								{
-									model.addEdge( source, newSpot, -1 );
-									logger.log( "Created a link between " + source + " and " + newSpot + ".\n" );
-								}
-								finally
-								{
+								try {
+									model.addEdge(source, newSpot, -1);
+									logger.log("Created a link between " + source + " and " + newSpot + ".\n");
+								} finally {
 									model.endUpdate();
 								}
 							}
 						}
 						selectionModel.clearSpotSelection();
-						selectionModel.addSpotToSelection( newSpot );
+						selectionModel.addSpotToSelection(newSpot);
 					}
 
 					lImp.updateAndDraw();
 					e.consume();
 				}
 
-			}
-			else
-			{
+			} else {
 
 			}
 			break;
 		}
 
 		// Quick delete spot under mouse
-		case KeyEvent.VK_D:
-		{
+		case KeyEvent.VK_D: {
 
-			if ( null == editedSpot )
-			{
+			if (null == editedSpot) {
 
 				final int frame = displayer.imp.getFrame() - 1;
-				final Spot clickLocation = makeSpot( lImp, displayer, canvas, null );
-				final Spot target = model.getSpots().getSpotAt( clickLocation, frame, true );
-				if ( null == target )
-				{
+				final Spot clickLocation = makeSpot(lImp, displayer, canvas, null);
+				final Spot target = model.getSpots().getSpotAt(clickLocation, frame, true);
+				if (null == target) {
 					// Consume it anyway, so that we are not bothered by IJ
 					e.consume();
 					return;
 				}
 
-				selectionModel.removeSpotFromSelection( target );
+				selectionModel.removeSpotFromSelection(target);
 				model.beginUpdate();
-				try
-				{
-					model.removeSpot( target );
-					logger.log( "Removed spot " + target + ".\n" );
-				}
-				finally
-				{
+				try {
+					model.removeSpot(target);
+					logger.log("Removed spot " + target + ".\n");
+				} finally {
 					model.endUpdate();
 				}
 
 				lImp.updateAndDraw();
 
-			}
-			else
-			{
+			} else {
 
 			}
 			e.consume();
@@ -769,15 +665,13 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 		}
 
 		// Quick move spot under the mouse
-		case KeyEvent.VK_SPACE:
-		{
+		case KeyEvent.VK_SPACE: {
 
-			if ( null == quickEditedSpot )
-			{
+			if (null == quickEditedSpot) {
 				final int frame = displayer.imp.getFrame() - 1;
-				final Spot clickLocation = makeSpot( lImp, displayer, canvas, null );
-				quickEditedSpot = model.getSpots().getSpotAt( clickLocation, frame, true );
-				if ( null == quickEditedSpot )
+				final Spot clickLocation = makeSpot(lImp, displayer, canvas, null);
+				quickEditedSpot = model.getSpots().getSpotAt(clickLocation, frame, true);
+				if (null == quickEditedSpot)
 					return;
 			}
 			e.consume();
@@ -787,50 +681,42 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 
 		// Quick change spot radius
 		case KeyEvent.VK_Q:
-		case KeyEvent.VK_E:
-		{
+		case KeyEvent.VK_E: {
 
 			e.consume();
-			if ( null == editedSpot )
-			{
+			if (null == editedSpot) {
 
 				final int frame = displayer.imp.getFrame() - 1;
-				final Spot clickLocation = makeSpot( lImp, displayer, canvas, null );
-				final Spot target = model.getSpots().getSpotAt( clickLocation, frame, true );
-				if ( null == target )
+				final Spot clickLocation = makeSpot(lImp, displayer, canvas, null);
+				final Spot target = model.getSpots().getSpotAt(clickLocation, frame, true);
+				if (null == target)
 					return;
 
-				final double radius = target.getFeature( Spot.RADIUS );
-				final int factor = ( e.getKeyCode() == KeyEvent.VK_Q ) ? -1 : 1;
+				final double radius = target.getFeature(Spot.RADIUS);
+				final int factor = (e.getKeyCode() == KeyEvent.VK_Q) ? -1 : 1;
 				final double dx = lImp.getCalibration().pixelWidth;
 
-				final double newRadius = ( e.isShiftDown() )
-						? radius + factor * dx * COARSE_STEP
+				final double newRadius = (e.isShiftDown()) ? radius + factor * dx * COARSE_STEP
 						: radius + factor * dx * FINE_STEP;
 
-				if ( newRadius <= dx )
+				if (newRadius <= dx)
 					return;
 
 				final SpotRoi roi = target.getRoi();
-				if ( null == roi )
-				{
-					target.putFeature( Spot.RADIUS, newRadius );
-				}
-				else
-				{
+				if (null == roi) {
+					target.putFeature(Spot.RADIUS, newRadius);
+				} else {
 					final double alpha = newRadius / radius;
-					roi.scale( alpha );
-					target.putFeature( Spot.RADIUS, roi.radius() );
+					roi.scale(alpha);
+					target.putFeature(Spot.RADIUS, roi.radius());
 				}
 
 				model.beginUpdate();
-				try
-				{
-					model.updateFeatures( target );
-					logger.log( String.format( Locale.US, "Changed spot " + target + " radius to %.1f " + model.getSpaceUnits() + ".\n", radius ) );
-				}
-				finally
-				{
+				try {
+					model.updateFeatures(target);
+					logger.log(String.format(Locale.US,
+							"Changed spot " + target + " radius to %.1f " + model.getSpaceUnits() + ".\n", radius));
+				} finally {
 					model.endUpdate();
 				}
 
@@ -841,67 +727,59 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 		}
 
 		// Copy spots from previous frame
-		case KeyEvent.VK_V:
-		{
-			if ( e.isShiftDown() )
-			{
+		case KeyEvent.VK_V: {
+			if (e.isShiftDown()) {
 
 				final int currentFrame = lImp.getFrame() - 1;
-				if ( currentFrame > 0 )
-				{
+				if (currentFrame > 0) {
 
 					final SpotCollection spots = model.getSpots();
-					if ( spots.getNSpots( currentFrame - 1, true ) == 0 )
-					{
+					if (spots.getNSpots(currentFrame - 1, true) == 0) {
 						e.consume();
 						break;
 					}
-					final HashSet< Spot > copiedSpots = new HashSet<>( spots.getNSpots( currentFrame - 1, true ) );
-					final HashSet< String > featuresKey = new HashSet<>( spots.iterator( currentFrame - 1, true ).next().getFeatures().keySet() );
+					final HashSet<Spot> copiedSpots = new HashSet<>(spots.getNSpots(currentFrame - 1, true));
+					final HashSet<String> featuresKey = new HashSet<>(
+							spots.iterator(currentFrame - 1, true).next().getFeatures().keySet());
 					// Deal with time separately
-					featuresKey.remove( Spot.POSITION_T );
+					featuresKey.remove(Spot.POSITION_T);
 					double dt = lImp.getCalibration().frameInterval;
-					if ( dt == 0. )
+					if (dt == 0.)
 						dt = 1.;
 
-					for ( final Iterator< Spot > it = spots.iterator( currentFrame - 1, true ); it.hasNext(); )
-					{
+					for (final Iterator<Spot> it = spots.iterator(currentFrame - 1, true); it.hasNext();) {
 						final Spot spot = it.next();
-						final Spot newSpot = new Spot( spot );
+						final Spot newSpot = new Spot(spot);
 						// Deal with features
-						for ( final String key : featuresKey )
-						{
-							final Double val = spot.getFeature( key );
-							if ( val == null )
+						for (final String key : featuresKey) {
+							final Double val = spot.getFeature(key);
+							if (val == null)
 								continue;
 
-							newSpot.putFeature( key, val );
+							newSpot.putFeature(key, val);
 						}
-						newSpot.putFeature( Spot.POSITION_T, spot.getFeature( Spot.POSITION_T ) + dt );
-						copiedSpots.add( newSpot );
+						newSpot.putFeature(Spot.POSITION_T, spot.getFeature(Spot.POSITION_T) + dt);
+						copiedSpots.add(newSpot);
 					}
 
 					model.beginUpdate();
-					try
-					{
+					try {
 						// Remove old ones
-						final HashSet< Spot > toRemove = new HashSet<>();
-						for ( final Iterator< Spot > it = spots.iterator( currentFrame, true ); it.hasNext(); )
-							toRemove.add( it.next() );
+						final HashSet<Spot> toRemove = new HashSet<>();
+						for (final Iterator<Spot> it = spots.iterator(currentFrame, true); it.hasNext();)
+							toRemove.add(it.next());
 
-						for ( final Spot spot : toRemove )
-							model.removeSpot( spot );
+						for (final Spot spot : toRemove)
+							model.removeSpot(spot);
 
 						// Add new ones
-						for ( final Spot spot : copiedSpots )
-							model.addSpotTo( spot, currentFrame );
-					}
-					finally
-					{
+						for (final Spot spot : copiedSpots)
+							model.addSpotTo(spot, currentFrame);
+					} finally {
 						model.endUpdate();
 						lImp.updateAndDraw();
-						logger.log( "Removed spots of frame " + currentFrame + ".\n" );
-						logger.log( "Copied spots of frame " + ( currentFrame - 1 ) + " to frame " + currentFrame + ".\n" );
+						logger.log("Removed spots of frame " + currentFrame + ".\n");
+						logger.log("Copied spots of frame " + (currentFrame - 1) + " to frame " + currentFrame + ".\n");
 					}
 				}
 
@@ -910,90 +788,70 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 			break;
 		}
 
-		case KeyEvent.VK_L:
-		{
+		case KeyEvent.VK_L: {
 
-			if ( e.isShiftDown() )
-			{
+			if (e.isShiftDown()) {
 				/*
 				 * Toggle auto-linking mode
 				 */
 				autolinkingmode = !autolinkingmode;
-				logger.log( "Toggled auto-linking mode " + ( autolinkingmode ? "on.\n" : "off.\n" ) );
+				logger.log("Toggled auto-linking mode " + (autolinkingmode ? "on.\n" : "off.\n"));
 
-			}
-			else
-			{
+			} else {
 				/*
 				 * Toggle a link between two spots.
 				 */
-				final Set< Spot > selectedSpots = selectionModel.getSpotSelection();
-				if ( selectedSpots.size() == 2 )
-				{
-					final Iterator< Spot > it = selectedSpots.iterator();
+				final Set<Spot> selectedSpots = selectionModel.getSpotSelection();
+				if (selectedSpots.size() == 2) {
+					final Iterator<Spot> it = selectedSpots.iterator();
 					final Spot sourceTmp = it.next();
 					final Spot targetTmp = it.next();
 
-					final Spot source = sourceTmp.diffTo( targetTmp, Spot.FRAME ) < 0 ? sourceTmp : targetTmp;
-					final Spot target = sourceTmp.diffTo( targetTmp, Spot.FRAME ) < 0 ? targetTmp : sourceTmp;
+					final Spot source = sourceTmp.diffTo(targetTmp, Spot.FRAME) < 0 ? sourceTmp : targetTmp;
+					final Spot target = sourceTmp.diffTo(targetTmp, Spot.FRAME) < 0 ? targetTmp : sourceTmp;
 
-					if ( model.getTrackModel().containsEdge( source, target ) )
-					{
+					if (model.getTrackModel().containsEdge(source, target)) {
 						/*
 						 * Remove it
 						 */
 						model.beginUpdate();
-						try
-						{
-							model.removeEdge( source, target );
-							logger.log( "Removed edge between " + source + " and " + target + ".\n" );
-						}
-						finally
-						{
+						try {
+							model.removeEdge(source, target);
+							logger.log("Removed edge between " + source + " and " + target + ".\n");
+						} finally {
 							model.endUpdate();
 						}
 
-					}
-					else
-					{
+					} else {
 						/*
 						 * Create a new link
 						 */
-						final int ts = source.getFeature( Spot.FRAME ).intValue();
-						final int tt = target.getFeature( Spot.FRAME ).intValue();
+						final int ts = source.getFeature(Spot.FRAME).intValue();
+						final int tt = target.getFeature(Spot.FRAME).intValue();
 
-						if ( tt != ts )
-						{
+						if (tt != ts) {
 							model.beginUpdate();
-							try
-							{
-								model.addEdge( source, target, -1 );
-								logger.log( "Created an edge between " + source + " and " + target + ".\n" );
-							}
-							finally
-							{
+							try {
+								model.addEdge(source, target, -1);
+								logger.log("Created an edge between " + source + " and " + target + ".\n");
+							} finally {
 								model.endUpdate();
 							}
 							/*
-							 * To emulate a kind of automatic linking, we put
-							 * the last spot to the selection, so several spots
-							 * can be tracked in a row without having to
+							 * To emulate a kind of automatic linking, we put the last spot to the
+							 * selection, so several spots can be tracked in a row without having to
 							 * de-select one
 							 */
-							final Spot single = ( tt > ts ) ? target : source;
+							final Spot single = (tt > ts) ? target : source;
 							selectionModel.clearSpotSelection();
-							selectionModel.addSpotToSelection( single );
-						}
-						else
-						{
-							logger.error( "Cannot create an edge between two spots belonging to the same frame.\n" );
+							selectionModel.addSpotToSelection(single);
+						} else {
+							logger.error("Cannot create an edge between two spots belonging to the same frame.\n");
 						}
 					}
 
-				}
-				else
-				{
-					logger.error( "Expected selection to contain 2 spots, found " + selectedSpots.size() + ".\n" );
+				} else {
+					logger.error("Expected selection to contain 2 spots, found " + selectedSpots.size() + ".\n");
 				}
 
 			}
@@ -1003,31 +861,26 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 		}
 
 		case KeyEvent.VK_G:
-		case KeyEvent.VK_F:
-		{
+		case KeyEvent.VK_F: {
 			// Stepwise time browsing.
 			final int currentT = lImp.getT() - 1;
-			final int prevStep = ( currentT / params.stepwiseTimeBrowsing ) * params.stepwiseTimeBrowsing;
+			final int prevStep = (currentT / params.stepwiseTimeBrowsing) * params.stepwiseTimeBrowsing;
 			int tp;
-			if ( keycode == KeyEvent.VK_G )
-			{
+			if (keycode == KeyEvent.VK_G) {
 				tp = prevStep + params.stepwiseTimeBrowsing;
-			}
-			else
-			{
-				if ( currentT == prevStep )
+			} else {
+				if (currentT == prevStep)
 					tp = currentT - params.stepwiseTimeBrowsing;
 				else
 					tp = prevStep;
 			}
-			lImp.setT( tp + 1 );
+			lImp.setT(tp + 1);
 
 			e.consume();
 			break;
 		}
 
-		case KeyEvent.VK_W:
-		{
+		case KeyEvent.VK_W: {
 			e.consume(); // consume it: we do not want IJ to close the window
 			break;
 		}
@@ -1036,52 +889,41 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 
 	}
 
-	private Spot makeSpot( final ImagePlus lImp, HyperStackDisplayer displayer, final ImageCanvas canvas, Point mouseLocation )
-	{
-		if ( displayer == null )
-		{
-			displayer = displayers.get( lImp );
+	private Spot makeSpot(final ImagePlus lImp, HyperStackDisplayer displayer, final ImageCanvas canvas,
+			Point mouseLocation) {
+		if (displayer == null) {
+			displayer = displayers.get(lImp);
 		}
-		if ( mouseLocation == null )
-		{
+		if (mouseLocation == null) {
 			mouseLocation = MouseInfo.getPointerInfo().getLocation();
-			SwingUtilities.convertPointFromScreen( mouseLocation, canvas );
+			SwingUtilities.convertPointFromScreen(mouseLocation, canvas);
 		}
-		final double[] calibration = TMUtils.getSpatialCalibration( lImp );
-		return new Spot(
-				( -0.5d + canvas.offScreenXD( mouseLocation.x ) ) * calibration[ 0 ],
-				( -0.5d + canvas.offScreenYD( mouseLocation.y ) ) * calibration[ 1 ],
-				( lImp.getSlice() - 1 ) * calibration[ 2 ],
-				FALL_BACK_RADIUS,
-				-1d );
+		final double[] calibration = TMUtils.getSpatialCalibration(lImp);
+		return new Spot((-0.5d + canvas.offScreenXD(mouseLocation.x)) * calibration[0],
+				(-0.5d + canvas.offScreenYD(mouseLocation.y)) * calibration[1], (lImp.getSlice() - 1) * calibration[2],
+				FALL_BACK_RADIUS, -1d);
 	}
 
 	@Override
-	public void keyReleased( final KeyEvent e )
-	{
-		if ( DEBUG )
-			System.out.println( "[SpotEditTool] keyReleased: " + e.getKeyChar() );
+	public void keyReleased(final KeyEvent e) {
+		if (DEBUG)
+			System.out.println("[SpotEditTool] keyReleased: " + e.getKeyChar());
 
-		switch ( e.getKeyCode() )
-		{
-		case KeyEvent.VK_SPACE:
-		{
-			if ( null == quickEditedSpot )
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_SPACE: {
+			if (null == quickEditedSpot)
 				return;
-			final ImagePlus lImp = getImagePlus( e );
-			if ( lImp == null )
+			final ImagePlus lImp = getImagePlus(e);
+			if (lImp == null)
 				return;
-			final HyperStackDisplayer displayer = displayers.get( lImp );
-			if ( null == displayer )
+			final HyperStackDisplayer displayer = displayers.get(lImp);
+			if (null == displayer)
 				return;
 			final Model model = displayer.getModel();
 			model.beginUpdate();
-			try
-			{
-				model.updateFeatures( quickEditedSpot );
-			}
-			finally
-			{
+			try {
+				model.updateFeatures(quickEditedSpot);
+			} finally {
 				model.endUpdate();
 			}
 			quickEditedSpot = null;
@@ -1095,64 +937,58 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 	 * PRIVATE METHODS
 	 */
 
-	private void updateStatusBar( final Spot spot, final String units )
-	{
-		if ( null == spot )
+	private void updateStatusBar(final Spot spot, final String units) {
+		if (null == spot)
 			return;
 		String statusString = "";
-		if ( null == spot.getName() || spot.getName().equals( "" ) )
-			statusString = String.format( Locale.US, "Spot ID%d, x = %.1f, y = %.1f, z = %.1f, r = %.1f %s", spot.ID(), spot.getFeature( Spot.POSITION_X ), spot.getFeature( Spot.POSITION_Y ), spot.getFeature( Spot.POSITION_Z ), spot.getFeature( Spot.RADIUS ), units );
+		if (null == spot.getName() || spot.getName().equals(""))
+			statusString = String.format(Locale.US, "Spot ID%d, x = %.1f, y = %.1f, z = %.1f, r = %.1f %s", spot.ID(),
+					spot.getFeature(Spot.POSITION_X), spot.getFeature(Spot.POSITION_Y),
+					spot.getFeature(Spot.POSITION_Z), spot.getFeature(Spot.RADIUS), units);
 		else
-			statusString = String.format( Locale.US, "Spot %s, x = %.1f, y = %.1f, z = %.1f, r = %.1f %s", spot.getName(), spot.getFeature( Spot.POSITION_X ), spot.getFeature( Spot.POSITION_Y ), spot.getFeature( Spot.POSITION_Z ), spot.getFeature( Spot.RADIUS ), units );
-		IJ.showStatus( statusString );
+			statusString = String.format(Locale.US, "Spot %s, x = %.1f, y = %.1f, z = %.1f, r = %.1f %s",
+					spot.getName(), spot.getFeature(Spot.POSITION_X), spot.getFeature(Spot.POSITION_Y),
+					spot.getFeature(Spot.POSITION_Z), spot.getFeature(Spot.RADIUS), units);
+		IJ.showStatus(statusString);
 	}
 
-	void semiAutoTracking( final Model model, final SelectionModel selectionModel, final ImagePlus lImp )
-	{
-		@SuppressWarnings( "rawtypes" )
-		final SemiAutoTracker autotracker = new SemiAutoTracker( model, selectionModel, lImp, logger );
-		autotracker.setParameters( params.qualityThreshold, params.distanceTolerance, params.nFrames );
-		autotracker.setNumThreads( 4 );
-		new Thread( "TrackMate semi-automated tracking thread" )
-		{
+	void semiAutoTracking(final Model model, final SelectionModel selectionModel, final ImagePlus lImp) {
+		@SuppressWarnings("rawtypes")
+		final SemiAutoTracker autotracker = new SemiAutoTracker(model, selectionModel, lImp, logger);
+		autotracker.setParameters(params.qualityThreshold, params.distanceTolerance, params.nFrames);
+		autotracker.setNumThreads(4);
+		new Thread("TrackMate semi-automated tracking thread") {
 			@Override
-			public void run()
-			{
+			public void run() {
 				final boolean ok = autotracker.checkInput() && autotracker.process();
-				if ( !ok )
-					logger.error( autotracker.getErrorMessage() );
+				if (!ok)
+					logger.error(autotracker.getErrorMessage());
 			}
 		}.start();
 	}
 
 	@Override
-	public void showOptionDialog()
-	{
-		if ( null == configPanel )
-		{
-			configPanel = new SpotEditToolConfigPanel( this );
-			configPanel.addWindowListener( new WindowAdapter()
-			{
+	public void showOptionDialog() {
+		if (null == configPanel) {
+			configPanel = new SpotEditToolConfigPanel(this);
+			configPanel.addWindowListener(new WindowAdapter() {
 				@Override
-				public void windowClosing( final WindowEvent e )
-				{
+				public void windowClosing(final WindowEvent e) {
 					logger = Logger.IJTOOLBAR_LOGGER;
 				}
-			} );
+			});
 		}
-		configPanel.setLocation( toolbar.getLocationOnScreen() );
-		configPanel.setVisible( true );
+		configPanel.setLocation(toolbar.getLocationOnScreen());
+		configPanel.setVisible(true);
 		logger = configPanel.getLogger();
 	}
 
 	/**
 	 * Sets the radius to use for the next created spot.
 	 * 
-	 * @param radius
-	 *            the radius to use.
+	 * @param radius the radius to use.
 	 */
-	public void setRadius( final double radius )
-	{
+	public void setRadius(final double radius) {
 		this.previousRadius = radius;
 	}
 
@@ -1160,15 +996,14 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 	 * INNER CLASSES
 	 */
 
-	static class SpotEditToolParams
-	{
+	static class SpotEditToolParams {
 
 		/*
 		 * Semi-auto tracking parameters
 		 */
 		/**
-		 * The fraction of the initial quality above which we keep new spots.
-		 * The highest, the more intolerant.
+		 * The fraction of the initial quality above which we keep new spots. The
+		 * highest, the more intolerant.
 		 */
 		double qualityThreshold = 0.5;
 
@@ -1188,9 +1023,9 @@ public class SpotEditTool extends AbstractTool implements MouseMotionListener, M
 		int stepwiseTimeBrowsing = 5;
 
 		@Override
-		public String toString()
-		{
-			return super.toString() + ": " + "QualityThreshold = " + qualityThreshold + ", DistanceTolerance = " + distanceTolerance + ", nFrames = " + nFrames;
+		public String toString() {
+			return super.toString() + ": " + "QualityThreshold = " + qualityThreshold + ", DistanceTolerance = "
+					+ distanceTolerance + ", nFrames = " + nFrames;
 		}
 	}
 

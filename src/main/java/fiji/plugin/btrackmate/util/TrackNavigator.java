@@ -210,8 +210,8 @@ public class TrackNavigator {
 	 */
 
 	/**
-	 * Return a meaningful spot from the current selection, or <code>null</code>
-	 * if the selection is empty.
+	 * Return a meaningful spot from the current selection, or <code>null</code> if
+	 * the selection is empty.
 	 */
 	private Spot getASpot() {
 		// Get it from spot selection

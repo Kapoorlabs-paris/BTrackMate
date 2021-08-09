@@ -18,7 +18,7 @@ import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.view.Views;
 import pluginTools.InteractiveBud.ValueChange;
 
-public class GreenCellTrack implements Runnable{
+public class GreenCellTrack implements Runnable {
 
 	final InteractiveBud parent;
 	final JProgressBar jpb;
@@ -36,9 +36,9 @@ public class GreenCellTrack implements Runnable{
 		// set up executor service
 		for (int t = 1; t < parent.fourthDimensionSize; ++t) {
 			parent.fourthDimension = t;
-			if(parent.imp.getOverlay()!=null)
+			if (parent.imp.getOverlay() != null)
 				parent.overlay.clear();
-			 //we start from zero
+			// we start from zero
 			parent.ZTRois = new ArrayList<int[]>();
 			parent.updatePreview(ValueChange.THIRDDIMmouse);
 

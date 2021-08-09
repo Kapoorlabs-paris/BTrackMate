@@ -51,8 +51,8 @@ import fiji.plugin.btrackmate.visualization.TrackMateModelView;
 import fiji.plugin.btrackmate.visualization.trackscheme.utils.SearchBar;
 import ij.ImagePlus;
 
-public class AllSpotsTableView extends JFrame implements TrackMateModelView, ModelChangeListener, SelectionChangeListener
-{
+public class AllSpotsTableView extends JFrame
+		implements TrackMateModelView, ModelChangeListener, SelectionChangeListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -62,16 +62,15 @@ public class AllSpotsTableView extends JFrame implements TrackMateModelView, Mod
 
 	private final Model model;
 
-	private final TablePanel< Spot > spotTable;
+	private final TablePanel<Spot> spotTable;
 
-	private final AtomicBoolean ignoreSelectionChange = new AtomicBoolean( false );
+	private final AtomicBoolean ignoreSelectionChange = new AtomicBoolean(false);
 
 	private final SelectionModel selectionModel;
 
-	public AllSpotsTableView( final Model model, final SelectionModel selectionModel, final DisplaySettings ds )
-	{
-		super( "All spots table" );
-		setIconImage( TRACKMATE_ICON.getImage() );
+	public AllSpotsTableView(final Model model, final SelectionModel selectionModel, final DisplaySettings ds) {
+		super("All spots table");
+		setIconImage(TRACKMATE_ICON.getImage());
 		this.model = model;
 		this.selectionModel = selectionModel;
 
@@ -80,174 +79,140 @@ public class AllSpotsTableView extends JFrame implements TrackMateModelView, Mod
 		 */
 
 		final JPanel mainPanel = new JPanel();
-		mainPanel.setLayout( new BorderLayout() );
+		mainPanel.setLayout(new BorderLayout());
 
 		// Table.
-		this.spotTable = createSpotTable( model, ds );
+		this.spotTable = createSpotTable(model, ds);
 
-		mainPanel.add( spotTable.getPanel(), BorderLayout.CENTER );
+		mainPanel.add(spotTable.getPanel(), BorderLayout.CENTER);
 
 		// Tool bar.
 		final JPanel toolbar = new JPanel();
-		final BoxLayout layout = new BoxLayout( toolbar, BoxLayout.LINE_AXIS );
-		toolbar.setLayout( layout );
-		final JButton exportBtn = new JButton( "Export to CSV", CSV_ICON );
-		exportBtn.addActionListener( e -> exportToCsv() );
-		toolbar.add( exportBtn );
-		toolbar.add( Box.createHorizontalGlue() );
-		final SearchBar searchBar = new SearchBar( model, this );
-		searchBar.setMaximumSize( new java.awt.Dimension( 160, 30 ) );
-		toolbar.add( searchBar );
-		final JToggleButton tglColoring = new JToggleButton( "coloring" );
-		tglColoring.addActionListener( e -> {
-			spotTable.setUseColoring( tglColoring.isSelected() );
+		final BoxLayout layout = new BoxLayout(toolbar, BoxLayout.LINE_AXIS);
+		toolbar.setLayout(layout);
+		final JButton exportBtn = new JButton("Export to CSV", CSV_ICON);
+		exportBtn.addActionListener(e -> exportToCsv());
+		toolbar.add(exportBtn);
+		toolbar.add(Box.createHorizontalGlue());
+		final SearchBar searchBar = new SearchBar(model, this);
+		searchBar.setMaximumSize(new java.awt.Dimension(160, 30));
+		toolbar.add(searchBar);
+		final JToggleButton tglColoring = new JToggleButton("coloring");
+		tglColoring.addActionListener(e -> {
+			spotTable.setUseColoring(tglColoring.isSelected());
 			refresh();
-		} );
-		toolbar.add( tglColoring );
-		mainPanel.add( toolbar, BorderLayout.NORTH );
+		});
+		toolbar.add(tglColoring);
+		mainPanel.add(toolbar, BorderLayout.NORTH);
 
-		getContentPane().add( mainPanel );
+		getContentPane().add(mainPanel);
 		pack();
 
 		/*
 		 * Listeners.
 		 */
 
-		spotTable.getTable().getSelectionModel().addListSelectionListener(
-				new SpotTableSelectionListener() );
+		spotTable.getTable().getSelectionModel().addListSelectionListener(new SpotTableSelectionListener());
 
 		final UpdateListener refresher = () -> refresh();
-		ds.listeners().add( refresher );
-		selectionModel.addSelectionChangeListener( this );
-		model.addModelChangeListener( this );
-		addWindowListener( new WindowAdapter()
-		{
+		ds.listeners().add(refresher);
+		selectionModel.addSelectionChangeListener(this);
+		model.addModelChangeListener(this);
+		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing( final java.awt.event.WindowEvent e )
-			{
-				selectionModel.removeSelectionChangeListener( AllSpotsTableView.this );
-				model.removeModelChangeListener( AllSpotsTableView.this );
-				ds.listeners().remove( refresher );
+			public void windowClosing(final java.awt.event.WindowEvent e) {
+				selectionModel.removeSelectionChangeListener(AllSpotsTableView.this);
+				model.removeModelChangeListener(AllSpotsTableView.this);
+				ds.listeners().remove(refresher);
 			};
-		} );
+		});
 	}
 
-	public void exportToCsv()
-	{
-		final File file = FileChooser.chooseFile(
-				this,
-				selectedFile,
-				new FileNameExtensionFilter( "CSV files", "csv" ),
-				"Export table to CSV",
-				DialogType.SAVE,
-				SelectionMode.FILES_ONLY );
-		if ( null == file )
+	public void exportToCsv() {
+		final File file = FileChooser.chooseFile(this, selectedFile, new FileNameExtensionFilter("CSV files", "csv"),
+				"Export table to CSV", DialogType.SAVE, SelectionMode.FILES_ONLY);
+		if (null == file)
 			return;
 
 		selectedFile = file.getAbsolutePath();
-		exportToCsv( selectedFile );
+		exportToCsv(selectedFile);
 	}
 
-	public void exportToCsv( final String csvFile )
-	{
-		try
-		{
-			spotTable.exportToCsv( new File( csvFile ) );
-		}
-		catch ( final IOException e )
-		{
-			model.getLogger().error( "Problem exporting to file "
-					+ csvFile + "\n" + e.getMessage() );
+	public void exportToCsv(final String csvFile) {
+		try {
+			spotTable.exportToCsv(new File(csvFile));
+		} catch (final IOException e) {
+			model.getLogger().error("Problem exporting to file " + csvFile + "\n" + e.getMessage());
 		}
 	}
 
-	public static final TablePanel< Spot > createSpotTable( final Model model, final DisplaySettings ds )
-	{
-		final List< String > features = new ArrayList<>( model.getFeatureModel().getSpotFeatures() );
-		final Map< String, String > featureNames = model.getFeatureModel().getSpotFeatureNames();
-		final Map< String, String > featureShortNames = model.getFeatureModel().getSpotFeatureShortNames();
-		final Map< String, String > featureUnits = new HashMap<>();
-		for ( final String feature : features )
-		{
-			final Dimension dimension = model.getFeatureModel().getSpotFeatureDimensions().get( feature );
-			final String units = TMUtils.getUnitsFor( dimension, model.getSpaceUnits(), model.getTimeUnits() );
-			featureUnits.put( feature, units );
+	public static final TablePanel<Spot> createSpotTable(final Model model, final DisplaySettings ds) {
+		final List<String> features = new ArrayList<>(model.getFeatureModel().getSpotFeatures());
+		final Map<String, String> featureNames = model.getFeatureModel().getSpotFeatureNames();
+		final Map<String, String> featureShortNames = model.getFeatureModel().getSpotFeatureShortNames();
+		final Map<String, String> featureUnits = new HashMap<>();
+		for (final String feature : features) {
+			final Dimension dimension = model.getFeatureModel().getSpotFeatureDimensions().get(feature);
+			final String units = TMUtils.getUnitsFor(dimension, model.getSpaceUnits(), model.getTimeUnits());
+			featureUnits.put(feature, units);
 		}
-		final Map< String, Boolean > isInts = model.getFeatureModel().getSpotFeatureIsInt();
-		final Map< String, String > infoTexts = new HashMap<>();
-		final Function< Spot, String > labelGenerator = spot -> spot.getName();
-		final BiConsumer< Spot, String > labelSetter = ( spot, label ) -> spot.setName( label );
+		final Map<String, Boolean> isInts = model.getFeatureModel().getSpotFeatureIsInt();
+		final Map<String, String> infoTexts = new HashMap<>();
+		final Function<Spot, String> labelGenerator = spot -> spot.getName();
+		final BiConsumer<Spot, String> labelSetter = (spot, label) -> spot.setName(label);
 
 		/*
 		 * Feature provider. We add a fake one to show the spot track ID.
 		 */
 		final String TRACK_ID = "TRACK_ID";
-		features.add( 0, TRACK_ID );
-		featureNames.put( TRACK_ID, "Track ID" );
-		featureShortNames.put( TRACK_ID, "Track ID" );
-		featureUnits.put( TRACK_ID, "" );
-		isInts.put( TRACK_ID, Boolean.TRUE );
-		infoTexts.put( TRACK_ID, "The id of the track this spot belongs to." );
-		
-		final BiFunction< Spot, String, Double > featureFun = ( spot, feature ) -> {
-			if ( feature.equals( TRACK_ID ) )
-			{
-				final Integer trackID = model.getTrackModel().trackIDOf( spot );
+		features.add(0, TRACK_ID);
+		featureNames.put(TRACK_ID, "Track ID");
+		featureShortNames.put(TRACK_ID, "Track ID");
+		featureUnits.put(TRACK_ID, "");
+		isInts.put(TRACK_ID, Boolean.TRUE);
+		infoTexts.put(TRACK_ID, "The id of the track this spot belongs to.");
+
+		final BiFunction<Spot, String, Double> featureFun = (spot, feature) -> {
+			if (feature.equals(TRACK_ID)) {
+				final Integer trackID = model.getTrackModel().trackIDOf(spot);
 				return trackID == null ? null : trackID.doubleValue();
 			}
-			return spot.getFeature( feature );
+			return spot.getFeature(feature);
 		};
 
-		final Supplier< FeatureColorGenerator< Spot > > coloring =
-				() -> FeatureUtils.createSpotColorGenerator( model, ds );
+		final Supplier<FeatureColorGenerator<Spot>> coloring = () -> FeatureUtils.createSpotColorGenerator(model, ds);
 
-		final BiConsumer< Spot, Color > colorSetter =
-				( spot, color ) -> spot.putFeature( ManualSpotColorAnalyzerFactory.FEATURE, Double.valueOf( color.getRGB() ) );
-				
-		final TablePanel< Spot > table =
-				new TablePanel<>(
-						model.getSpots().iterable( true ),
-						features,
-						featureFun,
-						featureNames,
-						featureShortNames,
-						featureUnits,
-						isInts,
-						infoTexts,
-						coloring,
-						labelGenerator,
-						labelSetter,
-						ManualSpotColorAnalyzerFactory.FEATURE,
-						colorSetter );
+		final BiConsumer<Spot, Color> colorSetter = (spot, color) -> spot
+				.putFeature(ManualSpotColorAnalyzerFactory.FEATURE, Double.valueOf(color.getRGB()));
+
+		final TablePanel<Spot> table = new TablePanel<>(model.getSpots().iterable(true), features, featureFun,
+				featureNames, featureShortNames, featureUnits, isInts, infoTexts, coloring, labelGenerator, labelSetter,
+				ManualSpotColorAnalyzerFactory.FEATURE, colorSetter);
 		return table;
 	}
 
 	@Override
-	public void render()
-	{
-		setLocationRelativeTo( null );
-		setVisible( true );
+	public void render() {
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 	@Override
-	public void refresh()
-	{
+	public void refresh() {
 		repaint();
 	}
 
 	@Override
-	public void modelChanged( final ModelChangeEvent event )
-	{
-		if ( event.getEventID() == ModelChangeEvent.FEATURES_COMPUTED )
-		{
+	public void modelChanged(final ModelChangeEvent event) {
+		if (event.getEventID() == ModelChangeEvent.FEATURES_COMPUTED) {
 			refresh();
 			return;
 		}
 
-		final List< Spot > spots = new ArrayList<>();
-		for ( final Spot spot : model.getSpots().iterable( true ) )
-			spots.add( spot );
-		spotTable.setObjects( spots );
+		final List<Spot> spots = new ArrayList<>();
+		for (final Spot spot : model.getSpots().iterable(true))
+			spots.add(spot);
+		spotTable.setObjects(spots);
 
 		refresh();
 	}
@@ -256,108 +221,94 @@ public class AllSpotsTableView extends JFrame implements TrackMateModelView, Mod
 	 * Forward selection model changes to the tables.
 	 */
 	@Override
-	public void selectionChanged( final SelectionChangeEvent event )
-	{
-		if ( ignoreSelectionChange.get() )
+	public void selectionChanged(final SelectionChangeEvent event) {
+		if (ignoreSelectionChange.get())
 			return;
-		ignoreSelectionChange.set( true );
+		ignoreSelectionChange.set(true);
 
 		// Vertices table.
-		final Set< Spot > selectedVertices = selectionModel.getSpotSelection();
+		final Set<Spot> selectedVertices = selectionModel.getSpotSelection();
 		final JTable vt = spotTable.getTable();
 		vt.getSelectionModel().clearSelection();
-		for ( final Spot spot : selectedVertices )
-		{
-			final int row = spotTable.getViewRowForObject( spot );
-			vt.getSelectionModel().addSelectionInterval( row, row );
+		for (final Spot spot : selectedVertices) {
+			final int row = spotTable.getViewRowForObject(spot);
+			vt.getSelectionModel().addSelectionInterval(row, row);
 		}
 
 		// Center on selection if we added one spot exactly
-		final Map< Spot, Boolean > spotsAdded = event.getSpots();
-		if ( spotsAdded != null && spotsAdded.size() == 1 )
-		{
+		final Map<Spot, Boolean> spotsAdded = event.getSpots();
+		if (spotsAdded != null && spotsAdded.size() == 1) {
 			final boolean added = spotsAdded.values().iterator().next();
-			if ( added )
-			{
+			if (added) {
 				final Spot spot = spotsAdded.keySet().iterator().next();
-				centerViewOn( spot );
+				centerViewOn(spot);
 			}
 		}
 
 		refresh();
-		ignoreSelectionChange.set( false );
+		ignoreSelectionChange.set(false);
 	}
 
 	@Override
-	public void centerViewOn( final Spot spot )
-	{
-		spotTable.scrollToObject( spot );
+	public void centerViewOn(final Spot spot) {
+		spotTable.scrollToObject(spot);
 	}
 
 	@Override
-	public Model getModel()
-	{
+	public Model getModel() {
 		return model;
 	}
 
 	@Override
-	public String getKey()
-	{
+	public String getKey() {
 		return KEY;
 	}
 
 	@Override
-	public void clear()
-	{}
+	public void clear() {
+	}
 
 	/**
 	 * Forward spot table selection to selection model.
 	 */
-	private final class SpotTableSelectionListener implements ListSelectionListener
-	{
+	private final class SpotTableSelectionListener implements ListSelectionListener {
 
 		@Override
-		public void valueChanged( final ListSelectionEvent event )
-		{
-			if ( event.getValueIsAdjusting() || ignoreSelectionChange.get() )
+		public void valueChanged(final ListSelectionEvent event) {
+			if (event.getValueIsAdjusting() || ignoreSelectionChange.get())
 				return;
 
-			ignoreSelectionChange.set( true );
+			ignoreSelectionChange.set(true);
 
 			final int[] selectedRows = spotTable.getTable().getSelectedRows();
-			final List< Spot > toSelect = new ArrayList<>( selectedRows.length );
-			for ( final int row : selectedRows )
-				toSelect.add( spotTable.getObjectForViewRow( row ) );
+			final List<Spot> toSelect = new ArrayList<>(selectedRows.length);
+			for (final int row : selectedRows)
+				toSelect.add(spotTable.getObjectForViewRow(row));
 
 			selectionModel.clearSelection();
-			selectionModel.addSpotToSelection( toSelect );
+			selectionModel.addSpotToSelection(toSelect);
 			refresh();
 
-			ignoreSelectionChange.set( false );
+			ignoreSelectionChange.set(false);
 		}
 	}
 
 	@Override
 	public void resetDisplaySettings(DisplaySettings displaySettings) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resetSelectionModel(SelectionModel selectionModel) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resetModel(Model model) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	@Override
-	public void resetImp(ImagePlus imp) {
-		// TODO Auto-generated method stub
-		
-	}
 }

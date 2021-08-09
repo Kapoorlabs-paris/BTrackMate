@@ -32,12 +32,8 @@ public class ComputeBorder extends SwingWorker<Void, Void> {
 
 	public Void doInBackground() throws Exception {
 
-		
-
-			BoundaryTrack newtrack = new BoundaryTrack(parent, jpb);
-			newtrack.ShowBoundary();
-
-		
+		BoundaryTrack newtrack = new BoundaryTrack(parent, jpb);
+		newtrack.ShowBoundary();
 
 		return null;
 

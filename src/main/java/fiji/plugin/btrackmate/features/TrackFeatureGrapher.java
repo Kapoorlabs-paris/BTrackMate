@@ -25,32 +25,29 @@ import fiji.plugin.btrackmate.gui.displaysettings.DisplaySettings;
 import fiji.plugin.btrackmate.util.ExportableChartPanel;
 import fiji.plugin.btrackmate.util.TMUtils;
 
-public class TrackFeatureGrapher extends AbstractFeatureGrapher
-{
+public class TrackFeatureGrapher extends AbstractFeatureGrapher {
 
 	private final Dimension xDimension;
 
-	private final Map< String, Dimension > yDimensions;
+	private final Map<String, Dimension> yDimensions;
 
-	private final Map< String, String > featureNames;
+	private final Map<String, String> featureNames;
 
-	public TrackFeatureGrapher( final String xFeature, final Set< String > yFeatures, final Model model, final DisplaySettings displaySettings )
-	{
-		super( xFeature, yFeatures, model, displaySettings );
-		this.xDimension = model.getFeatureModel().getTrackFeatureDimensions().get( xFeature );
+	public TrackFeatureGrapher(final String xFeature, final Set<String> yFeatures, final Model model,
+			final DisplaySettings displaySettings) {
+		super(xFeature, yFeatures, model, displaySettings);
+		this.xDimension = model.getFeatureModel().getTrackFeatureDimensions().get(xFeature);
 		this.yDimensions = model.getFeatureModel().getTrackFeatureDimensions();
 		this.featureNames = model.getFeatureModel().getTrackFeatureNames();
 	}
 
 	@Override
-	public void render()
-	{
+	public void render() {
 		final Colormap colormap = displaySettings.getColormap();
 
 		// Check x units
-		final String xdim = TMUtils.getUnitsFor( xDimension, model.getSpaceUnits(), model.getTimeUnits() );
-		if ( null == xdim )
-		{ // not a number feature
+		final String xdim = TMUtils.getUnitsFor(xDimension, model.getSpaceUnits(), model.getTimeUnits());
+		if (null == xdim) { // not a number feature
 			return;
 		}
 
@@ -58,88 +55,83 @@ public class TrackFeatureGrapher extends AbstractFeatureGrapher
 		final String xAxisLabel = xFeature + " (" + xdim + ")";
 
 		// Find how many different dimensions
-		final Set< Dimension > dimensions = getUniqueValues( yFeatures, yDimensions );
+		final Set<Dimension> dimensions = getUniqueValues(yFeatures, yDimensions);
 
 		// Generate one panel per different dimension
-		final ArrayList< ExportableChartPanel > chartPanels = new ArrayList<>( dimensions.size() );
-		for ( final Dimension dimension : dimensions )
-		{
+		final ArrayList<ExportableChartPanel> chartPanels = new ArrayList<>(dimensions.size());
+		for (final Dimension dimension : dimensions) {
 
 			// Y label
-			final String yAxisLabel = TMUtils.getUnitsFor( dimension, model.getSpaceUnits(), model.getTimeUnits() );
+			final String yAxisLabel = TMUtils.getUnitsFor(dimension, model.getSpaceUnits(), model.getTimeUnits());
 
 			// Check y units
-			if ( null == yAxisLabel )
-			{ // not a number feature
+			if (null == yAxisLabel) { // not a number feature
 				continue;
 			}
 
 			// Collect suitable feature for this dimension
-			final List< String > featuresThisDimension = getCommonKeys( dimension, yFeatures, yDimensions );
+			final List<String> featuresThisDimension = getCommonKeys(dimension, yFeatures, yDimensions);
 
 			// Title
-			final String title = buildPlotTitle( featuresThisDimension, featureNames );
+			final String title = buildPlotTitle(featuresThisDimension, featureNames);
 
 			// Data-set for points (easy)
-			final XYSeriesCollection pointDataset = buildTrackDataSet( featuresThisDimension );
+			final XYSeriesCollection pointDataset = buildTrackDataSet(featuresThisDimension);
 
 			// Point renderer
 			final XYLineAndShapeRenderer pointRenderer = new XYLineAndShapeRenderer();
 
 			// The chart
-			final JFreeChart chart = ChartFactory.createXYLineChart( title, xAxisLabel, yAxisLabel, pointDataset, PlotOrientation.VERTICAL, true, true, false );
-			chart.getTitle().setFont( FONT );
-			chart.getLegend().setItemFont( SMALL_FONT );
+			final JFreeChart chart = ChartFactory.createXYLineChart(title, xAxisLabel, yAxisLabel, pointDataset,
+					PlotOrientation.VERTICAL, true, true, false);
+			chart.getTitle().setFont(FONT);
+			chart.getLegend().setItemFont(SMALL_FONT);
 
 			// The plot
 			final XYPlot plot = chart.getXYPlot();
-			plot.setRenderer( 0, pointRenderer );
-			plot.getRangeAxis().setLabelFont( FONT );
-			plot.getRangeAxis().setTickLabelFont( SMALL_FONT );
-			plot.getDomainAxis().setLabelFont( FONT );
-			plot.getDomainAxis().setTickLabelFont( SMALL_FONT );
+			plot.setRenderer(0, pointRenderer);
+			plot.getRangeAxis().setLabelFont(FONT);
+			plot.getRangeAxis().setTickLabelFont(SMALL_FONT);
+			plot.getDomainAxis().setLabelFont(FONT);
+			plot.getDomainAxis().setTickLabelFont(SMALL_FONT);
 
 			// Paint
-			pointRenderer.setUseOutlinePaint( true );
+			pointRenderer.setUseOutlinePaint(true);
 			final int nseries = pointDataset.getSeriesCount();
-			for ( int i = 0; i < nseries; i++ )
-			{
-				pointRenderer.setSeriesOutlinePaint( i, Color.black );
-				pointRenderer.setSeriesLinesVisible( i, false );
-				pointRenderer.setSeriesShape( i, DEFAULT_SHAPE, false );
-				pointRenderer.setSeriesPaint( i, colormap.getPaint( ( double ) i / nseries ), false );
+			for (int i = 0; i < nseries; i++) {
+				pointRenderer.setSeriesOutlinePaint(i, Color.black);
+				pointRenderer.setSeriesLinesVisible(i, false);
+				pointRenderer.setSeriesShape(i, DEFAULT_SHAPE, false);
+				pointRenderer.setSeriesPaint(i, colormap.getPaint((double) i / nseries), false);
 			}
 
 			// The panel
-			final ExportableChartPanel chartPanel = new ExportableChartPanel( chart );
-			chartPanel.setPreferredSize( new java.awt.Dimension( 500, 270 ) );
-			chartPanels.add( chartPanel );
+			final ExportableChartPanel chartPanel = new ExportableChartPanel(chart);
+			chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+			chartPanels.add(chartPanel);
 		}
 
-		renderCharts( chartPanels );
+		renderCharts(chartPanels);
 	}
 
 	/**
 	 * @return a new dataset that contains the values, specified from the given
 	 *         feature, and extracted from all the visible tracks in the model.
 	 */
-	private XYSeriesCollection buildTrackDataSet( final Iterable< String > targetYFeatures )
-	{
+	private XYSeriesCollection buildTrackDataSet(final Iterable<String> targetYFeatures) {
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		final FeatureModel fm = model.getFeatureModel();
-		for ( final String feature : targetYFeatures )
-		{
-			final XYSeries series = new XYSeries( featureNames.get( feature ) );
-			for ( final Integer trackID : model.getTrackModel().trackIDs( true ) )
-			{
-				final Double x = fm.getTrackFeature( trackID, xFeature );
-				final Double y = fm.getTrackFeature( trackID, feature );
-				if ( null == x || null == y )
+		for (final String feature : targetYFeatures) {
+			final XYSeries series = new XYSeries(featureNames.get(feature));
+			for (final Integer trackID : model.getTrackModel().trackIDs(true)) {
+				final Double x = fm.getTrackFeature(trackID, xFeature);
+				final Double y = fm.getTrackFeature(trackID, feature);
+				if (null == x || null == y)
 					continue;
 
-				series.add( x.doubleValue(), y.doubleValue() );
+				series.add(x.doubleValue(), y.doubleValue());
 			}
-			dataset.addSeries( series );
+			dataset.addSeries(series);
 		}
 		return dataset;
 	}

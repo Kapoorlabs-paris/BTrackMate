@@ -30,14 +30,12 @@ public class PlotNSpotsVsTimeAction extends AbstractTMAction {
 	public static final String NAME = "Plot N spots vs time";
 
 	public static final String KEY = "PLOT_NSPOTS_VS_TIME";
-	public static final String INFO_TEXT =  "<html>" +
-			"Plot the number of spots in each frame as a function <br>" +
-			"of time. Only the filtered spots are taken into account. " +
-			"</html>";
+	public static final String INFO_TEXT = "<html>" + "Plot the number of spots in each frame as a function <br>"
+			+ "of time. Only the filtered spots are taken into account. " + "</html>";
 
 	@Override
-	public void execute( final TrackMate btrackmate, final SelectionModel selectionModel, final DisplaySettings displaySettings, final Frame parent )
-	{
+	public void execute(final TrackMate btrackmate, final SelectionModel selectionModel,
+			final DisplaySettings displaySettings, final Frame parent) {
 		// Collect data
 		final Model model = btrackmate.getModel();
 		final Settings settings = btrackmate.getSettings();
@@ -56,13 +54,14 @@ public class PlotNSpotsVsTimeAction extends AbstractTMAction {
 		}
 
 		// Plot data
-		final String xAxisLabel = "Time ("+btrackmate.getModel().getTimeUnits()+")";
+		final String xAxisLabel = "Time (" + btrackmate.getModel().getTimeUnits() + ")";
 		final String yAxisLabel = "N spots";
-		final String title = "Nspots vs Time for "+btrackmate.getSettings().imp.getShortTitle();
+		final String title = "Nspots vs Time for " + btrackmate.getSettings().imp.getShortTitle();
 		final DefaultXYDataset dataset = new DefaultXYDataset();
 		dataset.addSeries("Nspots", data);
 
-		final JFreeChart chart = ChartFactory.createXYLineChart(title, xAxisLabel, yAxisLabel, dataset, PlotOrientation.VERTICAL, true, true, false);
+		final JFreeChart chart = ChartFactory.createXYLineChart(title, xAxisLabel, yAxisLabel, dataset,
+				PlotOrientation.VERTICAL, true, true, false);
 		chart.getTitle().setFont(FONT);
 		chart.getLegend().setItemFont(SMALL_FONT);
 
@@ -82,37 +81,31 @@ public class PlotNSpotsVsTimeAction extends AbstractTMAction {
 		frame.setVisible(true);
 	}
 
-	@Plugin( type = TrackMateActionFactory.class )
-	public static class Factory implements TrackMateActionFactory
-	{
+	@Plugin(type = TrackMateActionFactory.class)
+	public static class Factory implements TrackMateActionFactory {
 
 		@Override
-		public String getInfoText()
-		{
+		public String getInfoText() {
 			return INFO_TEXT;
 		}
 
 		@Override
-		public String getName()
-		{
+		public String getName() {
 			return NAME;
 		}
 
 		@Override
-		public String getKey()
-		{
+		public String getKey() {
 			return KEY;
 		}
 
 		@Override
-		public ImageIcon getIcon()
-		{
+		public ImageIcon getIcon() {
 			return PLOT_ICON;
 		}
 
 		@Override
-		public TrackMateAction create()
-		{
+		public TrackMateAction create() {
 			return new PlotNSpotsVsTimeAction();
 		}
 	}

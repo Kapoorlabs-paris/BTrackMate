@@ -14,63 +14,59 @@ import net.imglib2.RealLocalizable;
 import tracker.BUDDYDimension;
 
 public class Budpointobject extends AbstractEuclideanSpace implements RealLocalizable, Comparable<Budpointobject> {
-	
-	
+
 	public final double[] Location;
 	public final double velocity;
 	private String name;
-	private final ConcurrentHashMap< String, Double > features = new ConcurrentHashMap< String, Double >();
-	public static AtomicInteger IDcounter = new AtomicInteger( -1 );
-	
+	private final ConcurrentHashMap<String, Double> features = new ConcurrentHashMap<String, Double>();
+	public static AtomicInteger IDcounter = new AtomicInteger(-1);
+
 	public final RealLocalizable Budcenter;
 	public final List<RealLocalizable> linelist;
 	public final List<RealLocalizable> dynamiclinelist;
-	public  int t;
+	public int t;
 	public final int label;
 	public final int ID;
 	public final double perimeter;
-	
-	public Budpointobject(final RealLocalizable Budcenter, final List<RealLocalizable> linelist, final List<RealLocalizable> dynamiclinelist, final double perimeter, final int label,final double[] Location, final int t,final double velocity  ) {
-		
-		
-		
+
+	public Budpointobject(final RealLocalizable Budcenter, final List<RealLocalizable> linelist,
+			final List<RealLocalizable> dynamiclinelist, final double perimeter, final int label,
+			final double[] Location, final int t, final double velocity) {
+
 		super(3);
 		this.Location = Location;
 		this.velocity = velocity;
 		this.t = t;
-		
+
 		this.ID = IDcounter.incrementAndGet();
 		this.name = "ID" + ID;
-		
-        this.Budcenter = Budcenter;
-		
+
+		this.Budcenter = Budcenter;
+
 		this.linelist = linelist;
-		
+
 		this.dynamiclinelist = dynamiclinelist;
-		
+
 		this.label = label;
 		this.perimeter = perimeter;
-		
-		
-		putFeature(POSITION_T,  (double)this.t);
+
+		putFeature(POSITION_T, (double) this.t);
 		putFeature(POSITION_X, this.Location[0]);
 		putFeature(POSITION_Y, this.Location[1]);
 		putFeature(Velocity, this.velocity);
 	}
-
 
 	/** The name of the spot X position feature. */
 	public static final String POSITION_X = "POSITION_X";
 
 	/** The name of the spot Y position feature. */
 	public static final String POSITION_Y = "POSITION_Y";
-	
+
 	/** The name of the spot Y position feature. */
 	public static final String Velocity = "Velocity";
-	
+
 	/** The name of the spot T position feature. */
 	public static final String POSITION_T = "POSITION_T";
-
 
 	/** The position features. */
 	public final static String[] POSITION_FEATURES = new String[] { POSITION_X, POSITION_Y };
@@ -117,25 +113,24 @@ public class Budpointobject extends AbstractEuclideanSpace implements RealLocali
 	}
 
 	public void setName(final String name) {
-		
+
 		this.name = name;
 	}
-	
+
 	public int ID() {
-		
+
 		return ID;
 	}
-	
+
 	public final Double getFeature(final String feature) {
-		
+
 		return features.get(feature);
 	}
-	public final void putFeature( final String feature, final Double value )
-	{
-		features.put( feature, value );
+
+	public final void putFeature(final String feature, final Double value) {
+		features.put(feature, value);
 	}
-	
-	
+
 	@Override
 	public int compareTo(Budpointobject o) {
 		return hashCode() - o.hashCode();
@@ -146,7 +141,7 @@ public class Budpointobject extends AbstractEuclideanSpace implements RealLocali
 		int n = position.length;
 		for (int d = 0; d < n; ++d)
 			position[d] = getFloatPosition(d);
-		
+
 	}
 
 	@Override
@@ -154,7 +149,7 @@ public class Budpointobject extends AbstractEuclideanSpace implements RealLocali
 		int n = position.length;
 		for (int d = 0; d < n; ++d)
 			position[d] = getFloatPosition(d);
-		
+
 	}
 
 	@Override
@@ -166,15 +161,13 @@ public class Budpointobject extends AbstractEuclideanSpace implements RealLocali
 	public double getDoublePosition(int d) {
 		return Location[d];
 	}
-	
+
 	/**
 	 * Returns the difference between the location of two clouds, this operation
 	 * returns ( <code>A.diffTo(B) = - B.diffTo(A)</code>)
 	 *
-	 * @param target
-	 *            the Cloud to compare to.
-	 * @param int
-	 *            n n = 0 for X- coordinate, n = 1 for Y- coordinate
+	 * @param target the Cloud to compare to.
+	 * @param int    n n = 0 for X- coordinate, n = 1 for Y- coordinate
 	 * @return the difference in co-ordinate specified.
 	 */
 	public double diffTo(final Budpointobject s, final String feature) {
@@ -186,8 +179,7 @@ public class Budpointobject extends AbstractEuclideanSpace implements RealLocali
 	/**
 	 * Returns the squared distance between two clouds.
 	 *
-	 * @param target
-	 *            the Cloud to compare to.
+	 * @param target the Cloud to compare to.
 	 *
 	 * @return the distance to the current cloud to target cloud specified.
 	 */
@@ -207,6 +199,7 @@ public class Budpointobject extends AbstractEuclideanSpace implements RealLocali
 
 		return distance;
 	}
+
 	public double DistanceTo(Budpointobject target, final double alpha, final double beta) {
 		// Returns squared distance between the source Blob and the target Blob.
 
@@ -219,17 +212,14 @@ public class Budpointobject extends AbstractEuclideanSpace implements RealLocali
 		for (int d = 0; d < sourceLocation.length; ++d) {
 
 			distance += (sourceLocation[d] - targetLocation[d]) * (sourceLocation[d] - targetLocation[d]);
-			
-			
+
 		}
-		
-		
-		angle = Math.abs((sourceLocation[1] - targetLocation[1])/ (sourceLocation[0] - targetLocation[0] + 1.0E-10));
+
+		angle = Math.abs((sourceLocation[1] - targetLocation[1]) / (sourceLocation[0] - targetLocation[0] + 1.0E-10));
 
 		double cost = alpha * distance + beta * angle;
-		
-			return cost;
-	}
 
+		return cost;
+	}
 
 }

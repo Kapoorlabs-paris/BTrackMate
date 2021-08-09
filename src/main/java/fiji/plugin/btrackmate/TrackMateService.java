@@ -8,17 +8,15 @@ import org.scijava.service.Service;
 
 import net.imagej.ImageJService;
 
-@Plugin( type = Service.class )
-public class TrackMateService extends AbstractService implements ImageJService
-{
+@Plugin(type = Service.class)
+public class TrackMateService extends AbstractService implements ImageJService {
 
 	@Parameter
 	private ScriptService scriptService;
 
 	@Override
-	public void initialize()
-	{
-		scriptService.addAlias( TrackMate.class );
+	public void initialize() {
+		scriptService.addAlias(TrackMate.class);
 	}
 
 }

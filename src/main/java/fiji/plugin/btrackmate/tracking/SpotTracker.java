@@ -33,14 +33,12 @@ import net.imglib2.algorithm.OutputAlgorithm;
  * implementations are not multithreaded, they can safely ignore the associated
  * methods.
  */
-public interface SpotTracker extends OutputAlgorithm< SimpleWeightedGraph< Spot, DefaultWeightedEdge > >, MultiThreaded
-{
+public interface SpotTracker extends OutputAlgorithm<SimpleWeightedGraph<Spot, DefaultWeightedEdge>>, MultiThreaded {
 	/**
 	 * Sets the {@link Logger} instance that will receive messages from this
 	 * {@link SpotTracker}.
 	 *
-	 * @param logger
-	 *            the logger to echo messages to.
+	 * @param logger the logger to echo messages to.
 	 */
-	public void setLogger( final Logger logger );
+	public void setLogger(final Logger logger);
 }

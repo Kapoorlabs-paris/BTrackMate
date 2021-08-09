@@ -11,23 +11,24 @@ import net.imglib2.view.ExtendedRandomAccessibleInterval;
 
 public class SquareNeighborhoodCursor3x3<T> implements Cursor<T>, Bounded {
 
-	private final ExtendedRandomAccessibleInterval<T,RandomAccessibleInterval<T>> source;
+	private final ExtendedRandomAccessibleInterval<T, RandomAccessibleInterval<T>> source;
 	private final long[] center;
 	private final OutOfBounds<T> ra;
 	private int index = -1;
 	private boolean hasNext;
-	
+
 	/*
 	 * CONSTRUCTOR
 	 */
 
-	public SquareNeighborhoodCursor3x3(ExtendedRandomAccessibleInterval<T,RandomAccessibleInterval<T>> extendedSource,	long[] center) {
+	public SquareNeighborhoodCursor3x3(ExtendedRandomAccessibleInterval<T, RandomAccessibleInterval<T>> extendedSource,
+			long[] center) {
 		this.source = extendedSource;
 		this.center = center;
 		this.ra = extendedSource.randomAccess();
 		reset();
 	}
-	
+
 	/*
 	 * METHODS
 	 */
@@ -77,40 +78,40 @@ public class SquareNeighborhoodCursor3x3<T> implements Cursor<T>, Bounded {
 	@Override
 	public void fwd() {
 		index++;
-				
+
 		switch (index) {
 		case 0:
 			// already in place
 			break;
-			
+
 		case 1:
 			ra.bck(1);
 			break;
-			
+
 		case 2:
 			ra.bck(0);
 			break;
-			
+
 		case 3:
 			ra.fwd(1);
 			break;
-			
+
 		case 4:
 			ra.fwd(1);
 			break;
-			
+
 		case 5:
 			ra.fwd(0);
 			break;
-			
+
 		case 6:
 			ra.fwd(0);
 			break;
-			
+
 		case 7:
 			ra.bck(1);
 			break;
-			
+
 		case 8:
 			ra.bck(1);
 			hasNext = false;

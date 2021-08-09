@@ -35,14 +35,13 @@ import net.imglib2.type.numeric.RealType;
  * 
  * @author Jean-Yves Tinevez, 2011 - 2012. Revised December 2020.
  */
-public class SpotContrastAndSNRAnalyzer< T extends RealType< T > > extends AbstractSpotFeatureAnalyzer< T >
-{
+public class SpotContrastAndSNRAnalyzer<T extends RealType<T>> extends AbstractSpotFeatureAnalyzer<T> {
 
 	protected static final double RAD_PERCENTAGE = 1f;
 
 	private final int channel;
 
-	private final ImgPlus< T > img;
+	private final ImgPlus<T> img;
 
 	/*
 	 * CONSTRUCTOR
@@ -51,14 +50,11 @@ public class SpotContrastAndSNRAnalyzer< T extends RealType< T > > extends Abstr
 	/**
 	 * Instantiates an analyzer for contrast and SNR.
 	 * 
-	 * @param img
-	 *            the 2D or 3D image of the desired time-point and channel to
-	 *            operate on,
-	 * @param channel
-	 *            the channel to operate on.
+	 * @param img     the 2D or 3D image of the desired time-point and channel to
+	 *                operate on,
+	 * @param channel the channel to operate on.
 	 */
-	public SpotContrastAndSNRAnalyzer( final ImgPlus< T > img, final int channel )
-	{
+	public SpotContrastAndSNRAnalyzer(final ImgPlus<T> img, final int channel) {
 		this.img = img;
 		this.channel = channel;
 	}
@@ -68,43 +64,38 @@ public class SpotContrastAndSNRAnalyzer< T extends RealType< T > > extends Abstr
 	 */
 
 	@Override
-	public final void process( final Spot spot )
-	{
-		final String meanFeature = makeFeatureKey( MEAN_INTENSITY, channel );
-		final String stdFeature = makeFeatureKey( STD_INTENSITY, channel );
-		final double meanIn = spot.getFeature( meanFeature );
-		final double stdIn = spot.getFeature( stdFeature );
-		final double radius = spot.getFeature( Spot.RADIUS );
+	public final void process(final Spot spot) {
+		final String meanFeature = makeFeatureKey(MEAN_INTENSITY, channel);
+		final String stdFeature = makeFeatureKey(STD_INTENSITY, channel);
+		final double meanIn = spot.getFeature(meanFeature);
+		final double stdIn = spot.getFeature(stdFeature);
+		final double radius = spot.getFeature(Spot.RADIUS);
 		final double outterRadius = 2. * radius;
 
 		// Operate on ROI only if we have one and the image is 2D.
 		final double meanOut;
 		final SpotRoi roi = spot.getRoi();
-		if ( null != roi && DetectionUtils.is2D( img ) )
-		{
+		if (null != roi && DetectionUtils.is2D(img)) {
 			final double alpha = outterRadius / radius;
 			final SpotRoi outterRoi = roi.copy();
-			outterRoi.scale( alpha );
-			final IterableInterval< T > neighborhood = SpotUtil.iterable( outterRoi, spot, img );
+			outterRoi.scale(alpha);
+			final IterableInterval<T> neighborhood = SpotUtil.iterable(outterRoi, spot, img);
 			double outterSum = 0.;
-			for ( final T t : neighborhood )
+			for (final T t : neighborhood)
 				outterSum += t.getRealDouble();
 
-			final String sumFeature = makeFeatureKey( TOTAL_INTENSITY, channel );
-			final double innterSum = spot.getFeature( sumFeature );
+			final String sumFeature = makeFeatureKey(TOTAL_INTENSITY, channel);
+			final double innterSum = spot.getFeature(sumFeature);
 			outterSum -= innterSum;
-			meanOut = outterSum / ( outterRoi.area() - roi.area() );
-		}
-		else
-		{
+			meanOut = outterSum / (outterRoi.area() - roi.area());
+		} else {
 			// Otherwise default to circle / sphere.
-			final Spot largeSpot = new Spot( spot );
-			largeSpot.putFeature( Spot.RADIUS, outterRadius );
-			final SpotNeighborhood< T > neighborhood = new SpotNeighborhood<>( largeSpot, img );
-			if ( neighborhood.size() <= 1 )
-			{
-				spot.putFeature( makeFeatureKey( CONTRAST, channel ), Double.NaN );
-				spot.putFeature( makeFeatureKey( SNR, channel ), Double.NaN );
+			final Spot largeSpot = new Spot(spot);
+			largeSpot.putFeature(Spot.RADIUS, outterRadius);
+			final SpotNeighborhood<T> neighborhood = new SpotNeighborhood<>(largeSpot, img);
+			if (neighborhood.size() <= 1) {
+				spot.putFeature(makeFeatureKey(CONTRAST, channel), Double.NaN);
+				spot.putFeature(makeFeatureKey(SNR, channel), Double.NaN);
 				return;
 			}
 
@@ -113,13 +104,11 @@ public class SpotContrastAndSNRAnalyzer< T extends RealType< T > > extends Abstr
 			double sumOut = 0;
 
 			// Compute mean in the outer ring
-			final SpotNeighborhoodCursor< T > cursor = neighborhood.cursor();
-			while ( cursor.hasNext() )
-			{
+			final SpotNeighborhoodCursor<T> cursor = neighborhood.cursor();
+			while (cursor.hasNext()) {
 				cursor.fwd();
 				final double dist2 = cursor.getDistanceSquared();
-				if ( dist2 > radius2 )
-				{
+				if (dist2 > radius2) {
 					nOut++;
 					sumOut += cursor.get().getRealDouble();
 				}
@@ -128,12 +117,12 @@ public class SpotContrastAndSNRAnalyzer< T extends RealType< T > > extends Abstr
 		}
 
 		// Compute contrast
-		final double contrast = ( meanIn - meanOut ) / ( meanIn + meanOut );
+		final double contrast = (meanIn - meanOut) / (meanIn + meanOut);
 
 		// Compute snr
-		final double snr = ( meanIn - meanOut ) / stdIn;
+		final double snr = (meanIn - meanOut) / stdIn;
 
-		spot.putFeature( makeFeatureKey( CONTRAST, channel ), contrast );
-		spot.putFeature( makeFeatureKey( SNR, channel ), snr );
+		spot.putFeature(makeFeatureKey(CONTRAST, channel), contrast);
+		spot.putFeature(makeFeatureKey(SNR, channel), snr);
 	}
 }

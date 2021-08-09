@@ -14,22 +14,22 @@ public class RecursiveCumSum<V, E> {
 		this.cache = new NeighborCache<>(graph);
 		this.function = function;
 	}
-	
+
 	public V apply(V current) {
-		
+
 		Set<V> children = cache.successorsOf(current);
-		
+
 		if (children.size() == 0) {
 			// It is a leaf
 			return current;
 		}
-		
+
 		V val = current;
-		for (V child : children) 
+		for (V child : children)
 			function.compute(val, apply(child), val);
 
 		return val;
-		
+
 	}
 
 }

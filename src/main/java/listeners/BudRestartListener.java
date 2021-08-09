@@ -11,16 +11,15 @@ import pluginTools.InteractiveBud.ValueChange;
 import skeleton.SkeletonizeBuds;
 
 public class BudRestartListener implements ActionListener {
-	
+
 	final InteractiveBud parent;
-	
+
 	public BudRestartListener(final InteractiveBud parent) {
-		
+
 		this.parent = parent;
-		
+
 	}
-	
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent arg0) {
 
@@ -35,15 +34,14 @@ public class BudRestartListener implements ActionListener {
 		});
 
 	}
-	
 
 	public void go() {
 
-		
 		parent.thirdDimension = 1;
-		parent.inputFieldT.setText(Integer.toString((int)parent.thirdDimension));
-		parent.timeslider.setValue(utility.BudSlicer.computeScrollbarPositionFromValue(parent.thirdDimension, parent.thirdDimensionsliderInit, parent.thirdDimensionSize, parent.scrollbarSize));
-        parent.BudOvalRois.clear();
+		parent.inputFieldT.setText(Integer.toString((int) parent.thirdDimension));
+		parent.timeslider.setValue(utility.BudSlicer.computeScrollbarPositionFromValue(parent.thirdDimension,
+				parent.thirdDimensionsliderInit, parent.thirdDimensionSize, parent.scrollbarSize));
+		parent.BudOvalRois.clear();
 		parent.timeslider.repaint();
 		parent.timeslider.validate();
 		parent.panelFirst.validate();
@@ -53,11 +51,9 @@ public class BudRestartListener implements ActionListener {
 		parent.table.repaint();
 		parent.table.validate();
 		CovistoKalmanPanel.Skeletontime.setEnabled(true);
-		
+
 		parent.updatePreview(ValueChange.THIRDDIMmouse);
-		
-		
 
 	}
-	
-	}
+
+}

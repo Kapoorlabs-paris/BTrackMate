@@ -38,93 +38,79 @@ import fiji.plugin.btrackmate.visualization.UniformSpotColorGenerator;
 import fiji.plugin.btrackmate.visualization.UniformTrackColorGenerator;
 import fiji.plugin.btrackmate.visualization.WholeTrackFeatureColorGenerator;
 
-public class FeatureUtils
-{
+public class FeatureUtils {
 
 	private static final String USE_UNIFORM_COLOR_NAME = "Uniform color";
 
 	public static final String USE_UNIFORM_COLOR_KEY = "UNIFORM_COLOR";
 
-	public static final Map< String, String > collectFeatureKeys( final TrackMateObject target, final Model model, final Settings settings )
-	{
-		final Map< String, String > inverseMap = new HashMap<>();
+	public static final Map<String, String> collectFeatureKeys(final TrackMateObject target, final Model model,
+			final Settings settings) {
+		final Map<String, String> inverseMap = new HashMap<>();
 		// will be used to sort.
 
-		switch ( target )
-		{
-		case SPOTS:
-		{
+		switch (target) {
+		case SPOTS: {
 
 			// Collect all.
-			if ( model != null )
-			{
-				for ( final String featureKey : model.getFeatureModel().getSpotFeatureNames().keySet() )
-					inverseMap.put( model.getFeatureModel().getSpotFeatureNames().get( featureKey ), featureKey );
-			}
-			else
-			{
+			if (model != null) {
+				for (final String featureKey : model.getFeatureModel().getSpotFeatureNames().keySet())
+					inverseMap.put(model.getFeatureModel().getSpotFeatureNames().get(featureKey), featureKey);
+			} else {
 				// If we have no model, we still want to add spot features.
-				for ( final String featureKey : Spot.FEATURE_NAMES.keySet() )
-					inverseMap.put( Spot.FEATURE_NAMES.get( featureKey ), featureKey );
+				for (final String featureKey : Spot.FEATURE_NAMES.keySet())
+					inverseMap.put(Spot.FEATURE_NAMES.get(featureKey), featureKey);
 			}
-			if ( settings != null )
-			{
-				for ( final SpotAnalyzerFactoryBase< ? > sf : settings.getSpotAnalyzerFactories() )
-					for ( final String featureKey : sf.getFeatureNames().keySet() )
-						inverseMap.put( sf.getFeatureNames().get( featureKey ), featureKey );
-			}
-			break;
-		}
-
-		case EDGES:
-		{
-			if ( model != null )
-			{
-				for ( final String featureKey : model.getFeatureModel().getEdgeFeatureNames().keySet() )
-					inverseMap.put( model.getFeatureModel().getEdgeFeatureNames().get( featureKey ), featureKey );
-			}
-			if ( settings != null )
-			{
-				for ( final EdgeAnalyzer ea : settings.getEdgeAnalyzers() )
-					for ( final String featureKey : ea.getFeatureNames().keySet() )
-						inverseMap.put( ea.getFeatureNames().get( featureKey ), featureKey );
+			if (settings != null) {
+				for (final SpotAnalyzerFactoryBase<?> sf : settings.getSpotAnalyzerFactories())
+					for (final String featureKey : sf.getFeatureNames().keySet())
+						inverseMap.put(sf.getFeatureNames().get(featureKey), featureKey);
 			}
 			break;
 		}
 
-		case TRACKS:
-		{
-			if ( model != null )
-			{
-				for ( final String featureKey : model.getFeatureModel().getTrackFeatureNames().keySet() )
-					inverseMap.put( model.getFeatureModel().getTrackFeatureNames().get( featureKey ), featureKey );
+		case EDGES: {
+			if (model != null) {
+				for (final String featureKey : model.getFeatureModel().getEdgeFeatureNames().keySet())
+					inverseMap.put(model.getFeatureModel().getEdgeFeatureNames().get(featureKey), featureKey);
 			}
-			if ( settings != null )
-			{
-				for ( final TrackAnalyzer ta : settings.getTrackAnalyzers() )
-					for ( final String featureKey : ta.getFeatureNames().keySet() )
-						inverseMap.put( ta.getFeatureNames().get( featureKey ), featureKey );
+			if (settings != null) {
+				for (final EdgeAnalyzer ea : settings.getEdgeAnalyzers())
+					for (final String featureKey : ea.getFeatureNames().keySet())
+						inverseMap.put(ea.getFeatureNames().get(featureKey), featureKey);
 			}
 			break;
 		}
 
-		case DEFAULT:
-		{
-			inverseMap.put( USE_UNIFORM_COLOR_NAME, USE_UNIFORM_COLOR_KEY );
+		case TRACKS: {
+			if (model != null) {
+				for (final String featureKey : model.getFeatureModel().getTrackFeatureNames().keySet())
+					inverseMap.put(model.getFeatureModel().getTrackFeatureNames().get(featureKey), featureKey);
+			}
+			if (settings != null) {
+				for (final TrackAnalyzer ta : settings.getTrackAnalyzers())
+					for (final String featureKey : ta.getFeatureNames().keySet())
+						inverseMap.put(ta.getFeatureNames().get(featureKey), featureKey);
+			}
+			break;
+		}
+
+		case DEFAULT: {
+			inverseMap.put(USE_UNIFORM_COLOR_NAME, USE_UNIFORM_COLOR_KEY);
 			break;
 		}
 
 		default:
-			throw new IllegalArgumentException( "Unknown object type: " + target );
+			throw new IllegalArgumentException("Unknown object type: " + target);
 		}
 
 		// Sort by feature name.
-		final List< String > featureNameList = new ArrayList<>( inverseMap.keySet() );
-		featureNameList.sort( null );
+		final List<String> featureNameList = new ArrayList<>(inverseMap.keySet());
+		featureNameList.sort(null);
 
-		final Map< String, String > featureNames = new LinkedHashMap<>( featureNameList.size() );
-		for ( final String featureName : featureNameList )
-			featureNames.put( inverseMap.get( featureName ), featureName );
+		final Map<String, String> featureNames = new LinkedHashMap<>(featureNameList.size());
+		for (final String featureName : featureNameList)
+			featureNames.put(inverseMap.get(featureName), featureName);
 
 		return featureNames;
 	}
@@ -139,267 +125,205 @@ public class FeatureUtils
 	 * @param visibleOnly
 	 * @return
 	 */
-	public static double[] collectFeatureValues(
-			final String featureKey,
-			final TrackMateObject target,
-			final Model model,
-			final Settings settings,
-			final boolean visibleOnly )
-	{
+	public static double[] collectFeatureValues(final String featureKey, final TrackMateObject target,
+			final Model model, final Settings settings, final boolean visibleOnly) {
 		final FeatureModel fm = model.getFeatureModel();
-		switch ( target )
-		{
+		switch (target) {
 		case DEFAULT:
 			return new double[] {};
 
-		case EDGES:
-		{
+		case EDGES: {
 			final DoubleArray val = new DoubleArray();
-			for ( final Integer trackID : model.getTrackModel().trackIDs( visibleOnly ) )
-			{
-				for ( final DefaultWeightedEdge edge : model.getTrackModel().trackEdges( trackID ) )
-				{
-					final Double ef = fm.getEdgeFeature( edge, featureKey );
-					if ( ef != null && !ef.isNaN() )
-						val.add( ef.doubleValue() );
+			for (final Integer trackID : model.getTrackModel().trackIDs(visibleOnly)) {
+				for (final DefaultWeightedEdge edge : model.getTrackModel().trackEdges(trackID)) {
+					final Double ef = fm.getEdgeFeature(edge, featureKey);
+					if (ef != null && !ef.isNaN())
+						val.add(ef.doubleValue());
 				}
 			}
 			return val.copyArray();
 		}
-		case SPOTS:
-		{
+		case SPOTS: {
 
 			final DoubleArray val = new DoubleArray();
-			for ( final Spot spot : model.getSpots().iterable( visibleOnly ) )
-			{
-				final Double sf = spot.getFeature( featureKey );
-				if ( sf != null && !sf.isNaN() )
-					val.add( sf.doubleValue() );
+			for (final Spot spot : model.getSpots().iterable(visibleOnly)) {
+				final Double sf = spot.getFeature(featureKey);
+				if (sf != null && !sf.isNaN())
+					val.add(sf.doubleValue());
 			}
 			return val.copyArray();
 		}
-		case TRACKS:
-		{
+		case TRACKS: {
 			final DoubleArray val = new DoubleArray();
-			for ( final Integer trackID : model.getTrackModel().trackIDs( visibleOnly ) )
-			{
-				final Double tf = fm.getTrackFeature( trackID, featureKey );
-				if ( tf != null && !tf.isNaN() )
-					val.add( tf.doubleValue() );
+			for (final Integer trackID : model.getTrackModel().trackIDs(visibleOnly)) {
+				final Double tf = fm.getTrackFeature(trackID, featureKey);
+				if (tf != null && !tf.isNaN())
+					val.add(tf.doubleValue());
 			}
 			return val.copyArray();
 		}
 		default:
-			throw new IllegalArgumentException( "Unknown object type: " + target );
+			throw new IllegalArgumentException("Unknown object type: " + target);
 		}
 	}
 
-	public static final FeatureColorGenerator< Spot > createSpotColorGenerator( final Model model, final DisplaySettings displaySettings )
-	{
-		switch ( displaySettings.getSpotColorByType() )
-		{
+	public static final FeatureColorGenerator<Spot> createSpotColorGenerator(final Model model,
+			final DisplaySettings displaySettings) {
+		switch (displaySettings.getSpotColorByType()) {
 		case DEFAULT:
-			return new UniformSpotColorGenerator( displaySettings.getSpotUniformColor() );
+			return new UniformSpotColorGenerator(displaySettings.getSpotUniformColor());
 
 		case EDGES:
 
-			if ( displaySettings.getSpotColorByFeature().equals( ManualEdgeColorAnalyzer.FEATURE ) )
-				return new ManualSpotPerEdgeColorGenerator( model, displaySettings.getMissingValueColor() );
+			if (displaySettings.getSpotColorByFeature().equals(ManualEdgeColorAnalyzer.FEATURE))
+				return new ManualSpotPerEdgeColorGenerator(model, displaySettings.getMissingValueColor());
 
-			return new SpotColorGeneratorPerEdgeFeature(
-					model,
-					displaySettings.getSpotColorByFeature(),
-					displaySettings.getMissingValueColor(),
-					displaySettings.getUndefinedValueColor(),
-					displaySettings.getColormap(),
-					displaySettings.getSpotMin(),
-					displaySettings.getSpotMax() );
+			return new SpotColorGeneratorPerEdgeFeature(model, displaySettings.getSpotColorByFeature(),
+					displaySettings.getMissingValueColor(), displaySettings.getUndefinedValueColor(),
+					displaySettings.getColormap(), displaySettings.getSpotMin(), displaySettings.getSpotMax());
 
 		case SPOTS:
 
-			if ( displaySettings.getSpotColorByFeature().equals( ManualSpotColorAnalyzerFactory.FEATURE ) )
-				return new ManualSpotColorGenerator( displaySettings.getMissingValueColor() );
+			if (displaySettings.getSpotColorByFeature().equals(ManualSpotColorAnalyzerFactory.FEATURE))
+				return new ManualSpotColorGenerator(displaySettings.getMissingValueColor());
 
-			return new SpotColorGenerator(
-					displaySettings.getSpotColorByFeature(),
-					displaySettings.getMissingValueColor(),
-					displaySettings.getUndefinedValueColor(),
-					displaySettings.getColormap(),
-					displaySettings.getSpotMin(),
-					displaySettings.getSpotMax() );
+			return new SpotColorGenerator(displaySettings.getSpotColorByFeature(),
+					displaySettings.getMissingValueColor(), displaySettings.getUndefinedValueColor(),
+					displaySettings.getColormap(), displaySettings.getSpotMin(), displaySettings.getSpotMax());
 
 		case TRACKS:
-			return new SpotColorGeneratorPerTrackFeature(
-					model,
-					displaySettings.getSpotColorByFeature(),
-					displaySettings.getMissingValueColor(),
-					displaySettings.getUndefinedValueColor(),
-					displaySettings.getColormap(),
-					displaySettings.getSpotMin(),
-					displaySettings.getSpotMax() );
+			return new SpotColorGeneratorPerTrackFeature(model, displaySettings.getSpotColorByFeature(),
+					displaySettings.getMissingValueColor(), displaySettings.getUndefinedValueColor(),
+					displaySettings.getColormap(), displaySettings.getSpotMin(), displaySettings.getSpotMax());
 
 		default:
-			throw new IllegalArgumentException( "Unknown type: " + displaySettings.getSpotColorByType() );
+			throw new IllegalArgumentException("Unknown type: " + displaySettings.getSpotColorByType());
 		}
 	}
 
-	public static final FeatureColorGenerator< DefaultWeightedEdge > createTrackColorGenerator( final Model model, final DisplaySettings displaySettings )
-	{
-		switch ( displaySettings.getTrackColorByType() )
-		{
+	public static final FeatureColorGenerator<DefaultWeightedEdge> createTrackColorGenerator(final Model model,
+			final DisplaySettings displaySettings) {
+		switch (displaySettings.getTrackColorByType()) {
 		case DEFAULT:
-			return new UniformTrackColorGenerator( displaySettings.getTrackUniformColor() );
+			return new UniformTrackColorGenerator(displaySettings.getTrackUniformColor());
 
 		case EDGES:
 
-			if ( displaySettings.getTrackColorByFeature().equals( ManualEdgeColorAnalyzer.FEATURE ) )
-				return new ManualEdgeColorGenerator( model, displaySettings.getMissingValueColor() );
+			if (displaySettings.getTrackColorByFeature().equals(ManualEdgeColorAnalyzer.FEATURE))
+				return new ManualEdgeColorGenerator(model, displaySettings.getMissingValueColor());
 
-			return new PerEdgeFeatureColorGenerator(
-					model,
-					displaySettings.getTrackColorByFeature(),
-					displaySettings.getMissingValueColor(),
-					displaySettings.getUndefinedValueColor(),
-					displaySettings.getColormap(),
-					displaySettings.getTrackMin(),
-					displaySettings.getTrackMax() );
+			return new PerEdgeFeatureColorGenerator(model, displaySettings.getTrackColorByFeature(),
+					displaySettings.getMissingValueColor(), displaySettings.getUndefinedValueColor(),
+					displaySettings.getColormap(), displaySettings.getTrackMin(), displaySettings.getTrackMax());
 
 		case SPOTS:
 
-			if ( displaySettings.getTrackColorByFeature().equals( ManualSpotColorAnalyzerFactory.FEATURE ) )
-				return new ManualEdgePerSpotColorGenerator( model, displaySettings.getMissingValueColor() );
+			if (displaySettings.getTrackColorByFeature().equals(ManualSpotColorAnalyzerFactory.FEATURE))
+				return new ManualEdgePerSpotColorGenerator(model, displaySettings.getMissingValueColor());
 
-			return new PerSpotFeatureColorGenerator(
-					model,
-					displaySettings.getTrackColorByFeature(),
-					displaySettings.getMissingValueColor(),
-					displaySettings.getUndefinedValueColor(),
-					displaySettings.getColormap(),
-					displaySettings.getTrackMin(),
-					displaySettings.getTrackMax() );
+			return new PerSpotFeatureColorGenerator(model, displaySettings.getTrackColorByFeature(),
+					displaySettings.getMissingValueColor(), displaySettings.getUndefinedValueColor(),
+					displaySettings.getColormap(), displaySettings.getTrackMin(), displaySettings.getTrackMax());
 
 		case TRACKS:
-			return new PerTrackFeatureColorGenerator(
-					model,
-					displaySettings.getTrackColorByFeature(),
-					displaySettings.getMissingValueColor(),
-					displaySettings.getUndefinedValueColor(),
-					displaySettings.getColormap(),
-					displaySettings.getTrackMin(),
-					displaySettings.getTrackMax() );
+			return new PerTrackFeatureColorGenerator(model, displaySettings.getTrackColorByFeature(),
+					displaySettings.getMissingValueColor(), displaySettings.getUndefinedValueColor(),
+					displaySettings.getColormap(), displaySettings.getTrackMin(), displaySettings.getTrackMax());
 
 		default:
-			throw new IllegalArgumentException( "Unknown type: " + displaySettings.getTrackColorByType() );
+			throw new IllegalArgumentException("Unknown type: " + displaySettings.getTrackColorByType());
 		}
 	}
 
-	public static final FeatureColorGenerator< Integer > createWholeTrackColorGenerator( final Model model, final DisplaySettings displaySettings )
-	{
-		switch ( displaySettings.getTrackColorByType() )
-		{
+	public static final FeatureColorGenerator<Integer> createWholeTrackColorGenerator(final Model model,
+			final DisplaySettings displaySettings) {
+		switch (displaySettings.getTrackColorByType()) {
 		case DEFAULT:
 		case SPOTS:
 			return id -> Color.WHITE;
 
 		case EDGES:
 		case TRACKS:
-			return new WholeTrackFeatureColorGenerator(
-					model,
-					displaySettings.getTrackColorByFeature(),
-					displaySettings.getMissingValueColor(),
-					displaySettings.getUndefinedValueColor(),
-					displaySettings.getColormap(),
-					displaySettings.getTrackMin(),
-					displaySettings.getTrackMax() );
+			return new WholeTrackFeatureColorGenerator(model, displaySettings.getTrackColorByFeature(),
+					displaySettings.getMissingValueColor(), displaySettings.getUndefinedValueColor(),
+					displaySettings.getColormap(), displaySettings.getTrackMin(), displaySettings.getTrackMax());
 
 		default:
-			throw new IllegalArgumentException( "Unknown type: " + displaySettings.getTrackColorByType() );
+			throw new IllegalArgumentException("Unknown type: " + displaySettings.getTrackColorByType());
 		}
 	}
 
 	public static final Model DUMMY_MODEL = new Model();
-	static
-	{
+	static {
 		final Random ran = new Random();
 		DUMMY_MODEL.beginUpdate();
-		try
-		{
+		try {
 
-			for ( int i = 0; i < 100; i++ )
-			{
+			for (int i = 0; i < 100; i++) {
 				Spot previous = null;
-				for ( int t = 0; t < 20; t++ )
-				{
+				for (int t = 0; t < 20; t++) {
 
 					final double x = ran.nextDouble();
 					final double y = ran.nextDouble();
 					final double z = ran.nextDouble();
 					final double r = ran.nextDouble();
 					final double q = ran.nextDouble();
-					final Spot spot = new Spot( x, y, z, r, q );
-					DUMMY_MODEL.addSpotTo( spot, t );
-					if ( previous != null )
-						DUMMY_MODEL.addEdge( previous, spot, ran.nextDouble() );
+					final Spot spot = new Spot(x, y, z, r, q);
+					DUMMY_MODEL.addSpotTo(spot, t);
+					if (previous != null)
+						DUMMY_MODEL.addEdge(previous, spot, ran.nextDouble());
 
 					previous = spot;
 				}
 			}
-		}
-		finally
-		{
+		} finally {
 			DUMMY_MODEL.endUpdate();
 		}
 	}
 
-	public static final double[] autoMinMax( final Model model, final Settings settings, final TrackMateObject type, final String feature )
-	{
-		switch ( type )
-		{
+	public static final double[] autoMinMax(final Model model, final Settings settings, final TrackMateObject type,
+			final String feature) {
+		switch (type) {
 		case DEFAULT:
 			return new double[] { 0., 0. };
 
 		case EDGES:
 		case SPOTS:
-		case TRACKS:
-		{
-			final double[] values = collectFeatureValues( feature, type, model, settings, true );
+		case TRACKS: {
+			final double[] values = collectFeatureValues(feature, type, model, settings, true);
 			double min = Double.POSITIVE_INFINITY;
 			double max = Double.NEGATIVE_INFINITY;
-			for ( final double val : values )
-			{
-				if ( val < min )
+			for (final double val : values) {
+				if (val < min)
 					min = val;
 
-				if ( val > max )
+				if (val > max)
 					max = val;
 			}
 			return new double[] { min, max };
 		}
 
 		default:
-			throw new IllegalArgumentException( "Unexpected TrackMate object type: " + type );
+			throw new IllegalArgumentException("Unexpected TrackMate object type: " + type);
 		}
 	}
 
-	public static final int nObjects( final Model model, final TrackMateObject target, final boolean visibleOnly )
-	{
-		switch ( target )
-		{
+	public static final int nObjects(final Model model, final TrackMateObject target, final boolean visibleOnly) {
+		switch (target) {
 		case DEFAULT:
-			throw new UnsupportedOperationException( "Cannot return the number of objects for type DEFAULT." );
-		case EDGES:
-		{
+			throw new UnsupportedOperationException("Cannot return the number of objects for type DEFAULT.");
+		case EDGES: {
 			int nEdges = 0;
-			for ( final Integer trackID : model.getTrackModel().unsortedTrackIDs( visibleOnly ) )
-				nEdges += model.getTrackModel().trackEdges( trackID ).size();
+			for (final Integer trackID : model.getTrackModel().unsortedTrackIDs(visibleOnly))
+				nEdges += model.getTrackModel().trackEdges(trackID).size();
 			return nEdges;
 		}
 		case SPOTS:
-			return model.getSpots().getNSpots( visibleOnly );
+			return model.getSpots().getNSpots(visibleOnly);
 		case TRACKS:
-			return model.getTrackModel().nTracks( visibleOnly );
+			return model.getTrackModel().nTracks(visibleOnly);
 		default:
-			throw new IllegalArgumentException( "Unknown TrackMate object: " + target );
+			throw new IllegalArgumentException("Unknown TrackMate object: " + target);
 		}
 	}
 }

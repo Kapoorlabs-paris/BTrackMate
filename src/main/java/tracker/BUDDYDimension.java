@@ -7,7 +7,7 @@ public enum BUDDYDimension {
 	// x,y,z are plotted on
 	// a different graph
 	// from spot sizes
-TIME, ANGLE, RATE, // count per frames
-STRING; // for non-numeric features
-	
+	TIME, ANGLE, RATE, // count per frames
+	STRING; // for non-numeric features
+
 }

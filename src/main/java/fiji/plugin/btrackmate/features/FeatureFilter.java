@@ -7,26 +7,23 @@ package fiji.plugin.btrackmate.features;
  * 
  * @author Jean-Yves Tinevez
  */
-public class FeatureFilter
-{
+public class FeatureFilter {
 	public final String feature;
 
 	public final double value;
 
 	public final boolean isAbove;
 
-	public FeatureFilter( final String feature, final double value, final boolean isAbove )
-	{
+	public FeatureFilter(final String feature, final double value, final boolean isAbove) {
 		this.feature = feature;
 		this.value = value;
 		this.isAbove = isAbove;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		String str = feature.toString();
-		if ( isAbove )
+		if (isAbove)
 			str += " > ";
 		else
 			str += " < ";

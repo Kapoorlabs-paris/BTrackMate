@@ -19,43 +19,37 @@ import com.mxgraph.view.mxCellState;
  * 
  * @author Jean-Yves Tinevez &lt;jeanyves.tinevez@gmail.com&gt; Mar 2011 - 2012
  */
-public class mxScaledLabelShape extends mxRectangleShape
-{
+public class mxScaledLabelShape extends mxRectangleShape {
 
 	public static final String SHAPE_NAME = "scaledLabel";
 
 	@Override
-	public void paintShape( final mxGraphics2DCanvas canvas, final mxCellState state )
-	{
+	public void paintShape(final mxGraphics2DCanvas canvas, final mxCellState state) {
 
-		super.paintShape( canvas, state );
+		super.paintShape(canvas, state);
 
-		final String imgStr = mxUtils.getString( state.getStyle(), mxConstants.STYLE_IMAGE );
-		if ( imgStr != null )
-		{
-			final Image img = canvas.loadImage( mxUtils.getString( state.getStyle(), mxConstants.STYLE_IMAGE ) );
-			if ( img != null )
-			{
-				final Rectangle bounds = getImageBounds( state );
+		final String imgStr = mxUtils.getString(state.getStyle(), mxConstants.STYLE_IMAGE);
+		if (imgStr != null) {
+			final Image img = canvas.loadImage(mxUtils.getString(state.getStyle(), mxConstants.STYLE_IMAGE));
+			if (img != null) {
+				final Rectangle bounds = getImageBounds(state);
 				final int x = bounds.x;
 				final int y = bounds.y;
 				final int w = bounds.width;
 				final int h = bounds.height;
-				if ( h > 0 && w > 0 )
-				{
-					final Image scaledImage = img.getScaledInstance( w, h, Image.SCALE_FAST );
-					canvas.getGraphics().drawImage( scaledImage, x, y, null );
+				if (h > 0 && w > 0) {
+					final Image scaledImage = img.getScaledInstance(w, h, Image.SCALE_FAST);
+					canvas.getGraphics().drawImage(scaledImage, x, y, null);
 				}
 			}
 		}
 	}
 
-	private final Rectangle getImageBounds( final mxCellState state )
-	{
+	private final Rectangle getImageBounds(final mxCellState state) {
 		final Rectangle cellR = state.getRectangle();
-		final int arc = getArcSize( state, cellR.width, cellR.height ) / 2;
-		final int minSize = Math.min( cellR.width - arc * 2, cellR.height - 4 );
-		final Rectangle imageBounds = new Rectangle( cellR.x + arc, cellR.y + 2, minSize, minSize );
+		final int arc = getArcSize(state, cellR.width, cellR.height) / 2;
+		final int minSize = Math.min(cellR.width - arc * 2, cellR.height - 4);
+		final Rectangle imageBounds = new Rectangle(cellR.x + arc, cellR.y + 2, minSize, minSize);
 		return imageBounds;
 	}
 }

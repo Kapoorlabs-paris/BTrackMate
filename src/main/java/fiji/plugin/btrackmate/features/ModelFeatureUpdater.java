@@ -14,13 +14,12 @@ import net.imglib2.algorithm.MultiThreaded;
 
 /**
  * A utility class that listens to the change occurring in a model, and updates
- * its spot, edge and track features accordingly. Useful to keep the model in 
+ * its spot, edge and track features accordingly. Useful to keep the model in
  * sync with manual editing.
- *    
+ * 
  * @author Jean-Yves Tinevez - 2013
  */
-public class ModelFeatureUpdater implements ModelChangeListener, MultiThreaded
-{
+public class ModelFeatureUpdater implements ModelChangeListener, MultiThreaded {
 
 	private final SpotFeatureCalculator spotFeatureCalculator;
 	private final EdgeFeatureCalculator edgeFeatureCalculator;
@@ -30,11 +29,12 @@ public class ModelFeatureUpdater implements ModelChangeListener, MultiThreaded
 	private int numThreads;
 
 	/**
-	 * Constructs and activate a {@link ModelFeatureUpdater}. The new instance is 
+	 * Constructs and activate a {@link ModelFeatureUpdater}. The new instance is
 	 * registered to listen to model changes, and update its feature.
-	 * @param model  the model to listen to. 
-	 * @param settings the {@link Settings} the model is built against. Required 
-	 * to access the raw data.
+	 * 
+	 * @param model    the model to listen to.
+	 * @param settings the {@link Settings} the model is built against. Required to
+	 *                 access the raw data.
 	 */
 	public ModelFeatureUpdater(Model model, Settings settings) {
 		this.model = model;
@@ -46,9 +46,8 @@ public class ModelFeatureUpdater implements ModelChangeListener, MultiThreaded
 	}
 
 	/**
-	 * Updates the model features against the change notified here.
-	 * If the event is not a {@link ModelChangeEvent#MODEL_MODIFIED},
-	 * does nothing.
+	 * Updates the model features against the change notified here. If the event is
+	 * not a {@link ModelChangeEvent#MODEL_MODIFIED}, does nothing.
 	 */
 	@Override
 	public void modelChanged(ModelChangeEvent event) {
@@ -64,7 +63,7 @@ public class ModelFeatureUpdater implements ModelChangeListener, MultiThreaded
 			}
 		}
 		SpotCollection sc = SpotCollection.fromCollection(spots);
-		
+
 		// Build edge list
 		ArrayList<DefaultWeightedEdge> edges = new ArrayList<>(event.getEdges().size());
 		for (DefaultWeightedEdge edge : event.getEdges()) {
@@ -75,41 +74,38 @@ public class ModelFeatureUpdater implements ModelChangeListener, MultiThreaded
 
 		// Update spot features
 		spotFeatureCalculator.computeSpotFeatures(sc, false);
-		
+
 		// Update edge features
 		edgeFeatureCalculator.computeEdgesFeatures(edges, false);
-		
+
 		// Update track features
 		trackFeatureCalculator.computeTrackFeatures(event.getTrackUpdated(), false);
 	}
-	
+
 	/**
-	 * Re-registers this instance from the listeners of the model, and stop
-	 * updating its features.
+	 * Re-registers this instance from the listeners of the model, and stop updating
+	 * its features.
 	 */
 	public void quit() {
 		model.removeModelChangeListener(this);
 	}
 
 	@Override
-	public int getNumThreads()
-	{
+	public int getNumThreads() {
 		return numThreads;
 	}
 
 	@Override
-	public void setNumThreads()
-	{
-		setNumThreads( Runtime.getRuntime().availableProcessors() );
+	public void setNumThreads() {
+		setNumThreads(Runtime.getRuntime().availableProcessors());
 	}
 
 	@Override
-	public void setNumThreads( int numThreads )
-	{
+	public void setNumThreads(int numThreads) {
 		this.numThreads = numThreads;
-		spotFeatureCalculator.setNumThreads( numThreads );
-		edgeFeatureCalculator.setNumThreads( numThreads );
-		trackFeatureCalculator.setNumThreads( numThreads );
+		spotFeatureCalculator.setNumThreads(numThreads);
+		edgeFeatureCalculator.setNumThreads(numThreads);
+		trackFeatureCalculator.setNumThreads(numThreads);
 	}
 
 }

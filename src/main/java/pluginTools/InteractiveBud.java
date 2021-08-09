@@ -1,4 +1,5 @@
 package pluginTools;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -113,8 +114,10 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	public int borderexpand = 20;
 	public int BudDotsize = 6;
 	public Color BudColor = Color.PINK;
+	public Color BudBeforeColor = Color.YELLOW;
+	public Color BudSplitColor = Color.BLUE;
 	public Color RemoveBudColor = Color.RED;
-	
+
 	public HashMap<String, ArrayList<Budpointobject>> AllBudpoints;
 	public HashMap<String, ArrayList<Budobject>> AllBuds;
 	public HashMap<String, Integer> BudLastTime;
@@ -176,8 +179,10 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 	// Input Bud and its segmentation
 	public InteractiveBud(final RandomAccessibleInterval<FloatType> originalimg,
-			final RandomAccessibleInterval<IntType> Segoriginalimg, final HashMap<String,ArrayList<Roiobject>> BudOvalRois,final File defaultDirectory, final String NameA, final double calibrationX,
-			double calibrationY, final double timecal, String inputstring, Boolean BudAnalysis) {
+			final RandomAccessibleInterval<IntType> Segoriginalimg,
+			final HashMap<String, ArrayList<Roiobject>> BudOvalRois, final File defaultDirectory, final String NameA,
+			final double calibrationX, double calibrationY, final double timecal, String inputstring,
+			Boolean BudAnalysis) {
 
 		this.originalimg = originalimg;
 		this.Segoriginalimg = Segoriginalimg;
@@ -197,8 +202,9 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	// Input RGB and one flourescent channel segmentation images
 	public InteractiveBud(final RandomAccessibleInterval<FloatType> originalimg,
 			final RandomAccessibleInterval<IntType> Segoriginalimg,
-			final RandomAccessibleInterval<IntType> SegYelloworiginalimg, final File defaultDirectory, final String NameA, final double calibrationX,
-			final double calibrationY, final double timecal, String inputstring) {
+			final RandomAccessibleInterval<IntType> SegYelloworiginalimg, final File defaultDirectory,
+			final String NameA, final double calibrationX, final double calibrationY, final double timecal,
+			String inputstring) {
 
 		this.originalimg = originalimg;
 		this.Segoriginalimg = Segoriginalimg;
@@ -216,10 +222,11 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 	// Input Image and one flourescent channel and mask images
 	public InteractiveBud(final RandomAccessibleInterval<FloatType> originalimg,
-			final HashMap<Integer,ArrayList<Cellobject>> CSVGreen,
+			final HashMap<Integer, ArrayList<Cellobject>> CSVGreen,
 			final RandomAccessibleInterval<IntType> Segoriginalimg,
-			final RandomAccessibleInterval<IntType> SegYelloworiginalimg, final File defaultDirectory, final String NameA, final double calibrationX,
-			final double calibrationY, final double calibrationZ, final double timecal, String inputstring, Boolean BudAnalysis) {
+			final RandomAccessibleInterval<IntType> SegYelloworiginalimg, final File defaultDirectory,
+			final String NameA, final double calibrationX, final double calibrationY, final double calibrationZ,
+			final double timecal, String inputstring, Boolean BudAnalysis) {
 
 		this.originalimg = originalimg;
 		this.Segoriginalimg = Segoriginalimg;
@@ -238,9 +245,10 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	}
 
 	public InteractiveBud(final RandomAccessibleInterval<FloatType> originalimg,
-			final HashMap<Integer,ArrayList<Cellobject>> CSVGreen,
-			final RandomAccessibleInterval<IntType> SegYelloworiginalimg, final File defaultDirectory, final String NameA, final double calibrationX,
-			final double calibrationY, final double calibrationZ, final double timecal, String inputstring, Boolean BudAnalysis) {
+			final HashMap<Integer, ArrayList<Cellobject>> CSVGreen,
+			final RandomAccessibleInterval<IntType> SegYelloworiginalimg, final File defaultDirectory,
+			final String NameA, final double calibrationX, final double calibrationY, final double calibrationZ,
+			final double timecal, String inputstring, Boolean BudAnalysis) {
 
 		this.originalimg = originalimg;
 		this.SegYelloworiginalimg = SegYelloworiginalimg;
@@ -256,9 +264,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 		this.BudAnalysis = BudAnalysis;
 
 	}
-	
 
-	
 	public ImageStack prestack;
 	public JTable table;
 	public JTableHeader header;
@@ -285,9 +291,6 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 		return thirdDimensionSize;
 	}
-	
-	
-	
 
 	@Override
 	public void run(String arg0) {
@@ -297,7 +300,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 		AllBudcenter = new ArrayList<RealLocalizable>();
 		ChosenBudcenter = new ArrayList<RealLocalizable>();
 		Finalresult = new HashMap<String, Budpointobject>();
-		
+
 		ZTRois = new ArrayList<int[]>();
 		BudVelocityMap = new HashMap<Integer, HashMap<Integer, Double>>();
 		SelectedAllRefcords = new HashMap<String, RealLocalizable>();
@@ -327,11 +330,10 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 			setTime(thirdDimension);
 			CurrentView = utility.BudSlicer.getCurrentBudView(originalimg, thirdDimension, thirdDimensionSize);
-			if (Segoriginalimg!=null)
-			CurrentViewInt = utility.BudSlicer.getCurrentBudView(Segoriginalimg, thirdDimension, thirdDimensionSize);
-			 
-			       
-			
+			if (Segoriginalimg != null)
+				CurrentViewInt = utility.BudSlicer.getCurrentBudView(Segoriginalimg, thirdDimension,
+						thirdDimensionSize);
+
 			if (SegYelloworiginalimg != null) {
 				CurrentViewYellowInt = utility.BudSlicer.getCurrentBudView(SegYelloworiginalimg, thirdDimension,
 						thirdDimensionSize);
@@ -364,22 +366,19 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 			CurrentView = utility.BudSlicer.getCurrentGreenView(originalimg, thirdDimension, thirdDimensionSize,
 					fourthDimension, fourthDimensionSize);
-			if (Segoriginalimg!=null)
-			CurrentViewInt = utility.BudSlicer.getCurrentGreenView(Segoriginalimg, thirdDimension, thirdDimensionSize,
-					fourthDimension, fourthDimensionSize);
-		
-			  
+			if (Segoriginalimg != null)
+				CurrentViewInt = utility.BudSlicer.getCurrentGreenView(Segoriginalimg, thirdDimension,
+						thirdDimensionSize, fourthDimension, fourthDimensionSize);
+
 			if (SegYelloworiginalimg != null) {
 				CurrentViewYellowInt = utility.BudSlicer.getCurrentGreenView(SegYelloworiginalimg, thirdDimension,
 						thirdDimensionSize, fourthDimension, fourthDimensionSize);
-				
+
 			}
 			imp = ImageJFunctions.show(CurrentView, "Original Image");
-			
-			
+
 			imp.setTitle("Active Image" + " " + "time point : " + fourthDimension);
 
-		
 			GreenCellCollector();
 
 		}
@@ -392,8 +391,6 @@ public class InteractiveBud extends JPanel implements PlugIn {
 		// Get Labelled images
 
 	}
-	
-
 
 	public void updatePreview(final ValueChange change) {
 
@@ -405,35 +402,32 @@ public class InteractiveBud extends JPanel implements PlugIn {
 		}
 
 		if (change == ValueChange.THIRDDIMmouse) {
-		
-		       
-		        // create a view on the source with this interval
-		      
+
+			// create a view on the source with this interval
+
 			if (ndims == 3) {
 				imp.setTitle("Active Image" + " " + "time point : " + thirdDimension);
 				String TID = Integer.toString(thirdDimension);
 				AccountedT.put(TID, thirdDimension);
 				CurrentView = utility.BudSlicer.getCurrentBudView(originalimg, thirdDimension, thirdDimensionSize);
-				if (Segoriginalimg!=null)
-				CurrentViewInt = utility.BudSlicer.getCurrentBudView(Segoriginalimg, thirdDimension,
-						thirdDimensionSize);
-                else {
-					
+				if (Segoriginalimg != null)
+					CurrentViewInt = utility.BudSlicer.getCurrentBudView(Segoriginalimg, thirdDimension,
+							thirdDimensionSize);
+				else {
+
 					CurrentViewInt = null;
 				}
-				
-			       
-			       
+
 				if (SegYelloworiginalimg != null) {
 					CurrentViewYellowInt = utility.BudSlicer.getCurrentBudView(SegYelloworiginalimg, thirdDimension,
 							thirdDimensionSize);
-							}
+				}
 				repaintView(CurrentView);
 				if (BudAnalysis) {
 					if (CovistoKalmanPanel.Skeletontime.isEnabled()) {
 						imp.getOverlay().clear();
 						imp.updateAndDraw();
-						
+
 						StartDisplayer();
 
 					}
@@ -454,21 +448,20 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 				CurrentView = utility.BudSlicer.getCurrentGreenView(originalimg, thirdDimension, thirdDimensionSize,
 						fourthDimension, fourthDimensionSize);
-				if (Segoriginalimg!=null)
-				CurrentViewInt = utility.BudSlicer.getCurrentGreenView(Segoriginalimg, thirdDimension,
-						thirdDimensionSize, fourthDimension, fourthDimensionSize);
+				if (Segoriginalimg != null)
+					CurrentViewInt = utility.BudSlicer.getCurrentGreenView(Segoriginalimg, thirdDimension,
+							thirdDimensionSize, fourthDimension, fourthDimensionSize);
 				else {
-					
+
 					CurrentViewInt = null;
 				}
-			 
-				
+
 				if (SegYelloworiginalimg != null) {
 					CurrentViewYellowInt = utility.BudSlicer.getCurrentGreenView(SegYelloworiginalimg, thirdDimension,
 							thirdDimensionSize, fourthDimension, fourthDimensionSize);
-				
+
 				}
-				repaintView( CurrentView);
+				repaintView(CurrentView);
 			}
 
 		}
@@ -476,17 +469,14 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	}
 
 	public void StartDisplayer() {
-		
-		
+
 		BUDDYDisplaySelectedTrack.Select(this, null);
 		BUDDYDisplaySelectedTrack.Mark(this, null);
-		
-		
+
 		ComputeBorder display = new ComputeBorder(this, jpb);
 
 		display.execute();
 	}
-
 
 	public void GreenCellCollector() {
 
@@ -495,8 +485,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	}
 
 	public void repaintView(RandomAccessibleInterval<FloatType> Activeimage) {
-		
-	
+
 		imp.getCanvas().addKeyListener(new AddBudKeyListener(this));
 		IJ.selectWindow(imp.getTitle());
 		if (imp == null || !imp.isVisible()) {
@@ -505,23 +494,18 @@ public class InteractiveBud extends JPanel implements PlugIn {
 		}
 
 		else {
-			
-			     
-				final float[] pixels = (float[]) imp.getProcessor().getPixels();
 
-				final Cursor<FloatType> c = Views.iterable(Activeimage).cursor();
+			final float[] pixels = (float[]) imp.getProcessor().getPixels();
 
-			
-				for (int i = 0; i < pixels.length; ++i)
-				
-					pixels[i] = c.next().get();
+			final Cursor<FloatType> c = Views.iterable(Activeimage).cursor();
 
-		
+			for (int i = 0; i < pixels.length; ++i)
+
+				pixels[i] = c.next().get();
 
 			imp.updateAndDraw();
 
 		}
-		
 
 	}
 
@@ -544,21 +528,22 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	public Label autoTstart, autoTend;
 	public TextField startT, endT;
 	public Label timeText = new Label("Current T = " + 1, Label.CENTER);
-	
-	public Label inputZ = new Label("Current Z = " + 1, Label.CENTER );
+
+	public Label inputZ = new Label("Current Z = " + 1, Label.CENTER);
 
 	public Label thirdexplain = new Label("Press Esc on active image to stop calculation", Label.CENTER);
 	public Label fourthexplain = new Label("Click Skeletonize buddies after selection", Label.CENTER);
-	public Label fifthexplain = new Label("Left click to remove/re-add point. Left+a to make a new point", Label.CENTER);
+	public Label fifthexplain = new Label("Left click to remove/re-add point. Left+a to make a new point",
+			Label.CENTER);
 	public String timestring = "Current T";
 	public String Zstring = "Current Z";
-	
+
 	int textwidth = 5;
 	public int AutostartTime, AutoendTime;
 	public TextField inputFieldT;
 	public JScrollBar timeslider = new JScrollBar(Scrollbar.HORIZONTAL, thirdDimensionsliderInit, 10, 0,
 			scrollbarSize + 10);
-	
+
 	public JScrollBar Zslider = new JScrollBar(Scrollbar.HORIZONTAL, thirdDimensionsliderInit, 10, 0,
 			scrollbarSize + 10);
 	public JButton Savebutton = new JButton("Save Track");
@@ -666,13 +651,12 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 		Timeselect.add(inputFieldT, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		
+
 		Timeselect.add(autoTstart, new GridBagConstraints(2, 0, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
 		Timeselect.add(startT, new GridBagConstraints(2, 2, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
-		
-		
+
 		Timeselect.add(autoTend, new GridBagConstraints(2, 4, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
 		Timeselect.add(endT, new GridBagConstraints(2, 6, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
@@ -714,7 +698,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 		Original.add(SaveAllbutton, new GridBagConstraints(0, 9, 3, 1, 0.0, 0.0, GridBagConstraints.NORTH,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
-		
+
 		Original.add(Checkpointbutton, new GridBagConstraints(0, 10, 3, 1, 0.0, 0.0, GridBagConstraints.NORTH,
 				GridBagConstraints.HORIZONTAL, new Insets(10, 10, 0, 10), 0, 0));
 
@@ -723,18 +707,14 @@ public class InteractiveBud extends JPanel implements PlugIn {
 		panelFirst.add(Original, new GridBagConstraints(3, 1, 3, 1, 0.0, 0.0, GridBagConstraints.EAST,
 				GridBagConstraints.HORIZONTAL, insets, 0, 0));
 
-
 		inputFieldT.addTextListener(new BudTlocListener(this, false));
 
 		timeslider.addAdjustmentListener(new BudTimeListener(this, timeText, timestring, thirdDimensionsliderInit,
 				thirdDimensionSize, scrollbarSize, timeslider));
-		
-		
+
 		Zslider.addAdjustmentListener(new BudZListener(this, inputZ, Zstring, thirdDimensionsliderInit,
 				thirdDimensionSize, scrollbarSize, Zslider));
-		
-		
-		
+
 		endT.addTextListener(new BTrackAutoEndListener(this));
 		startT.addTextListener(new BTrackAutoStartListener(this));
 		CovistoKalmanPanel.Skeletontime.addActionListener(new BudSkeletonListener(this));

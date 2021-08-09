@@ -24,37 +24,27 @@ import fiji.plugin.btrackmate.gui.components.tracker.KalmanTrackerConfigPanel;
 import fiji.plugin.btrackmate.tracking.SpotTracker;
 import fiji.plugin.btrackmate.tracking.SpotTrackerFactory;
 
-@Plugin( type = SpotTrackerFactory.class )
-public class KalmanTrackerFactory implements SpotTrackerFactory
-{
+@Plugin(type = SpotTrackerFactory.class)
+public class KalmanTrackerFactory implements SpotTrackerFactory {
 
 	private static final String INFO_TEXT_PART2 = "This tracker needs two parameters (on top of the maximal frame gap tolerated): "
-			+ "<br/>"
-			+ "\t - the max search radius defines how far from a predicted position it should look "
+			+ "<br/>" + "\t - the max search radius defines how far from a predicted position it should look "
 			+ "for candidate spots;<br/>"
-			+ "\t - the initial search radius defines how far two spots can be apart when initiating "
-			+ "a new track."
+			+ "\t - the initial search radius defines how far two spots can be apart when initiating " + "a new track."
 			+ "<br/></html>";
 
-	private static final String INFO_TEXT = "<html>"
-			+ "This tracker is best suited for objects that "
-			+ "move with a roughly constant velocity vector."
-			+ "<p>"
+	private static final String INFO_TEXT = "<html>" + "This tracker is best suited for objects that "
+			+ "move with a roughly constant velocity vector." + "<p>"
 			+ "It relies on the Kalman filter to predict the next most likely position of a spot. "
 			+ "The predictions for all current tracks are linked to the spots actually "
 			+ "found in the next frame, thanks to the LAP framework already present in the LAP tracker. "
 			+ "Predictions are continuously refined and the tracker can accommodate moderate "
-			+ "velocity direction and magnitude changes. "
-			+ "<p>"
+			+ "velocity direction and magnitude changes. " + "<p>"
 			+ "This tracker can bridge gaps: If a spot is not found close enough to a prediction, "
-			+ "then the Kalman filter will make another prediction in the next frame and re-iterate "
-			+ "the search. "
-			+ "<p>"
-			+ "The first frames of a track are critical for this tracker to work properly: Tracks"
+			+ "then the Kalman filter will make another prediction in the next frame and re-iterate " + "the search. "
+			+ "<p>" + "The first frames of a track are critical for this tracker to work properly: Tracks"
 			+ "are initiated by looking for close neighbors (again via the LAP tracker). "
-			+ "Spurious spots in the beginning of each track can confure the tracker."
-			+ "<p>"
-			+ INFO_TEXT_PART2;
+			+ "Spurious spots in the beginning of each track can confure the tracker." + "<p>" + INFO_TEXT_PART2;
 
 	private static final String KEY = "KALMAN_TRACKER";
 
@@ -67,102 +57,92 @@ public class KalmanTrackerFactory implements SpotTrackerFactory
 	private String errorMessage;
 
 	@Override
-	public String getInfoText()
-	{
+	public String getInfoText() {
 		return INFO_TEXT;
 	}
 
 	@Override
-	public ImageIcon getIcon()
-	{
+	public ImageIcon getIcon() {
 		return null;
 	}
 
 	@Override
-	public String getKey()
-	{
+	public String getKey() {
 		return KEY;
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return NAME;
 	}
 
 	@Override
-	public SpotTracker create( final SpotCollection spots, final Map< String, Object > settings )
-	{
-		final double maxSearchRadius = ( Double ) settings.get( KEY_KALMAN_SEARCH_RADIUS );
-		final int maxFrameGap = ( Integer ) settings.get( KEY_GAP_CLOSING_MAX_FRAME_GAP );
-		final double initialSearchRadius = ( Double ) settings.get( KEY_LINKING_MAX_DISTANCE );
-		return new KalmanTracker( spots, maxSearchRadius, maxFrameGap, initialSearchRadius );
+	public SpotTracker create(final SpotCollection spots, final Map<String, Object> settings) {
+		final double maxSearchRadius = (Double) settings.get(KEY_KALMAN_SEARCH_RADIUS);
+		final int maxFrameGap = (Integer) settings.get(KEY_GAP_CLOSING_MAX_FRAME_GAP);
+		final double initialSearchRadius = (Double) settings.get(KEY_LINKING_MAX_DISTANCE);
+		return new KalmanTracker(spots, maxSearchRadius, maxFrameGap, initialSearchRadius);
 	}
 
 	@Override
-	public ConfigurationPanel getTrackerConfigurationPanel( final Model model )
-	{
+	public ConfigurationPanel getTrackerConfigurationPanel(final Model model) {
 		final String spaceUnits = model.getSpaceUnits();
-		return new KalmanTrackerConfigPanel( getName(), "<html>" + INFO_TEXT_PART2, spaceUnits );
+		return new KalmanTrackerConfigPanel(getName(), "<html>" + INFO_TEXT_PART2, spaceUnits);
 	}
 
 	@Override
-	public boolean marshall( final Map< String, Object > settings, final Element element )
-	{
+	public boolean marshall(final Map<String, Object> settings, final Element element) {
 		boolean ok = true;
 		final StringBuilder str = new StringBuilder();
 
-		ok = ok & writeAttribute( settings, element, KEY_LINKING_MAX_DISTANCE, Double.class, str );
-		ok = ok & writeAttribute( settings, element, KEY_KALMAN_SEARCH_RADIUS, Double.class, str );
-		ok = ok & writeAttribute( settings, element, KEY_GAP_CLOSING_MAX_FRAME_GAP, Integer.class, str );
+		ok = ok & writeAttribute(settings, element, KEY_LINKING_MAX_DISTANCE, Double.class, str);
+		ok = ok & writeAttribute(settings, element, KEY_KALMAN_SEARCH_RADIUS, Double.class, str);
+		ok = ok & writeAttribute(settings, element, KEY_GAP_CLOSING_MAX_FRAME_GAP, Integer.class, str);
 		return ok;
 	}
 
 	@Override
-	public boolean unmarshall( final Element element, final Map< String, Object > settings )
-	{
+	public boolean unmarshall(final Element element, final Map<String, Object> settings) {
 		settings.clear();
 		final StringBuilder errorHolder = new StringBuilder();
 		boolean ok = true;
 
-		ok = ok & readDoubleAttribute( element, settings, KEY_LINKING_MAX_DISTANCE, errorHolder );
-		ok = ok & readDoubleAttribute( element, settings, KEY_KALMAN_SEARCH_RADIUS, errorHolder );
-		ok = ok & readIntegerAttribute( element, settings, KEY_GAP_CLOSING_MAX_FRAME_GAP, errorHolder );
+		ok = ok & readDoubleAttribute(element, settings, KEY_LINKING_MAX_DISTANCE, errorHolder);
+		ok = ok & readDoubleAttribute(element, settings, KEY_KALMAN_SEARCH_RADIUS, errorHolder);
+		ok = ok & readIntegerAttribute(element, settings, KEY_GAP_CLOSING_MAX_FRAME_GAP, errorHolder);
 		return ok;
 	}
 
 	@Override
-	public String toString( final Map< String, Object > settings )
-	{
-		if ( !checkSettingsValidity( settings ) ) { return errorMessage; }
+	public String toString(final Map<String, Object> settings) {
+		if (!checkSettingsValidity(settings)) {
+			return errorMessage;
+		}
 
-		final double maxSearchRadius = ( Double ) settings.get( KEY_KALMAN_SEARCH_RADIUS );
-		final int maxFrameGap = ( Integer ) settings.get( KEY_GAP_CLOSING_MAX_FRAME_GAP );
-		final double initialSearchRadius = ( Double ) settings.get( KEY_LINKING_MAX_DISTANCE );
+		final double maxSearchRadius = (Double) settings.get(KEY_KALMAN_SEARCH_RADIUS);
+		final int maxFrameGap = (Integer) settings.get(KEY_GAP_CLOSING_MAX_FRAME_GAP);
+		final double initialSearchRadius = (Double) settings.get(KEY_LINKING_MAX_DISTANCE);
 		final StringBuilder str = new StringBuilder();
 
-		str.append( String.format( "  - initial search radius: %.1f\n", initialSearchRadius));
-		str.append( String.format( "  - max search radius: %.1f\n", maxSearchRadius ) );
-		str.append( String.format( "  - max frame gap: %d\n", maxFrameGap ) );
+		str.append(String.format("  - initial search radius: %.1f\n", initialSearchRadius));
+		str.append(String.format("  - max search radius: %.1f\n", maxSearchRadius));
+		str.append(String.format("  - max frame gap: %d\n", maxFrameGap));
 
 		return str.toString();
 	}
 
 	@Override
-	public Map< String, Object > getDefaultSettings()
-	{
-		final Map< String, Object > sm = new HashMap<>( 3 );
-		sm.put( KEY_KALMAN_SEARCH_RADIUS, DEFAULT_MAX_SEARCH_RADIUS );
-		sm.put( KEY_LINKING_MAX_DISTANCE, DEFAULT_LINKING_MAX_DISTANCE );
-		sm.put( KEY_GAP_CLOSING_MAX_FRAME_GAP, DEFAULT_GAP_CLOSING_MAX_FRAME_GAP );
+	public Map<String, Object> getDefaultSettings() {
+		final Map<String, Object> sm = new HashMap<>(3);
+		sm.put(KEY_KALMAN_SEARCH_RADIUS, DEFAULT_MAX_SEARCH_RADIUS);
+		sm.put(KEY_LINKING_MAX_DISTANCE, DEFAULT_LINKING_MAX_DISTANCE);
+		sm.put(KEY_GAP_CLOSING_MAX_FRAME_GAP, DEFAULT_GAP_CLOSING_MAX_FRAME_GAP);
 		return sm;
 	}
 
 	@Override
-	public boolean checkSettingsValidity( final Map< String, Object > settings )
-	{
-		if ( null == settings )
-		{
+	public boolean checkSettingsValidity(final Map<String, Object> settings) {
+		if (null == settings) {
 			errorMessage = "Settings map is null.\n";
 			return false;
 		}
@@ -170,20 +150,18 @@ public class KalmanTrackerFactory implements SpotTrackerFactory
 		boolean ok = true;
 		final StringBuilder str = new StringBuilder();
 
-		ok = ok & checkParameter( settings, KEY_LINKING_MAX_DISTANCE, Double.class, str );
-		ok = ok & checkParameter( settings, KEY_KALMAN_SEARCH_RADIUS, Double.class, str );
-		ok = ok & checkParameter( settings, KEY_GAP_CLOSING_MAX_FRAME_GAP, Integer.class, str );
+		ok = ok & checkParameter(settings, KEY_LINKING_MAX_DISTANCE, Double.class, str);
+		ok = ok & checkParameter(settings, KEY_KALMAN_SEARCH_RADIUS, Double.class, str);
+		ok = ok & checkParameter(settings, KEY_GAP_CLOSING_MAX_FRAME_GAP, Integer.class, str);
 
-		if ( !ok )
-		{
+		if (!ok) {
 			errorMessage = str.toString();
 		}
 		return ok;
 	}
 
 	@Override
-	public String getErrorMessage()
-	{
+	public String getErrorMessage() {
 		return errorMessage;
 	}
 }

@@ -7,14 +7,13 @@ import fiji.plugin.btrackmate.gui.displaysettings.DisplaySettings;
 import fiji.plugin.btrackmate.gui.wizard.WizardPanelDescriptor;
 import fiji.plugin.btrackmate.providers.ActionProvider;
 
-public class ActionChooserDescriptor extends WizardPanelDescriptor
-{
+public class ActionChooserDescriptor extends WizardPanelDescriptor {
 
 	private static final String KEY = "Actions";
 
-	public ActionChooserDescriptor( final ActionProvider actionProvider, final TrackMate btrackmate, final SelectionModel selectionModel, final DisplaySettings displaySettings )
-	{
-		super( KEY );
-		this.targetPanel = new ActionChooserPanel( actionProvider, btrackmate, selectionModel, displaySettings );
+	public ActionChooserDescriptor(final ActionProvider actionProvider, final TrackMate btrackmate,
+			final SelectionModel selectionModel, final DisplaySettings displaySettings) {
+		super(KEY);
+		this.targetPanel = new ActionChooserPanel(actionProvider, btrackmate, selectionModel, displaySettings);
 	}
 }

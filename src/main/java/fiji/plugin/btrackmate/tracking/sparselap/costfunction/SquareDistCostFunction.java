@@ -9,14 +9,12 @@ import fiji.plugin.btrackmate.Spot;
  * @author Jean-Yves Tinevez - 2014
  *
  */
-public class SquareDistCostFunction implements CostFunction< Spot, Spot >
-{
+public class SquareDistCostFunction implements CostFunction<Spot, Spot> {
 
 	@Override
-	public double linkingCost( final Spot source, final Spot target )
-	{
-		final double d2 = source.squareDistanceTo( target );
-		return ( d2 == 0 ) ? Double.MIN_NORMAL : d2;
+	public double linkingCost(final Spot source, final Spot target) {
+		final double d2 = source.squareDistanceTo(target);
+		return (d2 == 0) ? Double.MIN_NORMAL : d2;
 	}
 
 }

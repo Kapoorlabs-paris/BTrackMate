@@ -17,16 +17,15 @@ import skeleton.SkeletonizeBuds;
 import utility.BudShowView;
 
 public class BudSkeletonListener implements ActionListener {
-	
+
 	final InteractiveBud parent;
-	
+
 	public BudSkeletonListener(final InteractiveBud parent) {
-		
+
 		this.parent = parent;
-		
+
 	}
-	
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent arg0) {
 
@@ -41,7 +40,6 @@ public class BudSkeletonListener implements ActionListener {
 		});
 
 	}
-	
 
 	public static void go(final InteractiveBud parent) {
 
@@ -50,11 +48,9 @@ public class BudSkeletonListener implements ActionListener {
 		parent.SaveAllbutton.setEnabled(false);
 		parent.Savebutton.setEnabled(false);
 		parent.Checkpointbutton.setEnabled(false);
-		
+
 		SkeletonizeBuds skeleton = new SkeletonizeBuds(parent);
 		skeleton.execute();
-		
-		
 
 	}
 }

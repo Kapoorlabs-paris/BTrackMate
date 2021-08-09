@@ -5,8 +5,7 @@ import java.awt.Color;
 import fiji.plugin.btrackmate.Model;
 import fiji.plugin.btrackmate.gui.displaysettings.Colormap;
 
-public class WholeTrackFeatureColorGenerator implements FeatureColorGenerator< Integer >
-{
+public class WholeTrackFeatureColorGenerator implements FeatureColorGenerator<Integer> {
 
 	private final Model model;
 
@@ -22,15 +21,8 @@ public class WholeTrackFeatureColorGenerator implements FeatureColorGenerator< I
 
 	private final double max;
 
-	public WholeTrackFeatureColorGenerator(
-			final Model model,
-			final String trackFeature,
-			final Color missingValueColor,
-			final Color undefinedValueColor,
-			final Colormap colormap,
-			final double min,
-			final double max )
-	{
+	public WholeTrackFeatureColorGenerator(final Model model, final String trackFeature, final Color missingValueColor,
+			final Color undefinedValueColor, final Colormap colormap, final double min, final double max) {
 		this.model = model;
 		this.trackFeature = trackFeature;
 		this.missingValueColor = missingValueColor;
@@ -41,17 +33,16 @@ public class WholeTrackFeatureColorGenerator implements FeatureColorGenerator< I
 	}
 
 	@Override
-	public Color color( final Integer trackID )
-	{
-		final Double feat = model.getFeatureModel().getTrackFeature( trackID, trackFeature );
-		if ( null == feat )
+	public Color color(final Integer trackID) {
+		final Double feat = model.getFeatureModel().getTrackFeature(trackID, trackFeature);
+		if (null == feat)
 			return missingValueColor;
 
-		if ( feat.isNaN() )
+		if (feat.isNaN())
 			return undefinedValueColor;
 
 		final double val = feat.doubleValue();
-		return colormap.getPaint( ( val - min ) / ( max - min ) );
+		return colormap.getPaint((val - min) / (max - min));
 	}
 
 }

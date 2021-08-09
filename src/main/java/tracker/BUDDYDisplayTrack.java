@@ -36,7 +36,7 @@ public class BUDDYDisplayTrack {
 		parent.resultimp = ImageJFunctions.show(parent.originalimg);
 
 		ndims = parent.resultimp.getNDimensions();
-		
+
 		new SliceObserver(parent.resultimp, new ImagePlusListener());
 	}
 
@@ -48,8 +48,6 @@ public class BUDDYDisplayTrack {
 		@Override
 		public void sliceChanged(ImagePlus arg0) {
 
-
-		
 			parent.resultimp.show();
 			Overlay o = parent.resultimp.getOverlay();
 
@@ -64,73 +62,69 @@ public class BUDDYDisplayTrack {
 			String ID = (String) parent.table.getValueAt(parent.row, 0);
 			int id = Integer.valueOf(ID);
 
-				// Get the corresponding set for each id
-				final HashSet<Budpointobject> Snakeset = model.trackBudpointobjects(id);
-				ArrayList<Budpointobject> list = new ArrayList<Budpointobject>();
+			// Get the corresponding set for each id
+			final HashSet<Budpointobject> Snakeset = model.trackBudpointobjects(id);
+			ArrayList<Budpointobject> list = new ArrayList<Budpointobject>();
 
-				Comparator<Budpointobject> ThirdDimcomparison = new Comparator<Budpointobject>() {
+			Comparator<Budpointobject> ThirdDimcomparison = new Comparator<Budpointobject>() {
 
-					@Override
-					public int compare(final Budpointobject A, final Budpointobject B) {
+				@Override
+				public int compare(final Budpointobject A, final Budpointobject B) {
 
-						return A.t - B.t;
-
-					}
-
-				};
-
-				
-
-				Iterator<Budpointobject> Snakeiter = Snakeset.iterator();
-				while (Snakeiter.hasNext()) {
-
-					Budpointobject currentsnake = Snakeiter.next();
-
-					for (int d = 0; d < ndims - 1; ++d)
-						if (currentsnake.Location[d] != Double.NaN)
-							list.add(currentsnake);
+					return A.t - B.t;
 
 				}
-				Collections.sort(list, ThirdDimcomparison);
 
-				for (DefaultWeightedEdge e : model.edgeSet()) {
+			};
 
-					Budpointobject Spotbase = model.getEdgeSource(e);
-					Budpointobject Spottarget = model.getEdgeTarget(e);
+			Iterator<Budpointobject> Snakeiter = Snakeset.iterator();
+			while (Snakeiter.hasNext()) {
 
-					final double[] startedge = new double[ndims];
-					final double[] targetedge = new double[ndims];
-					for (int d = 0; d < ndims - 1; ++d) {
+				Budpointobject currentsnake = Snakeiter.next();
 
-						startedge[d] = Spotbase.Location[d];
+				for (int d = 0; d < ndims - 1; ++d)
+					if (currentsnake.Location[d] != Double.NaN)
+						list.add(currentsnake);
 
-						targetedge[d] = Spottarget.Location[d];
+			}
+			Collections.sort(list, ThirdDimcomparison);
 
-					}
-					
-					if(model.trackIDOf(Spotbase) == id) {
-						TextRoi newellipse = new TextRoi(list.get(0).Location[0], list.get(0).Location[1], "TrackID: " + id );
+			for (DefaultWeightedEdge e : model.edgeSet()) {
 
-						o.add(newellipse);
-						o.drawLabels(true);
+				Budpointobject Spotbase = model.getEdgeSource(e);
+				Budpointobject Spottarget = model.getEdgeTarget(e);
 
-						o.drawNames(true);
+				final double[] startedge = new double[ndims];
+				final double[] targetedge = new double[ndims];
+				for (int d = 0; d < ndims - 1; ++d) {
 
-						Line newline = new Line(startedge[0], startedge[1], targetedge[0], targetedge[1]);
-						newline.setStrokeColor(Color.GREEN);
-						newline.setStrokeWidth(2);
+					startedge[d] = Spotbase.Location[d];
 
-						o.add(newline);
+					targetedge[d] = Spottarget.Location[d];
 
-					}
-
-				
 				}
-			
+
+				if (model.trackIDOf(Spotbase) == id) {
+					TextRoi newellipse = new TextRoi(list.get(0).Location[0], list.get(0).Location[1],
+							"TrackID: " + id);
+
+					o.add(newellipse);
+					o.drawLabels(true);
+
+					o.drawNames(true);
+
+					Line newline = new Line(startedge[0], startedge[1], targetedge[0], targetedge[1]);
+					newline.setStrokeColor(Color.GREEN);
+					newline.setStrokeWidth(2);
+
+					o.add(newline);
+
+				}
+
+			}
 
 			parent.resultimp.updateAndDraw();
 		}
 	}
 
 }
-

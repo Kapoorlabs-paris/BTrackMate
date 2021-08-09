@@ -16,29 +16,26 @@ import net.imglib2.algorithm.MultiThreaded;
  *
  * @author Jean-Yves Tinevez &lt;jeanyves.tinevez@gmail.com&gt;
  */
-public interface EdgeAnalyzer extends Benchmark, FeatureAnalyzer, MultiThreaded
-{
+public interface EdgeAnalyzer extends Benchmark, FeatureAnalyzer, MultiThreaded {
 
 	/**
-	 * Scores a collection of link between two spots. The results must be stored
-	 * in the {@link fiji.plugin.btrackmate.FeatureModel}.
+	 * Scores a collection of link between two spots. The results must be stored in
+	 * the {@link fiji.plugin.btrackmate.FeatureModel}.
 	 * <p>
-	 * Note: ideally concrete implementation should work in a multi-threaded
-	 * fashion for performance reason, when possible.
+	 * Note: ideally concrete implementation should work in a multi-threaded fashion
+	 * for performance reason, when possible.
 	 *
-	 * @param edges
-	 *            the collection of edges whose features are to be calculated.
-	 * @param model
-	 *            the {@link Model} they belong to.
+	 * @param edges the collection of edges whose features are to be calculated.
+	 * @param model the {@link Model} they belong to.
 	 */
-	public void process( final Collection< DefaultWeightedEdge > edges, Model model );
+	public void process(final Collection<DefaultWeightedEdge> edges, Model model);
 
 	/**
-	 * Returns <code>true</code> if this analyzer is a local analyzer. That is:
-	 * a modification that affects only one edge requires the edge features to
-	 * be re-calculated only for this edge. If <code>false</code>, any model
-	 * modification involving an edge will trigger a recalculation over the
-	 * whole track this edge belong to.
+	 * Returns <code>true</code> if this analyzer is a local analyzer. That is: a
+	 * modification that affects only one edge requires the edge features to be
+	 * re-calculated only for this edge. If <code>false</code>, any model
+	 * modification involving an edge will trigger a recalculation over the whole
+	 * track this edge belong to.
 	 * <p>
 	 * Example of local edge feature: the edge length (distance between the two
 	 * spots). This one does not depend on other edge values.

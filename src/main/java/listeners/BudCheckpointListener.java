@@ -9,21 +9,18 @@ import utility.SavePink;
 public class BudCheckpointListener implements ActionListener {
 
 	final InteractiveBud parent;
-	
-	public  BudCheckpointListener(final InteractiveBud parent) {
-		
+
+	public BudCheckpointListener(final InteractiveBud parent) {
+
 		this.parent = parent;
 	}
-	
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		
 		SavePink pinkies = new SavePink(parent);
 		pinkies.Saver();
-		
-		
+
 	}
 
 }

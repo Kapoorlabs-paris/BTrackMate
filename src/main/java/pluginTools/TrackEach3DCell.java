@@ -23,90 +23,74 @@ import net.imglib2.view.Views;
 
 public class TrackEach3DCell implements Runnable {
 
-
 	final InteractiveBud parent;
 	int percent;
 	ArrayList<Cellobject> Greencelllist = new ArrayList<Cellobject>();
-	
-	
-	public TrackEach3DCell(final InteractiveBud parent,
-			final int percent) {
+
+	public TrackEach3DCell(final InteractiveBud parent, final int percent) {
 
 		this.parent = parent;
 		this.percent = percent;
 	}
-	
 
+	public ArrayList<Cellobject> returnGreenlist() {
 
-	
-	
-	public ArrayList<Cellobject> returnGreenlist(){
-		
-		
 		return Greencelllist;
 	}
-	
+
 	public void displayCells() {
-		
+
 		String uniqueID = Integer.toString(parent.fourthDimension);
-		
+
 		parent.overlay.clear();
 
 		int nThreads = Runtime.getRuntime().availableProcessors();
 		// set up executor service
 		final ExecutorService taskExecutor = Executors.newFixedThreadPool(nThreads);
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
-				// For each bud get the list of points
+		// For each bud get the list of points
 
-											// For each bud get the list of points
-											if (parent.jpb != null)
-												utility.BudProgressBar.SetProgressBar(parent.jpb,
-														100 * (percent) / (parent.fourthDimensionSize + parent.pixellist.size()),
-														"Collecting Cells T = " + parent.fourthDimension + "/" + parent.fourthDimensionSize );
+		// For each bud get the list of points
+		if (parent.jpb != null)
+			utility.BudProgressBar.SetProgressBar(parent.jpb,
+					100 * (percent) / (parent.fourthDimensionSize + parent.pixellist.size()),
+					"Collecting Cells T = " + parent.fourthDimension + "/" + parent.fourthDimensionSize);
 
-											tasks.add(Executors.callable(new ParallelLabel(parent, Greencelllist,  uniqueID)));
-	try {
-			
+		tasks.add(Executors.callable(new ParallelLabel(parent, Greencelllist, uniqueID)));
+		try {
+
 			taskExecutor.invokeAll(tasks);
-	
-	} catch (InterruptedException e1) {
 
-		
+		} catch (InterruptedException e1) {
+
+		}
+
 	}
 
-	}
-	
-
-
-
-
-	public static ArrayList<RealLocalizable> GetCorner(Budregionobject PairCurrentViewBit,
-			OpService ops) {
+	public static ArrayList<RealLocalizable> GetCorner(Budregionobject PairCurrentViewBit, OpService ops) {
 
 		ArrayList<RealLocalizable> endPoints = new ArrayList<RealLocalizable>();
 
-		
-		 RandomAccessibleInterval<BitType> Interiorimage =  PairCurrentViewBit.Interiorimage;
-			
-	    double minX = Interiorimage.realMin(0);
-	    double maxX = Interiorimage.realMax(0);
-			
-	    double minY = Interiorimage.realMin(1);
-	    double maxY = Interiorimage.realMax(1);	
-			
-	    double minZ = Interiorimage.realMin(2);
-	    double maxZ = Interiorimage.realMax(2);
-	    
-	    RealPoint startA = new RealPoint(new double[] {minX, minY, minZ});
-	    endPoints.add(startA);
-	    RealPoint startB = new RealPoint(new double[] {minX, maxY, maxZ});
-	    endPoints.add(startB);
-	    RealPoint startC = new RealPoint(new double[] {maxX, maxY, maxZ});
-	    endPoints.add(startC);
-	    RealPoint startD = new RealPoint(new double[] {maxX, minY, minZ});
-	    endPoints.add(startD);
-	    
-	    
+		RandomAccessibleInterval<BitType> Interiorimage = PairCurrentViewBit.Interiorimage;
+
+		double minX = Interiorimage.realMin(0);
+		double maxX = Interiorimage.realMax(0);
+
+		double minY = Interiorimage.realMin(1);
+		double maxY = Interiorimage.realMax(1);
+
+		double minZ = Interiorimage.realMin(2);
+		double maxZ = Interiorimage.realMax(2);
+
+		RealPoint startA = new RealPoint(new double[] { minX, minY, minZ });
+		endPoints.add(startA);
+		RealPoint startB = new RealPoint(new double[] { minX, maxY, maxZ });
+		endPoints.add(startB);
+		RealPoint startC = new RealPoint(new double[] { maxX, maxY, maxZ });
+		endPoints.add(startC);
+		RealPoint startD = new RealPoint(new double[] { maxX, minY, minZ });
+		endPoints.add(startD);
+
 		return endPoints;
 
 	}
@@ -155,8 +139,8 @@ public class TrackEach3DCell implements Runnable {
 		return gradientimg;
 	}
 
-	public static Budregionobject BudCurrentLabelBinaryImage(
-			RandomAccessibleInterval<IntType> Intimg, int currentLabel) {
+	public static Budregionobject BudCurrentLabelBinaryImage(RandomAccessibleInterval<IntType> Intimg,
+			int currentLabel) {
 		int n = Intimg.numDimensions();
 		long[] position = new long[n];
 		Cursor<IntType> intCursor = Views.iterable(Intimg).cursor();
@@ -166,7 +150,7 @@ public class TrackEach3DCell implements Runnable {
 
 		// Go through the whole image and add every pixel, that belongs to
 		// the currently processed label
-		long[] minVal = { Intimg.max(0), Intimg.max(1), Intimg.max(2)  };
+		long[] minVal = { Intimg.max(0), Intimg.max(1), Intimg.max(2) };
 		long[] maxVal = { Intimg.min(0), Intimg.min(1), Intimg.min(2) };
 
 		while (intCursor.hasNext()) {
@@ -191,29 +175,22 @@ public class TrackEach3DCell implements Runnable {
 				imageRA.get().setZero();
 
 		}
-		
+
 		double size = Math.sqrt(Distance.DistanceSq(minVal, maxVal));
 
 		Point min = new Point(minVal.length);
 		// Gradient image gives us the bondary points
 		RandomAccessibleInterval<BitType> gradimg = GradientmagnitudeImage(outimg);
-		
-		
-		
-		Budregionobject region = new Budregionobject(gradimg, outimg, min,  size);
+
+		Budregionobject region = new Budregionobject(gradimg, outimg, min, size);
 		return region;
 
 	}
 
-
 	@Override
 	public void run() {
 		displayCells();
-		
+
 	}
-
-
-	
-
 
 }

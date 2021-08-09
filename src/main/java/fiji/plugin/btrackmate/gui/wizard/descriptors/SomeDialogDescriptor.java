@@ -12,19 +12,16 @@ import fiji.plugin.btrackmate.gui.wizard.WizardPanelDescriptor;
  * @author Jean-Yves Tinevez
  *
  */
-public abstract class SomeDialogDescriptor extends WizardPanelDescriptor
-{
+public abstract class SomeDialogDescriptor extends WizardPanelDescriptor {
 
 	/**
 	 * File that governs saving and loading. We make it a static field so that
-	 * loading and sharing events always point to a single file location by
-	 * default.
+	 * loading and sharing events always point to a single file location by default.
 	 */
 	public static File file;
 
-	public SomeDialogDescriptor( final String panelIdentifier, final LogPanel logPanel )
-	{
-		super( panelIdentifier );
+	public SomeDialogDescriptor(final String panelIdentifier, final LogPanel logPanel) {
+		super(panelIdentifier);
 		this.targetPanel = logPanel;
 	}
 }

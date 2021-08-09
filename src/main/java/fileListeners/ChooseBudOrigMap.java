@@ -13,31 +13,25 @@ import ij.IJ;
 import ij.WindowManager;
 
 public class ChooseBudOrigMap implements ActionListener {
-	
-	
+
 	final BTStartDialogDescriptor parent;
 	final JComboBox<String> choice;
-	
-	
-	public ChooseBudOrigMap(final BTStartDialogDescriptor parent, final JComboBox<String> choice ) {
-		
-		
+
+	public ChooseBudOrigMap(final BTStartDialogDescriptor parent, final JComboBox<String> choice) {
+
 		this.parent = parent;
 		this.choice = choice;
-		
-	}
 
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		String imagename = (String) choice.getSelectedItem();
-		
-		
-		
-    	parent.impOrig = WindowManager.getImage(imagename);
-   
-    	if(parent.impOrig!=null) {
+
+		parent.impOrig = WindowManager.getImage(imagename);
+
+		if (parent.impOrig != null) {
 			parent.calibrationX = parent.impOrig.getCalibration().pixelWidth;
 			parent.calibrationY = parent.impOrig.getCalibration().pixelHeight;
 			parent.FrameInterval = parent.impOrig.getCalibration().frameInterval;
@@ -45,15 +39,13 @@ public class ChooseBudOrigMap implements ActionListener {
 				parent.FrameInterval = 1;
 			DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
 			otherSymbols.setDecimalSeparator('.');
-			otherSymbols.setGroupingSeparator(','); 
+			otherSymbols.setGroupingSeparator(',');
 			DecimalFormat df = new DecimalFormat(("#.###"), otherSymbols);
-			parent.FieldinputLabelcalT.setText(String.valueOf(df.format(parent.FrameInterval))); 
+			parent.FieldinputLabelcalT.setText(String.valueOf(df.format(parent.FrameInterval)));
 			parent.inputFieldcalX.setText(String.valueOf(df.format(parent.calibrationX)));
 			parent.inputFieldcalY.setText(String.valueOf(df.format(parent.calibrationY)));
+		}
+
 	}
- 
-		
-	}
-	
 
 }

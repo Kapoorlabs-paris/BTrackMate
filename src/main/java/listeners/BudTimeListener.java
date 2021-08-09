@@ -24,8 +24,8 @@ public class BudTimeListener implements AdjustmentListener {
 
 	final JScrollBar deltaScrollbar;
 
-	public BudTimeListener(final InteractiveBud parent, final Label label, final String string, final float min, final float max,
-			final int scrollbarSize, final JScrollBar deltaScrollbar) {
+	public BudTimeListener(final InteractiveBud parent, final Label label, final String string, final float min,
+			final float max, final int scrollbarSize, final JScrollBar deltaScrollbar) {
 		this.label = label;
 		this.parent = parent;
 		this.string = string;
@@ -34,37 +34,38 @@ public class BudTimeListener implements AdjustmentListener {
 		this.scrollbarSize = scrollbarSize;
 
 		this.deltaScrollbar = deltaScrollbar;
-		//deltaScrollbar.addMouseMotionListener(new BudMouseListener(parent, ValueChange.THIRDDIMmouse));
+		// deltaScrollbar.addMouseMotionListener(new BudMouseListener(parent,
+		// ValueChange.THIRDDIMmouse));
 		deltaScrollbar.addMouseListener(new BudStandardMouseListener(parent, ValueChange.THIRDDIMmouse));
-		deltaScrollbar.setBlockIncrement(utility.BudSlicer.computeScrollbarPositionFromValue(2, min, max, scrollbarSize));
-		deltaScrollbar.setUnitIncrement(utility.BudSlicer.computeScrollbarPositionFromValue(2, min, max, scrollbarSize));
+		deltaScrollbar
+				.setBlockIncrement(utility.BudSlicer.computeScrollbarPositionFromValue(2, min, max, scrollbarSize));
+		deltaScrollbar
+				.setUnitIncrement(utility.BudSlicer.computeScrollbarPositionFromValue(2, min, max, scrollbarSize));
 	}
 
 	@Override
 	public void adjustmentValueChanged(AdjustmentEvent e) {
-		
-		if(CovistoKalmanPanel.Skeletontime.isEnabled()) {
+
+		if (CovistoKalmanPanel.Skeletontime.isEnabled()) {
 			parent.imp.getOverlay().clear();
-		    parent.imp.updateAndDraw();	
+			parent.imp.updateAndDraw();
 		}
-		
-		parent.thirdDimension = (int) Math.round(utility.BudSlicer.computeValueFromScrollbarPosition(e.getValue(), min, max, scrollbarSize));
 
+		parent.thirdDimension = (int) Math
+				.round(utility.BudSlicer.computeValueFromScrollbarPosition(e.getValue(), min, max, scrollbarSize));
 
-		deltaScrollbar
-		.setValue(utility.BudSlicer.computeScrollbarPositionFromValue(parent.thirdDimension, min, max, scrollbarSize));
-		
-		label.setText(string +  " = "  + parent.thirdDimension);
+		deltaScrollbar.setValue(
+				utility.BudSlicer.computeScrollbarPositionFromValue(parent.thirdDimension, min, max, scrollbarSize));
 
-		parent.inputFieldT.setText(Integer.toString((int)parent.thirdDimension));
+		label.setText(string + " = " + parent.thirdDimension);
+
+		parent.inputFieldT.setText(Integer.toString((int) parent.thirdDimension));
 		parent.panelFirst.validate();
 		parent.panelFirst.repaint();
-		
+
 		BudShowView show = new BudShowView(parent);
 		show.shownewT();
 
 	}
-	
-
 
 }

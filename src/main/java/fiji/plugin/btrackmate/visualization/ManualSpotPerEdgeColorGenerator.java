@@ -11,8 +11,7 @@ import fiji.plugin.btrackmate.Spot;
 /**
  * Color a spot by the manual color of its first incoming edges.
  */
-public class ManualSpotPerEdgeColorGenerator implements FeatureColorGenerator< Spot >
-{
+public class ManualSpotPerEdgeColorGenerator implements FeatureColorGenerator<Spot> {
 
 	private final Color missingValueColor;
 
@@ -20,29 +19,25 @@ public class ManualSpotPerEdgeColorGenerator implements FeatureColorGenerator< S
 
 	private final ManualEdgeColorGenerator manualEdgeColorGenerator;
 
-	public ManualSpotPerEdgeColorGenerator( final Model model, final Color missingValueColor )
-	{
+	public ManualSpotPerEdgeColorGenerator(final Model model, final Color missingValueColor) {
 		this.model = model;
 		this.missingValueColor = missingValueColor;
-		this.manualEdgeColorGenerator = new ManualEdgeColorGenerator( model, missingValueColor );
+		this.manualEdgeColorGenerator = new ManualEdgeColorGenerator(model, missingValueColor);
 	}
 
 	@Override
-	public Color color( final Spot spot )
-	{
-		final Set< DefaultWeightedEdge > edges = model.getTrackModel().edgesOf( spot );
+	public Color color(final Spot spot) {
+		final Set<DefaultWeightedEdge> edges = model.getTrackModel().edgesOf(spot);
 		DefaultWeightedEdge edge = null;
-		for ( final DefaultWeightedEdge e : edges )
-		{
-			if ( model.getTrackModel().getEdgeTarget( e ).equals( spot ) )
-			{
+		for (final DefaultWeightedEdge e : edges) {
+			if (model.getTrackModel().getEdgeTarget(e).equals(spot)) {
 				edge = e;
 				break;
 			}
 		}
-		if ( edge == null )
+		if (edge == null)
 			return missingValueColor;
-		
-		return manualEdgeColorGenerator.color( edge );
+
+		return manualEdgeColorGenerator.color(edge);
 	}
 }

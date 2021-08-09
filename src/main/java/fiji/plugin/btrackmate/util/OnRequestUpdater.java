@@ -2,8 +2,9 @@ package fiji.plugin.btrackmate.util;
 
 /**
  * This class extends Thread and is suited to call methods that are typically
- * called often, but takes time to complete, such as display refreshing. The target
- * methods must be provided through the inner {@link Refreshable} interface. 
+ * called often, but takes time to complete, such as display refreshing. The
+ * target methods must be provided through the inner {@link Refreshable}
+ * interface.
  * <p>
  * Its main author is Albert Cardona, and I transcribe here a mail where he
  * explained to me (JYT) the concept of the updater:
@@ -22,12 +23,12 @@ package fiji.plugin.btrackmate.util;
  * If "r" is larger than zero, it means: there was at least one request, so we
  * execute the "refreshable.refresh()".
  * <p>
- * Then, again under synchronization, after having called "refreshable.refresh()",
- * if and only if the field "request" still has the same value (i.e. there
- * weren't any calls to "doUpdate()" while "refreshable.refresh()" was
- * executing), we set the requests to 0, since no matter how many requests
- * there are, only one invocation of "refreshable.refresh()" occurs. And we wait
- * for a new notify().
+ * Then, again under synchronization, after having called
+ * "refreshable.refresh()", if and only if the field "request" still has the
+ * same value (i.e. there weren't any calls to "doUpdate()" while
+ * "refreshable.refresh()" was executing), we set the requests to 0, since no
+ * matter how many requests there are, only one invocation of
+ * "refreshable.refresh()" occurs. And we wait for a new notify().
  * <p>
  * What the "wait()" call does is: it frees the synchronization block, so that
  * other threads can enter it, and also blocks execution. Then, any thread that
@@ -38,14 +39,14 @@ package fiji.plugin.btrackmate.util;
  * <p>
  * So the loop starts again.
  * <p>
- * What is accomplishes with this setup the "refreshable.refresh()" is not called
- * once for every call to doUpdate(), but likely much less times: only as many
- * as can be executed (and need be executed), and not more.
+ * What is accomplishes with this setup the "refreshable.refresh()" is not
+ * called once for every call to doUpdate(), but likely much less times: only as
+ * many as can be executed (and need be executed), and not more.
  * <p>
- * In a later mail, Johannes Schindelin explained to me that this solution was 
+ * In a later mail, Johannes Schindelin explained to me that this solution was
  * not optimal, and that for general heavy use refreshing, another solution must
  * be sought. In the meantime, it is recommended that this class is used for
- * simple purpose.  
+ * simple purpose.
  * 
  * @author Albert Cardona
  * 

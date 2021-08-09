@@ -48,20 +48,22 @@ public class SaveAction extends AbstractAction {
 	private final TrackScheme trackScheme;
 
 	public SaveAction(final TrackScheme trackScheme) {
-		putValue( Action.SMALL_ICON, CAMERA_EXPORT_ICON );
+		putValue(Action.SMALL_ICON, CAMERA_EXPORT_ICON);
 		this.trackScheme = trackScheme;
 	}
 
 	/**
 	 * Saves XML+PNG format.
-	 * @param frame 
+	 * 
+	 * @param frame
 	 */
 	protected void saveXmlPng(final TrackSchemeFrame frame, final String filename, final Color bg) throws IOException {
 		final mxGraphComponent graphComponent = trackScheme.getGUI().graphComponent;
 		final mxGraph graph = trackScheme.getGraph();
 
 		// Creates the image for the PNG file
-		final BufferedImage image = mxCellRenderer.createBufferedImage(graph,	null, 1, bg, graphComponent.isAntiAlias(), null, graphComponent.getCanvas());
+		final BufferedImage image = mxCellRenderer.createBufferedImage(graph, null, 1, bg, graphComponent.isAntiAlias(),
+				null, graphComponent.getCanvas());
 
 		// Creates the URL-encoded XML data
 		final mxCodec codec = new mxCodec();
@@ -70,13 +72,12 @@ public class SaveAction extends AbstractAction {
 		param.setCompressedText(new String[] { "mxGraphModel", xml });
 
 		// Saves as a PNG file
-		try (FileOutputStream outputStream = new FileOutputStream( new File( filename ) ))
-		{
-			final mxPngImageEncoder encoder = new mxPngImageEncoder( outputStream, param );
-			if ( image != null )
-				encoder.encode( image );
+		try (FileOutputStream outputStream = new FileOutputStream(new File(filename))) {
+			final mxPngImageEncoder encoder = new mxPngImageEncoder(outputStream, param);
+			if (image != null)
+				encoder.encode(image);
 			else
-				JOptionPane.showMessageDialog( graphComponent, "No Image Data" );
+				JOptionPane.showMessageDialog(graphComponent, "No Image Data");
 		}
 	}
 
@@ -126,13 +127,13 @@ public class SaveAction extends AbstractAction {
 
 		for (int i = 0; i < imageFormats.length; i++) {
 			final String ext = imageFormats[i].toString();
-			fc.addChoosableFileFilter(new DefaultFileFilter("."	+ ext, ext.toUpperCase() + " File  (." + ext + ")"));
+			fc.addChoosableFileFilter(new DefaultFileFilter("." + ext, ext.toUpperCase() + " File  (." + ext + ")"));
 		}
 
 		// Adds filter that accepts all supported image formats
 		fc.addChoosableFileFilter(new DefaultFileFilter.ImageFileFilter("All Images"));
 		fc.setFileFilter(defaultFilter);
-		final int rc = fc.showDialog(null,"Save");
+		final int rc = fc.showDialog(null, "Save");
 		dialogShown = true;
 
 		if (rc != JFileChooser.APPROVE_OPTION) {
@@ -151,31 +152,39 @@ public class SaveAction extends AbstractAction {
 			}
 		}
 
-		if (new File(filename).exists() && JOptionPane.showConfirmDialog(graphComponent, "Overwrite existing file?") != JOptionPane.YES_OPTION) {
+		if (new File(filename).exists() && JOptionPane.showConfirmDialog(graphComponent,
+				"Overwrite existing file?") != JOptionPane.YES_OPTION) {
 			return;
 		}
-
 
 		try {
 			final String ext = filename.substring(filename.lastIndexOf('.') + 1);
 
 			if (ext.equalsIgnoreCase("svg")) {
-				final mxSvgCanvas canvas = (mxSvgCanvas) mxCellRenderer.drawCells(graph, null, 1, null, new CanvasFactory() {
-					@Override
-					public mxICanvas createCanvas(final int width, final int height) {
-						final TrackSchemeSvgCanvas lCanvas = new TrackSchemeSvgCanvas(mxDomUtils.createSvgDocument(width, height));
-						lCanvas.setEmbedded(true);
-						return lCanvas;
-					}
-				});
+				final mxSvgCanvas canvas = (mxSvgCanvas) mxCellRenderer.drawCells(graph, null, 1, null,
+						new CanvasFactory() {
+							@Override
+							public mxICanvas createCanvas(final int width, final int height) {
+								final TrackSchemeSvgCanvas lCanvas = new TrackSchemeSvgCanvas(
+										mxDomUtils.createSvgDocument(width, height));
+								lCanvas.setEmbedded(true);
+								return lCanvas;
+							}
+						});
 
 				mxUtils.writeFile(mxXmlUtils.getXml(canvas.getDocument()), filename);
 
 			} else if (selectedFilter == vmlFileFilter) {
-				mxUtils.writeFile(mxXmlUtils.getXml(mxCellRenderer.createVmlDocument(graph, null, 1, null, null).getDocumentElement()), filename);
+				mxUtils.writeFile(
+						mxXmlUtils.getXml(
+								mxCellRenderer.createVmlDocument(graph, null, 1, null, null).getDocumentElement()),
+						filename);
 
 			} else if (ext.equalsIgnoreCase("html")) {
-				mxUtils.writeFile(mxXmlUtils.getXml(mxCellRenderer.createHtmlDocument(graph, null, 1, null, null).getDocumentElement()), filename);
+				mxUtils.writeFile(
+						mxXmlUtils.getXml(
+								mxCellRenderer.createHtmlDocument(graph, null, 1, null, null).getDocumentElement()),
+						filename);
 
 			} else if (ext.equalsIgnoreCase("mxe") || ext.equalsIgnoreCase("xml")) {
 				final mxCodec codec = new mxCodec();
@@ -192,15 +201,16 @@ public class SaveAction extends AbstractAction {
 			} else {
 				Color bg = null;
 
-				if ((!ext.equalsIgnoreCase("gif") && !ext.equalsIgnoreCase("png"))
-						|| JOptionPane.showConfirmDialog(graphComponent,"Transparent Background?") != JOptionPane.YES_OPTION) {
+				if ((!ext.equalsIgnoreCase("gif") && !ext.equalsIgnoreCase("png")) || JOptionPane
+						.showConfirmDialog(graphComponent, "Transparent Background?") != JOptionPane.YES_OPTION) {
 					bg = graphComponent.getBackground();
 				}
 
 				if (selectedFilter == xmlPngFilter || (ext.equalsIgnoreCase("png") && !dialogShown)) {
 					saveXmlPng(trackScheme.getGUI(), filename, bg);
 				} else {
-					final BufferedImage image = mxCellRenderer.createBufferedImage(graph, null, 1, bg, graphComponent.isAntiAlias(), null, graphComponent.getCanvas());
+					final BufferedImage image = mxCellRenderer.createBufferedImage(graph, null, 1, bg,
+							graphComponent.isAntiAlias(), null, graphComponent.getCanvas());
 
 					if (image != null) {
 						ImageIO.write(image, ext, new File(filename));
@@ -219,32 +229,26 @@ public class SaveAction extends AbstractAction {
 	private void exportGraphToPdf(final String filename) {
 		final Rectangle bounds = new Rectangle(trackScheme.getGUI().graphComponent.getViewport().getViewSize());
 		// step 1
-		final com.itextpdf.text.Rectangle pageSize = new com.itextpdf.text.Rectangle( bounds.x, bounds.y, bounds.width, bounds.height );
-		final com.itextpdf.text.Document document = new com.itextpdf.text.Document( pageSize );
+		final com.itextpdf.text.Rectangle pageSize = new com.itextpdf.text.Rectangle(bounds.x, bounds.y, bounds.width,
+				bounds.height);
+		final com.itextpdf.text.Document document = new com.itextpdf.text.Document(pageSize);
 		// step 2
 		PdfWriter writer = null;
 		Graphics2D g2 = null;
-		try
-		{
-			writer = PdfWriter.getInstance( document, new FileOutputStream( filename ) );
+		try {
+			writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
 			// step 3
 			document.open();
 			// step 4
 			final PdfContentByte canvas = writer.getDirectContent();
-			g2 = new PdfGraphics2D( canvas, pageSize.getWidth(), pageSize.getHeight() );
-			trackScheme.getGUI().graphComponent.getViewport().paintComponents( g2 );
-		}
-		catch ( final FileNotFoundException e )
-		{
+			g2 = new PdfGraphics2D(canvas, pageSize.getWidth(), pageSize.getHeight());
+			trackScheme.getGUI().graphComponent.getViewport().paintComponents(g2);
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		}
-		catch ( final DocumentException e )
-		{
+		} catch (final DocumentException e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			if ( null != g2 )
+		} finally {
+			if (null != g2)
 				g2.dispose();
 			document.close();
 		}

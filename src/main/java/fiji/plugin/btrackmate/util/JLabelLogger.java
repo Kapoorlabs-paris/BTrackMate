@@ -9,26 +9,23 @@ import javax.swing.JLabel;
 import fiji.plugin.btrackmate.Logger;
 
 public class JLabelLogger extends JLabel {
-	
+
 	private static final long serialVersionUID = 1L;
 	private final MyLogger logger;
 
 	public JLabelLogger() {
 		this.logger = new MyLogger(this);
-		setFont( SMALL_FONT );
+		setFont(SMALL_FONT);
 	}
-	
+
 	public Logger getLogger() {
 		return logger;
 	}
 
-	
-	
-	
 	/*
 	 * INNER CLASS
 	 */
-	
+
 	private class MyLogger extends Logger {
 
 		private final JLabelLogger label;
@@ -50,12 +47,13 @@ public class JLabelLogger extends JLabel {
 
 		/** Ignored. */
 		@Override
-		public void setProgress(final double val) {}
+		public void setProgress(final double val) {
+		}
 
 		@Override
 		public void setStatus(final String status) {
 			log(status, Logger.BLUE_COLOR);
 		}
-		
+
 	}
 }

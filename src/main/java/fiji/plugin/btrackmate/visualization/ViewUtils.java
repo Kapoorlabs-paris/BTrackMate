@@ -23,12 +23,15 @@ public class ViewUtils {
 	private static final double TARGET_X_IMAGE_SIZE = 512;
 	private static final double TARGET_Z_IMAGE_SIZE = 128;
 
-	private ViewUtils() {}
+	private ViewUtils() {
+	}
 
-	public static final ImagePlus makeEmptyImagePlus(final int width, final int height, final int nslices, final int nframes, final double[] calibration) {
-		final RandomAccessible< UnsignedByteType > randomAccessible = Views.extendBorder( ArrayImgs.unsignedBytes( new long[] { 1, 1, 1, 1 } ) );
-		final Interval interval = new FinalInterval( width, height, nslices, nframes );
-		final RandomAccessibleInterval< UnsignedByteType > view = Views.interval( randomAccessible, interval );
+	public static final ImagePlus makeEmptyImagePlus(final int width, final int height, final int nslices,
+			final int nframes, final double[] calibration) {
+		final RandomAccessible<UnsignedByteType> randomAccessible = Views
+				.extendBorder(ArrayImgs.unsignedBytes(new long[] { 1, 1, 1, 1 }));
+		final Interval interval = new FinalInterval(width, height, nslices, nframes);
+		final RandomAccessibleInterval<UnsignedByteType> view = Views.interval(randomAccessible, interval);
 
 		final ImagePlus imp = ImageJFunctions.wrap(view, "blank");
 		imp.getCalibration().pixelWidth = calibration[0];

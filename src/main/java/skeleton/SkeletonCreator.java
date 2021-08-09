@@ -13,52 +13,39 @@ import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.real.FloatType;
 
-public class SkeletonCreator< T extends RealType< T > & NativeType< T > >
-{
+public class SkeletonCreator<T extends RealType<T> & NativeType<T>> {
 
-	final RandomAccessibleInterval< BitType >  mask;
+	final RandomAccessibleInterval<BitType> mask;
 	private final OpService opService;
 
-	private ArrayList< RandomAccessibleInterval< BitType > > skeletons;
+	private ArrayList<RandomAccessibleInterval<BitType>> skeletons;
 	private int closingRadius = 0;
 
-	public SkeletonCreator( RandomAccessibleInterval< BitType >  mask,
-							OpService opService )
-	{
+	public SkeletonCreator(RandomAccessibleInterval<BitType> mask, OpService opService) {
 		this.mask = mask;
 		this.opService = opService;
 	}
 
-	public void setClosingRadius( int closingRadius )
-	{
+	public void setClosingRadius(int closingRadius) {
 		this.closingRadius = closingRadius;
 	}
 
-	public void run()
-	{
+	public void run() {
 
+		skeletons = new ArrayList<>();
 
-		skeletons = new ArrayList<>( );
-        
-		
+		final ImgLabeling<Integer, IntType> imgLabeling = Regions.asImgLabeling(mask,
+				ConnectedComponents.StructuringElement.EIGHT_CONNECTED);
 
-			final ImgLabeling< Integer, IntType > imgLabeling =
-					Regions.asImgLabeling(
-							mask,
-							ConnectedComponents.StructuringElement.EIGHT_CONNECTED );
+		final RandomAccessibleInterval<BitType> skeletons = Algorithms.createObjectSkeletons(imgLabeling, closingRadius, // TODO:
+																															// Make
+																															// a
+																															// parameter
+				opService);
+		this.skeletons.add(skeletons);
+	}
 
-			final RandomAccessibleInterval< BitType > skeletons =
-					Algorithms.createObjectSkeletons(
-							imgLabeling,
-							closingRadius, // TODO: Make a parameter
-							opService );
-			this.skeletons.add( skeletons );
-		}
-
-	
-
-	public ArrayList< RandomAccessibleInterval< BitType > > getSkeletons()
-	{
+	public ArrayList<RandomAccessibleInterval<BitType>> getSkeletons() {
 		return skeletons;
 	}
 

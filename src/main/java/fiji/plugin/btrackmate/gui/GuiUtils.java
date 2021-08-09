@@ -21,45 +21,37 @@ import ij.IJ;
 import ij.ImagePlus;
 import ij.measure.Calibration;
 
-public class GuiUtils
-{
+public class GuiUtils {
 
-	private static final FocusListener selectAllFocusListener = new FocusListener()
-	{
+	private static final FocusListener selectAllFocusListener = new FocusListener() {
 
 		@Override
-		public void focusLost( final FocusEvent e )
-		{}
+		public void focusLost(final FocusEvent e) {
+		}
 
 		@Override
-		public void focusGained( final FocusEvent fe )
-		{
-			if ( !( fe.getSource() instanceof JTextField ) )
+		public void focusGained(final FocusEvent fe) {
+			if (!(fe.getSource() instanceof JTextField))
 				return;
-			final JTextField txt = ( JTextField ) fe.getSource();
-			SwingUtilities.invokeLater( () -> txt.selectAll() );
+			final JTextField txt = (JTextField) fe.getSource();
+			SwingUtilities.invokeLater(() -> txt.selectAll());
 		}
 	};
 
-	public static final void selectAllOnFocus( final JTextField tf )
-	{
-		tf.addFocusListener( selectAllFocusListener );
+	public static final void selectAllOnFocus(final JTextField tf) {
+		tf.addFocusListener(selectAllFocusListener);
 	}
 
 	/**
-	 * Returns the black color or white color depending on the specified
-	 * background color, to ensure proper readability of the text on said
-	 * background.
+	 * Returns the black color or white color depending on the specified background
+	 * color, to ensure proper readability of the text on said background.
 	 *
-	 * @param backgroundColor
-	 *            the background color.
+	 * @param backgroundColor the background color.
 	 * @return the black or white color.
 	 */
-	public static Color textColorForBackground( final Color backgroundColor )
-	{
-		if ( ( backgroundColor.getRed() * 0.299
-				+ backgroundColor.getGreen() * 0.587
-				+ backgroundColor.getBlue() * 0.114 ) > 150 )
+	public static Color textColorForBackground(final Color backgroundColor) {
+		if ((backgroundColor.getRed() * 0.299 + backgroundColor.getGreen() * 0.587
+				+ backgroundColor.getBlue() * 0.114) > 150)
 			return Color.BLACK;
 		else
 			return Color.WHITE;
@@ -68,68 +60,52 @@ public class GuiUtils
 	/**
 	 * Positions a JFrame more or less cleverly next a {@link Component}.
 	 */
-	public static void positionWindow( final JFrame gui, final Component component )
-	{
+	public static void positionWindow(final JFrame gui, final Component component) {
 
-		if ( null != component )
-		{
+		if (null != component) {
 			// Get total size of all screens
 			final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			final GraphicsDevice[] gs = ge.getScreenDevices();
 			int screenWidth = 0;
-			for ( int i = 0; i < gs.length; i++ )
-			{
-				final DisplayMode dm = gs[ i ].getDisplayMode();
+			for (int i = 0; i < gs.length; i++) {
+				final DisplayMode dm = gs[i].getDisplayMode();
 				screenWidth += dm.getWidth();
 			}
 
 			final Point windowLoc = component.getLocation();
 			final Dimension windowSize = component.getSize();
 			final Dimension guiSize = gui.getSize();
-			if ( guiSize.width > windowLoc.x )
-			{
-				if ( guiSize.width > screenWidth - ( windowLoc.x + windowSize.width ) )
-				{
-					gui.setLocationRelativeTo( null ); // give up
-				}
-				else
-				{
+			if (guiSize.width > windowLoc.x) {
+				if (guiSize.width > screenWidth - (windowLoc.x + windowSize.width)) {
+					gui.setLocationRelativeTo(null); // give up
+				} else {
 					// put it to the right
-					gui.setLocation( windowLoc.x + windowSize.width, windowLoc.y );
+					gui.setLocation(windowLoc.x + windowSize.width, windowLoc.y);
 				}
-			}
-			else
-			{
+			} else {
 				// put it to the left
-				gui.setLocation( windowLoc.x - guiSize.width, windowLoc.y );
+				gui.setLocation(windowLoc.x - guiSize.width, windowLoc.y);
 			}
 
-		}
-		else
-		{
-			gui.setLocationRelativeTo( null );
+		} else {
+			gui.setLocationRelativeTo(null);
 		}
 	}
 
-	public static final void userCheckImpDimensions( final ImagePlus imp )
-	{
+	public static final void userCheckImpDimensions(final ImagePlus imp) {
 		final int[] dims = imp.getDimensions();
-		if ( dims[ 4 ] == 1 && dims[ 3 ] > 1 )
-		{
-			switch ( JOptionPane.showConfirmDialog( null,
-					"It appears this image has 1 timepoint but "
-							+ dims[ 3 ]
-							+ " slices.\n"
-							+ "Do you want to swap Z and T?",
-					"Z/T swapped?", JOptionPane.YES_NO_CANCEL_OPTION ) )
-			{
+		if (dims[4] == 1 && dims[3] > 1) {
+			switch (JOptionPane
+					.showConfirmDialog(null,
+							"It appears this image has 1 timepoint but " + dims[3] + " slices.\n"
+									+ "Do you want to swap Z and T?",
+							"Z/T swapped?", JOptionPane.YES_NO_CANCEL_OPTION)) {
 			case JOptionPane.YES_OPTION:
-				imp.setDimensions( dims[ 4 ], dims[ 2 ], dims[ 3 ] );
+				imp.setDimensions(dims[4], dims[2], dims[3]);
 				final Calibration calibration = imp.getCalibration();
-				if ( 0. == calibration.frameInterval )
-				{
+				if (0. == calibration.frameInterval) {
 					calibration.frameInterval = 1;
-					calibration.setTimeUnit( "frame" );
+					calibration.setTimeUnit("frame");
 				}
 				break;
 
@@ -139,16 +115,12 @@ public class GuiUtils
 		}
 	}
 
-	public static void setSystemLookAndFeel()
-	{
-		if ( IJ.isMacOSX() || IJ.isWindows() )
-		{
-			try
-			{
-				UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-			}
-			catch ( ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e )
-			{
+	public static void setSystemLookAndFeel() {
+		if (IJ.isMacOSX() || IJ.isWindows()) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+					| UnsupportedLookAndFeelException e) {
 				e.printStackTrace();
 			}
 

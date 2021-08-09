@@ -28,45 +28,38 @@ import net.imglib2.view.Views;
  * 
  * @author Jean-Yves Tinevez - 2015
  *
- * @param <T>
- *            the type of the source image.
+ * @param <T> the type of the source image.
  */
-public class MedianFilter2D< T extends RealType< T > & NativeType< T >> extends BenchmarkAlgorithm implements OutputAlgorithm< Img< T >>
-{
+public class MedianFilter2D<T extends RealType<T> & NativeType<T>> extends BenchmarkAlgorithm
+		implements OutputAlgorithm<Img<T>> {
 	private static final String BASE_ERROR_MSG = "[MedianFiler2D] ";
 
-	private final RandomAccessibleInterval< T > source;
+	private final RandomAccessibleInterval<T> source;
 
-	private Img< T > output;
+	private Img<T> output;
 
 	private final int radius;
 
 	/**
-	 * Instantiate a new median filter that will operate on the specified
-	 * source.
+	 * Instantiate a new median filter that will operate on the specified source.
 	 * 
-	 * @param source
-	 *            the source to operate on.
-	 * @param radius
-	 *            determines the size of the neighborhood. In 2D or 3D, a radius
-	 *            of 1 will generate a 3x3 neighborhood.
+	 * @param source the source to operate on.
+	 * @param radius determines the size of the neighborhood. In 2D or 3D, a radius
+	 *               of 1 will generate a 3x3 neighborhood.
 	 */
-	public MedianFilter2D( final RandomAccessibleInterval< T > source, final int radius )
-	{
+	public MedianFilter2D(final RandomAccessibleInterval<T> source, final int radius) {
 		this.source = source;
 		this.radius = radius;
 	}
 
 	@Override
-	public boolean checkInput()
-	{
-		if ( source.numDimensions() > 3 )
-		{
-			errorMessage = BASE_ERROR_MSG + " Can only operate on 1D, 2D or 3D images. Got " + source.numDimensions() + "D.";
+	public boolean checkInput() {
+		if (source.numDimensions() > 3) {
+			errorMessage = BASE_ERROR_MSG + " Can only operate on 1D, 2D or 3D images. Got " + source.numDimensions()
+					+ "D.";
 			return false;
 		}
-		if ( radius < 1 )
-		{
+		if (radius < 1) {
 			errorMessage = BASE_ERROR_MSG + "Radius cannot be smaller than 1. Got " + radius + ".";
 			return false;
 		}
@@ -74,63 +67,54 @@ public class MedianFilter2D< T extends RealType< T > & NativeType< T >> extends 
 	}
 
 	@Override
-	public boolean process()
-	{
+	public boolean process() {
 		final long start = System.currentTimeMillis();
 
 		final T type = source.randomAccess().get().createVariable();
-		final ImgFactory< T > factory = Util.getArrayOrCellImgFactory( source, type );
-		this.output = factory.create( source );
+		final ImgFactory<T> factory = Util.getArrayOrCellImgFactory(source, type);
+		this.output = factory.create(source);
 
-		if ( source.numDimensions() > 2 )
-		{
-			final long nz = source.dimension( 2 );
-			for ( long z = 0; z < nz; z++ )
-			{
-				final IntervalView< T > slice = Views.hyperSlice( source, 2, z );
-				final IntervalView< T > outputSlice = Views.hyperSlice( output, 2, z );
-				processSlice( slice, outputSlice );
+		if (source.numDimensions() > 2) {
+			final long nz = source.dimension(2);
+			for (long z = 0; z < nz; z++) {
+				final IntervalView<T> slice = Views.hyperSlice(source, 2, z);
+				final IntervalView<T> outputSlice = Views.hyperSlice(output, 2, z);
+				processSlice(slice, outputSlice);
 			}
-		}
-		else
-		{
-			processSlice( source, output );
+		} else {
+			processSlice(source, output);
 		}
 
 		this.processingTime = System.currentTimeMillis() - start;
 		return true;
 	}
 
-	private void processSlice( final RandomAccessibleInterval< T > in, final IterableInterval< T > out )
-	{
-		final Cursor< T > cursor = out.localizingCursor();
+	private void processSlice(final RandomAccessibleInterval<T> in, final IterableInterval<T> out) {
+		final Cursor<T> cursor = out.localizingCursor();
 
-		final RectangleShape shape = new RectangleShape( radius, false );
-		final NeighborhoodsAccessible< T > nracessible = shape.neighborhoodsRandomAccessible( Views.extendZero( in ) );
-		final RandomAccess< Neighborhood< T >> nra = nracessible.randomAccess( in );
+		final RectangleShape shape = new RectangleShape(radius, false);
+		final NeighborhoodsAccessible<T> nracessible = shape.neighborhoodsRandomAccessible(Views.extendZero(in));
+		final RandomAccess<Neighborhood<T>> nra = nracessible.randomAccess(in);
 
-		final int size = ( int ) nra.get().size();
-		final double[] values = new double[ size ];
+		final int size = (int) nra.get().size();
+		final double[] values = new double[size];
 
 		// Fill buffer with median values.
-		while ( cursor.hasNext() )
-		{
+		while (cursor.hasNext()) {
 			cursor.fwd();
-			nra.setPosition( cursor );
+			nra.setPosition(cursor);
 			int index = 0;
-			for ( final T pixel : nra.get() )
-			{
-				values[ index++ ] = pixel.getRealDouble();
+			for (final T pixel : nra.get()) {
+				values[index++] = pixel.getRealDouble();
 			}
 
-			Arrays.sort( values, 0, index );
-			cursor.get().setReal( values[ ( index - 1 ) / 2 ] );
+			Arrays.sort(values, 0, index);
+			cursor.get().setReal(values[(index - 1) / 2]);
 		}
 	}
 
 	@Override
-	public Img< T > getResult()
-	{
+	public Img<T> getResult() {
 		return output;
 	}
 }

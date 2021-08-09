@@ -6,39 +6,33 @@ import java.lang.reflect.Method;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 
-public class SyncWindowsHack extends SyncWindows
-{
+public class SyncWindowsHack extends SyncWindows {
 
-	public SyncWindowsHack()
-	{
+	public SyncWindowsHack() {
 		super();
 	}
 
-	public void syncAll()
-	{
+	public void syncAll() {
 
-		if (wList == null) return;
+		if (wList == null)
+			return;
 		// Select all items on list.
 		Vector v = new Vector();
 		Integer I;
-		for(int i=0; i<wList.getItemCount();++i) {
+		for (int i = 0; i < wList.getItemCount(); ++i) {
 			wList.select(i);
-			I = (Integer)vListMap.elementAt(i);
+			I = (Integer) vListMap.elementAt(i);
 			v.addElement(I);
 		}
 
 		Method m = null;
-		try
-		{
+		try {
 			m = SyncWindows.class.getDeclaredMethod("addWindows", Vector.class);
-			m.setAccessible( true ); //bypasses the private modifier
-			m.invoke( this, v );
-		}
-		catch ( Exception e )
-		{
+			m.setAccessible(true); // bypasses the private modifier
+			m.invoke(this, v);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 
 	}
 }

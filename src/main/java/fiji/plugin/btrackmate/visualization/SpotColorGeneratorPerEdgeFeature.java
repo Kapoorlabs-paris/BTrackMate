@@ -9,8 +9,7 @@ import fiji.plugin.btrackmate.Model;
 import fiji.plugin.btrackmate.Spot;
 import fiji.plugin.btrackmate.gui.displaysettings.Colormap;
 
-public class SpotColorGeneratorPerEdgeFeature implements FeatureColorGenerator< Spot >
-{
+public class SpotColorGeneratorPerEdgeFeature implements FeatureColorGenerator<Spot> {
 
 	private final Model model;
 
@@ -18,36 +17,27 @@ public class SpotColorGeneratorPerEdgeFeature implements FeatureColorGenerator< 
 
 	private final PerEdgeFeatureColorGenerator colorGenerator;
 
-	public SpotColorGeneratorPerEdgeFeature(
-			final Model model,
-			final String edgeFeature,
-			final Color missingValueColor,
-			final Color undefinedValueColor,
-			final Colormap colormap,
-			final double min,
-			final double max )
-	{
+	public SpotColorGeneratorPerEdgeFeature(final Model model, final String edgeFeature, final Color missingValueColor,
+			final Color undefinedValueColor, final Colormap colormap, final double min, final double max) {
 		this.model = model;
 		this.missingValueColor = missingValueColor;
-		this.colorGenerator = new PerEdgeFeatureColorGenerator( model, edgeFeature, missingValueColor, undefinedValueColor, colormap, min, max );
+		this.colorGenerator = new PerEdgeFeatureColorGenerator(model, edgeFeature, missingValueColor,
+				undefinedValueColor, colormap, min, max);
 	}
 
 	@Override
-	public Color color( final Spot spot )
-	{
-		final Set< DefaultWeightedEdge > edges = model.getTrackModel().edgesOf( spot );
+	public Color color(final Spot spot) {
+		final Set<DefaultWeightedEdge> edges = model.getTrackModel().edgesOf(spot);
 		DefaultWeightedEdge edge = null;
-		for ( final DefaultWeightedEdge e : edges )
-		{
-			if ( model.getTrackModel().getEdgeTarget( e ).equals( spot ) )
-			{
+		for (final DefaultWeightedEdge e : edges) {
+			if (model.getTrackModel().getEdgeTarget(e).equals(spot)) {
 				edge = e;
 				break;
 			}
 		}
-		if ( edge == null )
+		if (edge == null)
 			return missingValueColor;
 
-		return colorGenerator.color( edge );
+		return colorGenerator.color(edge);
 	}
 }

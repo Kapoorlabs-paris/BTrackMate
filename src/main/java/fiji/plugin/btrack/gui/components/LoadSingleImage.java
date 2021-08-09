@@ -16,33 +16,31 @@ public class LoadSingleImage {
 	final String bordertitle;
 	final String[] blankimageNames;
 	final GridBagConstraints gbc;
+
 	public LoadSingleImage(final String bordertitle, final String[] blankimageNames, final GridBagConstraints gbc) {
-		
+
 		this.bordertitle = bordertitle;
 		this.blankimageNames = blankimageNames;
 		this.gbc = gbc;
 	}
-	
-	public  JPanel panelSingleChannel = new JPanel();
-	
-	public  JComboBox<String> ChooseImage;
-	public  JPanel SingleChannelOption() {
-		
-		
-		
+
+	public JPanel panelSingleChannel = new JPanel();
+
+	public JComboBox<String> ChooseImage;
+
+	public JPanel SingleChannelOption() {
+
 		layoutManager.Setlayout.LayoutSetter(panelSingleChannel);
 		ChooseImage = new JComboBox<String>(blankimageNames);
-		 Border chooseoriginalfile = new CompoundBorder(new TitledBorder(bordertitle),
+		Border chooseoriginalfile = new CompoundBorder(new TitledBorder(bordertitle),
 				new EmptyBorder(layoutManager.Setlayout.c.insets));
-		
-		 panelSingleChannel.add(ChooseImage, gbc);
-		
-		 panelSingleChannel.setBorder(chooseoriginalfile);
-		 
-		 
-		 
-		 return panelSingleChannel;
-		
+
+		panelSingleChannel.add(ChooseImage, gbc);
+
+		panelSingleChannel.setBorder(chooseoriginalfile);
+
+		return panelSingleChannel;
+
 	}
-	
+
 }

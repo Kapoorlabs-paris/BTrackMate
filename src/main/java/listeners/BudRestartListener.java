@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.SwingUtilities;
 
-import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.globalbtrack.gui.components.CovistoKalmanPanel;
 import pluginTools.InteractiveBud;
 import pluginTools.InteractiveBud.ValueChange;
 import skeleton.SkeletonizeBuds;

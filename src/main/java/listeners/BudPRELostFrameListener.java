@@ -4,7 +4,7 @@ import java.awt.TextComponent;
 import java.awt.event.TextEvent;
 import java.awt.event.TextListener;
 
-import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.globalbtrack.gui.components.CovistoKalmanPanel;
 import pluginTools.InteractiveBud;
 
 public class BudPRELostFrameListener implements TextListener {

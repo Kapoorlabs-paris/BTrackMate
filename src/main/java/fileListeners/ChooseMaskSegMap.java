@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
-import fiji.plugin.btrack.gui.descriptors.BTMStartDialogDescriptor;
+import fiji.plugin.globalbtrack.gui.descriptors.BTMStartDialogDescriptor;
 import ij.WindowManager;
 
 public class ChooseMaskSegMap implements ActionListener {

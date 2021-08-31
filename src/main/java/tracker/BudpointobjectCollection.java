@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import budDetector.Budpointobject;
-import fiji.plugin.btrackmate.features.FeatureFilter;
+import fiji.plugin.globalbtrackmate.features.FeatureFilter;
 import net.imglib2.algorithm.MultiThreaded;
 
 /**

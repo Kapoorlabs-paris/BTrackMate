@@ -6,7 +6,7 @@ import java.awt.event.AdjustmentListener;
 
 import javax.swing.JScrollBar;
 
-import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.globalbtrack.gui.components.CovistoKalmanPanel;
 import ij.IJ;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.array.ArrayImgFactory;

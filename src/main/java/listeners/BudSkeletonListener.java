@@ -9,7 +9,7 @@ import java.awt.event.AdjustmentListener;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 
-import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.globalbtrack.gui.components.CovistoKalmanPanel;
 import pluginTools.BoundaryTrack;
 import pluginTools.InteractiveBud;
 import pluginTools.InteractiveBud.ValueChange;

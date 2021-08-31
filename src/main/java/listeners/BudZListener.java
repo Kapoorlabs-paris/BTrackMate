@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.swing.JScrollBar;
 
-import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.globalbtrack.gui.components.CovistoKalmanPanel;
 import ij.IJ;
 import ij.gui.OvalRoi;
 import net.imglib2.RandomAccessibleInterval;

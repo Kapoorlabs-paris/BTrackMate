@@ -25,7 +25,7 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import budDetector.Budobject;
 import budDetector.Budpointobject;
 import budDetector.Distance;
-import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.globalbtrack.gui.components.CovistoKalmanPanel;
 import ij.ImageStack;
 import net.imglib2.util.Pair;
 import net.imglib2.util.ValuePair;

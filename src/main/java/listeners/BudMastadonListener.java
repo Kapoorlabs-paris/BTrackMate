@@ -3,7 +3,7 @@ package listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import fiji.plugin.btrackmate.TrackMatePlugIn;
+import fiji.plugin.globalbtrackmate.TrackMatePlugIn;
 import ij.IJ;
 import pluginTools.InteractiveBud;
 

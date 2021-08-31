@@ -5,8 +5,8 @@ import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import fiji.plugin.btrack.gui.components.LoadSingleImage;
-import fiji.plugin.btrack.gui.descriptors.BTStartDialogDescriptor;
+import fiji.plugin.globalbtrack.gui.components.LoadSingleImage;
+import fiji.plugin.globalbtrack.gui.descriptors.BTStartDialogDescriptor;
 import fileListeners.ChooseBudSegAMap;
 
 public class BTrackGoFreeFlListener implements ItemListener {

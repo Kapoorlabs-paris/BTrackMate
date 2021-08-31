@@ -40,8 +40,8 @@ import skeleton.*;
 import utility.GetNearest;
 import utility.SavePink;
 import displayBud.DisplayListOverlay;
-import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
-import fiji.plugin.btrackmate.Spot;
+import fiji.plugin.globalbtrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.globalbtrackmate.Spot;
 import ij.IJ;
 import ij.gui.OvalRoi;
 

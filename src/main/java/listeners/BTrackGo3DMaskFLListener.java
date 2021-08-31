@@ -5,8 +5,8 @@ import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import fiji.plugin.btrack.gui.components.LoadDualImage;
-import fiji.plugin.btrack.gui.descriptors.BTMStartDialogDescriptor;
+import fiji.plugin.globalbtrack.gui.components.LoadDualImage;
+import fiji.plugin.globalbtrack.gui.descriptors.BTMStartDialogDescriptor;
 import fileListeners.ChooseSegMap;
 import fileListeners.ChooseMaskSegMap;
 

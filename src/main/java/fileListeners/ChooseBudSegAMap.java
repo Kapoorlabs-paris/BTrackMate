@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
-import fiji.plugin.btrack.gui.descriptors.BTStartDialogDescriptor;
+import fiji.plugin.globalbtrack.gui.descriptors.BTStartDialogDescriptor;
 import ij.WindowManager;
 
 public class ChooseBudSegAMap implements ActionListener {

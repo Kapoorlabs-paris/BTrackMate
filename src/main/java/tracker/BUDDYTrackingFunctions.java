@@ -18,7 +18,7 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import budDetector.Budobject;
 import budDetector.Budpointobject;
 import budDetector.Roiobject;
-import fiji.plugin.btrack.gui.components.CovistoKalmanPanel;
+import fiji.plugin.globalbtrack.gui.components.CovistoKalmanPanel;
 import ij.gui.OvalRoi;
 import net.imglib2.KDTree;
 import net.imglib2.RealPoint;

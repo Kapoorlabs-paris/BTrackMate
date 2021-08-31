@@ -81,7 +81,7 @@ public class SaveDescriptor extends SomeDialogDescriptor {
 			return;
 		}
 		
-		logPanel.setTextContent("Welcome to tracking world");
+		logPanel.setTextContent("Welcome to tracking world Mari Tolonen");
 		logPanel.repaint();
 		logPanel.validate();
 	}

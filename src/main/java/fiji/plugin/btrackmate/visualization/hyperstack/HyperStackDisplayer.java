@@ -35,11 +35,13 @@ public class HyperStackDisplayer extends AbstractTrackMateModelView {
 	public HyperStackDisplayer(final Model model, final SelectionModel selectionModel, final ImagePlus imp,
 			final DisplaySettings displaySettings) {
 		super(model, selectionModel, displaySettings);
+		System.out.println(imp.getNChannels());
+		System.out.println(imp.getDimensions()[0] + " " +  imp.getDimensions()[1] +  " "  + imp.getDimensions()[2] + " " +  imp.getDimensions()[3]);
 		if (null != imp)
 			this.imp = imp;
 		else
 			this.imp = ViewUtils.makeEmpytImagePlus(model);
-
+		
 		this.spotOverlay = createSpotOverlay(displaySettings);
 		this.trackOverlay = createTrackOverlay(displaySettings);
 		displaySettings.listeners().add(() -> refresh());
@@ -124,6 +126,7 @@ public class HyperStackDisplayer extends AbstractTrackMateModelView {
 		final double dz = imp.getCalibration().pixelDepth;
 		final long z = Math.round(spot.getFeature(Spot.POSITION_Z) / dz) + 1;
 		imp.setPosition(imp.getC(), (int) z, frame + 1);
+		
 	}
 
 	@Override

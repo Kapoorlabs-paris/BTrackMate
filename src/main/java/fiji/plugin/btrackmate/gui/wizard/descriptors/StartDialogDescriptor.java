@@ -151,6 +151,8 @@ public class StartDialogDescriptor extends WizardPanelDescriptor {
 		panel.MaskMode.setVisible(false);
 		panel.CsvMode.setVisible(false);
 		panel.ImageMode.setVisible(false);
+		
+		System.out.println(settings);
 	}
 
 	public static ImagePlus updateimp;

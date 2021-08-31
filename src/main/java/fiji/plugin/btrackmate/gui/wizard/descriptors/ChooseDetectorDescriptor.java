@@ -21,6 +21,8 @@ public class ChooseDetectorDescriptor extends WizardPanelDescriptor {
 		super(KEY);
 		this.btrackmate = btrackmate;
 		this.detectorProvider = detectorProvider;
+		
+		System.out.println(this.btrackmate.getSettings());
 		String selectedDetector = LabeImageDetectorFactory.DETECTOR_KEY; // default
 		if (null != btrackmate.getSettings().detectorFactory)
 			selectedDetector = btrackmate.getSettings().detectorFactory.getKey();
@@ -34,6 +36,8 @@ public class ChooseDetectorDescriptor extends WizardPanelDescriptor {
 		if (null != btrackmate.getSettings().detectorFactory)
 			key = btrackmate.getSettings().detectorFactory.getKey();
 
+		
+		System.out.println(key);
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final ModuleChooserPanel<SpotDetectorFactoryBase> component = (fiji.plugin.btrackmate.gui.components.ModuleChooserPanel<SpotDetectorFactoryBase>) targetPanel;
 		component.setSelectedModuleKey(key);
@@ -65,11 +69,18 @@ public class ChooseDetectorDescriptor extends WizardPanelDescriptor {
 		 * Compare current settings with default ones, and substitute default ones only
 		 * if the old ones are absent or not compatible with it.
 		 */
+		System.out.println("before hide" +btrackmate.getSettings().detectorSettings);
+		System.out.println(factory.getDefaultSettings());
+		
 		final Map<String, Object> currentSettings = btrackmate.getSettings().detectorSettings;
+		System.out.println(factory.checkSettings(currentSettings));
+		
 		if (!factory.checkSettings(currentSettings)) {
 			final Map<String, Object> defaultSettings = factory.getDefaultSettings();
 			btrackmate.getSettings().detectorSettings = defaultSettings;
 		}
+		
+		System.out.println(btrackmate.getSettings().detectorSettings);
 	}
 
 	@Override

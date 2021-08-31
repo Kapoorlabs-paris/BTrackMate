@@ -94,18 +94,22 @@ public class GuiUtils {
 
 	public static final void userCheckImpDimensions(final ImagePlus imp) {
 		final int[] dims = imp.getDimensions();
-		if (dims[4] == 1 && dims[3] > 1) {
-			switch (JOptionPane
-					.showConfirmDialog(null,
-							"It appears this image has 1 timepoint but " + dims[3] + " slices.\n"
-									+ "Do you want to swap Z and T?",
-							"Z/T swapped?", JOptionPane.YES_NO_CANCEL_OPTION)) {
+		if ( dims[ 4 ] == 1 && dims[ 3 ] > 1 )
+		{
+			switch ( JOptionPane.showConfirmDialog( null,
+					"It appears this image has 1 timepoint but "
+							+ dims[ 3 ]
+							+ " slices.\n"
+							+ "Do you want to swap Z and T?",
+					"Z/T swapped?", JOptionPane.YES_NO_CANCEL_OPTION ) )
+			{
 			case JOptionPane.YES_OPTION:
-				imp.setDimensions(dims[4], dims[2], dims[3]);
+				imp.setDimensions( dims[ 2 ], dims[ 4 ], dims[ 3 ] );
 				final Calibration calibration = imp.getCalibration();
-				if (0. == calibration.frameInterval) {
+				if ( 0. == calibration.frameInterval )
+				{
 					calibration.frameInterval = 1;
-					calibration.setTimeUnit("frame");
+					calibration.setTimeUnit( "frame" );
 				}
 				break;
 

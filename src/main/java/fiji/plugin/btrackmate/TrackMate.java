@@ -494,7 +494,7 @@ public class TrackMate implements Benchmark, MultiThreaded, Algorithm, Named, Ca
 		 * Prepare interval
 		 */
 
-		ImgPlus img = TMUtils.rawFloat(settings.imp);
+		ImgPlus img = TMUtils.rawWraps(settings.imp);
 
 		if (!factory.setTarget(img, settings.detectorSettings)) {
 			errorMessage = factory.getErrorMessage();

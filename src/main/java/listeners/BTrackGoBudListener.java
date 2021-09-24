@@ -7,7 +7,7 @@ import java.awt.event.ItemListener;
 
 import fiji.plugin.globalbtrack.gui.components.LoadSingleImage;
 import fiji.plugin.globalbtrack.gui.descriptors.BTStartDialogDescriptor;
-import fileListeners.ChooseBudOrigMap;
+import globalbtrackfileListeners.ChooseBudOrigMap;
 
 public class BTrackGoBudListener implements ItemListener {
 

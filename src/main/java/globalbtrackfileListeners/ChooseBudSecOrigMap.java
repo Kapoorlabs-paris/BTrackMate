@@ -1,4 +1,4 @@
-package fileListeners;
+package globalbtrackfileListeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,12 +8,12 @@ import javax.swing.JComboBox;
 import fiji.plugin.globalbtrack.gui.descriptors.BTStartDialogDescriptor;
 import ij.WindowManager;
 
-public class ChooseBudSegAMap implements ActionListener {
+public class ChooseBudSecOrigMap implements ActionListener {
 
 	final BTStartDialogDescriptor parent;
 	final JComboBox<String> choice;
 
-	public ChooseBudSegAMap(final BTStartDialogDescriptor parent, final JComboBox<String> choice) {
+	public ChooseBudSecOrigMap(final BTStartDialogDescriptor parent, final JComboBox<String> choice) {
 
 		this.parent = parent;
 		this.choice = choice;
@@ -25,7 +25,7 @@ public class ChooseBudSegAMap implements ActionListener {
 
 		String imagename = (String) choice.getSelectedItem();
 
-		parent.impSegA = WindowManager.getImage(imagename);
+		parent.impOrigRGB = WindowManager.getImage(imagename);
 
 	}
 

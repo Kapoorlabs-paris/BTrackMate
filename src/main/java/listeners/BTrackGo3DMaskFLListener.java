@@ -7,8 +7,8 @@ import java.awt.event.ItemListener;
 
 import fiji.plugin.globalbtrack.gui.components.LoadDualImage;
 import fiji.plugin.globalbtrack.gui.descriptors.BTMStartDialogDescriptor;
-import fileListeners.ChooseSegMap;
-import fileListeners.ChooseMaskSegMap;
+import globalbtrackfileListeners.ChooseMaskSegMap;
+import globalbtrackfileListeners.ChooseSegMap;
 
 public class BTrackGo3DMaskFLListener implements ItemListener {
 

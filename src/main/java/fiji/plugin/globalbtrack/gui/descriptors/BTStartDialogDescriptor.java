@@ -31,8 +31,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 import budDetector.Roiobject;
 import fiji.plugin.globalbtrack.gui.components.LoadSingleImage;
-import fileListeners.ChooseBudOrigMap;
-import fileListeners.ChooseBudSegAMap;
+import globalbtrackfileListeners.ChooseBudOrigMap;
+import globalbtrackfileListeners.ChooseBudSegAMap;
 import ij.ImagePlus;
 import ij.WindowManager;
 import ij.gui.OvalRoi;
@@ -49,7 +49,7 @@ public class BTStartDialogDescriptor extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
-	public JFrame Cardframe = new JFrame("Bud n Cell tracker");
+	public JFrame Cardframe = new JFrame("Tissue Branch Tracker");
 	public JPanel panelCont = new JPanel();
 	public ImagePlus impOrig, impOrigRGB, impSegA;
 	public File impOrigfile, impSegAfile;
@@ -70,10 +70,10 @@ public class BTStartDialogDescriptor extends JPanel
 	public JButton Restart = new JButton("Reload Saved Budpoints");
 	public HashMap<String, ArrayList<Roiobject>> BudOvalRois = new HashMap<String, ArrayList<Roiobject>>();
 	public int BudDotsize = 5;
-	public String chooseBudSegstring = "Segmentation Image for buds";
+	public String chooseBudSegstring = "Tissue segmentation Image";
 	public Border chooseBudSeg = new CompoundBorder(new TitledBorder(chooseBudSegstring), new EmptyBorder(c.insets));
 
-	public String chooseoriginalbudfilestring = "We analyze only Buds";
+	public String chooseoriginalbudfilestring = "Load Raw Tissue Image";
 	public Border chooseoriginalbudfile = new CompoundBorder(new TitledBorder(chooseoriginalbudfilestring),
 			new EmptyBorder(c.insets));
 

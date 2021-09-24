@@ -32,7 +32,7 @@ import javax.swing.border.TitledBorder;
 
 import budDetector.Cellobject;
 import fiji.plugin.globalbtrack.gui.components.LoadSingleImage;
-import fileListeners.ChooseOrigMap;
+import globalbtrackfileListeners.ChooseOrigMap;
 import ij.ImagePlus;
 import ij.WindowManager;
 import listeners.BTrackGo3DMaskFLListener;

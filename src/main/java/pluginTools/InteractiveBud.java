@@ -45,7 +45,7 @@ import fiji.plugin.globalbtrack.gui.components.CovistoKalmanPanel;
 import fiji.plugin.globalbtrack.segmentation.CellSegmentation;
 import fiji.plugin.globalbtrackmate.Spot;
 import fiji.plugin.globalbtrackmate.SpotCollection;
-import fileListeners.BTrackSaveDirectoryListener;
+import globalbtrackfileListeners.BTrackSaveDirectoryListener;
 import net.imagej.ImageJ;
 import ij.IJ;
 import ij.ImagePlus;

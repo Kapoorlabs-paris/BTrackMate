@@ -11,7 +11,7 @@
 
 	<groupId>sc.fiji</groupId>
 	<artifactId>BTrackMate</artifactId>
-	<version>3.0.3</version>
+	<version>3.0.5</version>
 
 	<name>BTrackMate</name>
 	<description>BTrackMate plugin for Fiji.</description>

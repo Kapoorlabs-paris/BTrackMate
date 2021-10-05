@@ -140,9 +140,8 @@ public class TrackEachBud {
 				Collections.sort(truths, comp);
 				Collections.sort(bodytruths, comp);
 				// Get the center point of each bud
-				RealLocalizable currentpoint = budDetector.Listordering.getMeanCord(bodytruths);
 
-				DisplayListOverlay.BoundaryCenterDisplay(parent, truths, currentpoint);
+				DisplayListOverlay.BoundaryCenterDisplay(parent, truths);
 				if (parent.jpb != null)
 					utility.BudProgressBar.SetProgressBar(parent.jpb,
 							100 * (percent) / (parent.thirdDimensionSize + parent.pixellist.size()),
@@ -175,7 +174,7 @@ public class TrackEachBud {
 
 					currentrois = DisplayListOverlay.SkeletonEndDisplay(parent, newcurrentskel, label, parent.BudColor);
 
-					FillArrays(newcurrentskel, truths, currentpoint, label);
+					FillArrays(newcurrentskel, truths, label);
 
 				//	currentbranchrois = DisplayListOverlay.SkeletonEndDisplay(parent, currentbranch, label,
 				//			parent.BudSplitColor);
@@ -221,7 +220,7 @@ public class TrackEachBud {
 					rejrois = DisplayListOverlay.SkeletonEndDisplay(parent, rejskel, label, parent.RemoveBudColor);
 
 					currentskel.addAll(rejskel);
-					FillArrays(currentskel, truths, currentpoint, label);
+					FillArrays(currentskel, truths, label);
 				}
 
 				currentrois.addAll(rejrois);
@@ -290,11 +289,11 @@ public class TrackEachBud {
 	}
 
 	public void FillArrays(List<RealLocalizable> skeletonEndPoints, List<RealLocalizable> truths,
-			RealLocalizable centerpoint, int label) {
+			int label) {
 
 		for (RealLocalizable budpoints : skeletonEndPoints) {
 
-			Budpointobject Budpoint = new Budpointobject(centerpoint, truths, skeletonEndPoints,
+			Budpointobject Budpoint = new Budpointobject(skeletonEndPoints.get(0), truths, skeletonEndPoints,
 					truths.size() * parent.calibrationX, label,
 					new double[] { budpoints.getDoublePosition(0), budpoints.getDoublePosition(1) },
 					parent.thirdDimension, 0);
@@ -302,7 +301,7 @@ public class TrackEachBud {
 			Budpointlist.add(Budpoint);
 
 		}
-		Budobject Curreentbud = new Budobject(centerpoint, truths, skeletonEndPoints, parent.thirdDimension, label,
+		Budobject Curreentbud = new Budobject(skeletonEndPoints.get(0), truths, skeletonEndPoints, parent.thirdDimension, label,
 				truths.size() * parent.calibrationX);
 		Budlist.add(Curreentbud);
 		if (parent.SegYelloworiginalimg != null) {

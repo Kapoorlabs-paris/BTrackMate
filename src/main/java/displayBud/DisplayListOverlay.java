@@ -51,8 +51,7 @@ public class DisplayListOverlay {
 		return coordinatelist;
 	}
 
-	public static void BoundaryCenterDisplay(InteractiveBud parent, List<RealLocalizable> truths,
-			RealLocalizable currentpoint) {
+	public static void BoundaryCenterDisplay(InteractiveBud parent, List<RealLocalizable> truths) {
 
 		Color displayColor;
 
@@ -69,11 +68,7 @@ public class DisplayListOverlay {
 			parent.overlay.add(points);
 
 		}
-		OvalRoi oval = new OvalRoi((int) currentpoint.getDoublePosition(0) - parent.BudDotsize / 2,
-				(int) currentpoint.getDoublePosition(1) - parent.BudDotsize / 2, parent.BudDotsize, parent.BudDotsize);
-		oval.setStrokeWidth(parent.BudDotsize);
-		oval.setStrokeColor(displayColor);
-		parent.overlay.add(oval);
+		
 		parent.imp.updateAndDraw();
 	}
 

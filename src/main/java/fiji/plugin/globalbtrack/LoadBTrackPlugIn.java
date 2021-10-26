@@ -16,7 +16,7 @@ public class LoadBTrackPlugIn {
 		new ImageJ();
 
 		ImagePlus impA = new Opener().openImage(
-				"/Users/aimachine/Downloads/Test.tif");
+				"/Users/aimachine/TRL_Final.tif");
 
 		// ImagePlus impA = new Opener()
 		// .openImage("/Users/aimachine/Downloads/113B_TRL_Mask/mask_98C_p1.tif");

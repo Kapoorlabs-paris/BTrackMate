@@ -114,7 +114,7 @@ public class Listordering {
 			double distance = Distance.PointLineDistance(cord, slope, intercept);
 			
 
-			if(distance <= 10 ) {
+			if(distance <= 20 ) {
 				
 				lineintersections.add(cord);
 				

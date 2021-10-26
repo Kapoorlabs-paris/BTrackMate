@@ -296,7 +296,7 @@ public class BTStartDialogDescriptor extends JPanel
 								BudOvalRois.put(budpoints[0], Allrois);
 							} else
 								BudOvalRois.put(budpoints[0], Allrois);
-							OvalRoi roi = new OvalRoi(Integer.parseInt(budpoints[1]), Integer.parseInt(budpoints[2]),
+							OvalRoi roi = new OvalRoi((int)Float.parseFloat(budpoints[1]), (int)Float.parseFloat(budpoints[2]),
 									BudDotsize, BudDotsize);
 
 							Allrois.add(new Roiobject(Color.PINK, roi, new RealPoint(

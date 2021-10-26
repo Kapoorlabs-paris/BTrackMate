@@ -152,7 +152,7 @@ public class TrackEachBud {
 				if (parent.BudOvalRois.get(uniqueID) == null) {
 
 					ArrayList<Pair<RealLocalizable, RealLocalizable>> currentbranchskel = SkeletonCreator(
-							PairCurrentViewBit, truths);
+							PairCurrentViewBit, bodytruths);
 
 					List<RealLocalizable> currentskel = new ArrayList<RealLocalizable>();
 					List<RealLocalizable> currentbranch = new ArrayList<RealLocalizable>();
@@ -168,13 +168,13 @@ public class TrackEachBud {
 
 					List<RealLocalizable> newcurrentskel = NearestBoundarySkel(currentskel, currentbranch, truths);
 
-					newcurrentskel = RemoveClose(newcurrentskel, 20);
+					newcurrentskel = RemoveClose(newcurrentskel, 10);
 
 					// Write a method to move the points to the boundary
 
 					currentrois = DisplayListOverlay.SkeletonEndDisplay(parent, newcurrentskel, label, parent.BudColor);
 
-					FillArrays(newcurrentskel, truths, label);
+					FillArrays(newcurrentskel, bodytruths, label);
 
 				//	currentbranchrois = DisplayListOverlay.SkeletonEndDisplay(parent, currentbranch, label,
 				//			parent.BudSplitColor);
@@ -278,7 +278,7 @@ public class TrackEachBud {
 		ArrayList<Pair<RealLocalizable, RealLocalizable>> skelEndsBranches = new ArrayList<Pair<RealLocalizable, RealLocalizable>>();
 
 		SkeletonCreator<BitType> skelmake = new SkeletonCreator<BitType>(PairCurrentViewBit.Interiorimage, ops);
-		skelmake.setClosingRadius(0);
+		skelmake.setClosingRadius(2);
 		skelmake.run();
 		ArrayList<RandomAccessibleInterval<BitType>> Allskeletons = skelmake.getSkeletons();
 

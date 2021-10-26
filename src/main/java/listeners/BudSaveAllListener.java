@@ -186,7 +186,7 @@ public class BudSaveAllListener implements ActionListener {
 				while (cursor.hasNext()) {
 
 					cursor.fwd();
-
+					if(cursor.getDoublePosition(0) > 0 && cursor.getDoublePosition(0) < Views.hyperSlice(TrackMovie, 2, i - 1).dimension(0) && cursor.getDoublePosition(1) > 0 && cursor.getDoublePosition(1) < Views.hyperSlice(TrackMovie, 2, i - 1).dimension(1)  )  
 					cursor.get().setReal(255);
 
 				}

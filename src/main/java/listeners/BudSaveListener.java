@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.jgrapht.graph.DefaultWeightedEdge;
+
 import budDetector.Budobject;
 import budDetector.Budpointobject;
 import net.imglib2.util.Pair;
@@ -31,10 +33,10 @@ public class BudSaveListener implements ActionListener {
 
 		parent.saveFile.mkdir();
 		String ID = parent.selectedID;
-		BudSaveAllListener.savePinks(parent);
+		
 		if (ID != null) {
 
-			BudSaveAllListener.saveTrackMovie(parent, ID);
+			
 
 			try {
 				File budfile = new File(
@@ -44,6 +46,7 @@ public class BudSaveListener implements ActionListener {
 				BufferedWriter bwbud = new BufferedWriter(fwbud);
 				bwbud.write("TrackLabel, Time, LocationX , LocationY , Perimeter \n");
 
+				
 				for (ValuePair<String, Budobject> Track : parent.BudTracklist) {
 
 					String TrackLabel = Track.getA();
@@ -52,12 +55,12 @@ public class BudSaveListener implements ActionListener {
 					double LocationX = Track.getB().Budcenter.getDoublePosition(0) * parent.calibrationX;
 					double LocationY = Track.getB().Budcenter.getDoublePosition(1) * parent.calibrationY;
 					double Perimeter = Track.getB().perimeter;
-
+                    
 					bwbud.write(TrackLabel + "," + (int) time + "," + parent.nf.format(LocationX) + ","
 							+ parent.nf.format(LocationY) + "," + parent.nf.format(Perimeter) + "\n");
 
 				}
-
+				
 				bwbud.close();
 				fwbud.close();
 
@@ -69,23 +72,33 @@ public class BudSaveListener implements ActionListener {
 		HashMap<Integer, Double> VelocityID = parent.BudVelocityMap.get(Integer.parseInt(ID));
 		double maxRate = parent.TrackMaxVelocitylist.get(ID);
 		double meanRate = parent.TrackMeanVelocitylist.get(ID);
-		for (Pair<String, Budpointobject> Track : parent.Tracklist) {
+		
+		for (DefaultWeightedEdge edge : parent.Globalmodel.edgeSet()) {
 
-			if (Track.getA().equals(ID)) {
+			Budpointobject Spotbase = parent.Globalmodel.getEdgeSource(edge);
+			Budpointobject Spottarget = parent.Globalmodel.getEdgeTarget(edge);
 
-				double time = Track.getB().t * parent.timecal;
-				double LocationX = Track.getB().Location[0] * parent.calibrationX;
-				double LocationY = Track.getB().Location[1] * parent.calibrationY;
-				double Velocity = 0;
-				if (VelocityID.get(Track.getB().t) != null)
-					Velocity = VelocityID.get(Track.getB().t);
+			if (parent.Globalmodel.trackIDOf(Spotbase) == Integer.valueOf(ID)) {
+			final double time = Spotbase.t * parent.timecal;
+			
+			double LocationX  = Spotbase.Location[0]* parent.calibrationX;
+			double LocationY =  Spotbase.Location[1] * parent.calibrationY;
+			
+			double Velocity = 0;
+			parent.locationsx.add(Spotbase.Location[0]);
+            parent.locationsy.add(Spotbase.Location[1]);
+            parent.locationst.add((int)Spotbase.t);
+			if (VelocityID.get(Spotbase.t) != null)
+				Velocity = VelocityID.get(Spotbase.t);
 
-				Trackinfo.add(new double[] { time, LocationX, LocationY, Velocity, meanRate, maxRate });
-
+			Trackinfo.add(new double[] { time, LocationX, LocationY, Velocity, meanRate, maxRate });
+			
 			}
-
+			
 		}
-
+		
+		BudSaveAllListener.saveTrackMovie(parent, ID);
+		BudSaveAllListener.saveSelectedPinks(parent, parent.locationsx, parent.locationsy, parent.locationst);
 		try {
 
 			File fichier = new File(parent.saveFile + "//" + "BudGrowth" + parent.addToName + "TrackID" + ID + ".txt");

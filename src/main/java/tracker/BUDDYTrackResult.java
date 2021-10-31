@@ -139,6 +139,7 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 
 		}
 		parent.IDlist = sortByInteger(parent.IDlist);
+		List<Budpointobject> sortedList = new ArrayList<Budpointobject>();
 
 		if (minid != Integer.MAX_VALUE) {
 
@@ -148,13 +149,24 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 				int tracklength = tracks.getValue();
 
 				String ID = Integer.toString(id);
-
-				model.getTrackModel().setName(id, "Track" + id + tracklength);
 				parent.Globalmodel = model.getTrackModel();
-				final HashSet<Budpointobject> Angleset = model.getTrackModel().trackBudpointobjects(id);
+				
+				parent.Globalmodel.setName(id, "Track" + id + tracklength);
+				
+				
+				for (DefaultWeightedEdge e : parent.Globalmodel.edgeSet()) {
 
-				List<Budpointobject> unsortedList = new ArrayList<Budpointobject>(Angleset);
-				List<Budpointobject> sortedList = sortTrack(unsortedList);
+					Budpointobject Spotbase = parent.Globalmodel.getEdgeSource(e);
+					
+					Budpointobject Spottarget = parent.Globalmodel.getEdgeTarget(e);
+					
+					if (parent.Globalmodel.trackIDOf(Spotbase) == id) {
+					sortedList.add(Spotbase);
+					sortedList.add(Spottarget);
+					}
+				}
+				
+				
 
 				Iterator<Budpointobject> listiter = sortedList.iterator();
 				Budpointobject previousbud = null;
@@ -197,10 +209,10 @@ public class BUDDYTrackResult extends SwingWorker<Void, Void> {
 				int id = tracks.getKey();
 				Budpointobject bestbud = null;
 
-				List<Budpointobject> sortedList = new ArrayList<Budpointobject>(
+				List<Budpointobject> sortedListsec = new ArrayList<Budpointobject>(
 						model.getTrackModel().trackBudpointobjects(id));
 
-				Iterator<Budpointobject> iterator = sortedList.iterator();
+				Iterator<Budpointobject> iterator = sortedListsec.iterator();
 
 				double tmax = Double.MIN_VALUE;
 				while (iterator.hasNext()) {

@@ -118,23 +118,11 @@ public class BUDDYDisplaySelectedTrack {
 							Localizable labelpoint = new Point(
 									new long[] { (long) nearestBPO.Budcenter.getDoublePosition(0),
 											(long) nearestBPO.Budcenter.getDoublePosition(1) });
-							Interval interval = Intervals.expand(parent.CurrentViewInt, -parent.borderexpand);
-
-							// create a view on the source with this interval
-							HyperSphere<IntType> hyperSphere = new HyperSphere<IntType>(
-									Views.interval(parent.CurrentViewInt, interval), labelpoint,
-									parent.borderexpand - 1);
-							HyperSphereCursor<IntType> cursor = hyperSphere.cursor();
-							int label = 0;
-							while (cursor.hasNext()) {
-
-								cursor.fwd();
-
-								if (cursor.get().get() > 0) {
-									label = cursor.get().get();
-									break;
-								}
-							}
+							
+							RandomAccess<IntType> ranac =  parent.CurrentViewInt.randomAccess();
+							ranac.setPosition(labelpoint);
+							int label =  ranac.get().get();
+							
 							if (roi.getStrokeColor() == parent.RemoveBudColor
 									|| roi.getStrokeColor() == parent.BudColor)
 								Allrois.add(new Roiobject(roi.getStrokeColor(), roi, new RealPoint(point), label));

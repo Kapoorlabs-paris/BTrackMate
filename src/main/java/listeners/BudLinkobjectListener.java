@@ -14,6 +14,8 @@ import javax.swing.SwingUtilities;
 
 import ij.gui.Roi;
 import net.imglib2.RealLocalizable;
+import net.imglib2.img.cell.CellImgFactory;
+import net.imglib2.type.numeric.real.FloatType;
 import pluginTools.BoundaryTrack;
 import pluginTools.InteractiveBud;
 import tracker.BUDDYTrackResult;

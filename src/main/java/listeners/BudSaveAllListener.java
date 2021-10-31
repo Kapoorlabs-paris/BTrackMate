@@ -66,7 +66,6 @@ public class BudSaveAllListener implements ActionListener {
 
 		parent.saveFile.mkdir();
 
-		savePinks(parent);
 
 		try {
 
@@ -97,7 +96,10 @@ public class BudSaveAllListener implements ActionListener {
 
 		catch (IOException te) {
 		}
-
+		ArrayList<double[]> Trackinfo = new ArrayList<double[]>();
+		ArrayList<Double> locationsx = new ArrayList<Double>();
+		ArrayList<Double> locationsy = new ArrayList<Double>();
+		ArrayList<Integer> locationst = new ArrayList<Integer>();
 		for (int tablepos = 0; tablepos < parent.table.getRowCount(); ++tablepos) {
 
 			String ID = (String) parent.table.getValueAt(tablepos, 0);
@@ -106,22 +108,32 @@ public class BudSaveAllListener implements ActionListener {
 				HashMap<Integer, Double> VelocityID = parent.BudVelocityMap.get(Integer.parseInt(ID));
 				double maxRate = parent.TrackMaxVelocitylist.get(ID);
 				double meanRate = parent.TrackMeanVelocitylist.get(ID);
-				ArrayList<double[]> Trackinfo = new ArrayList<double[]>();
-				for (Pair<String, Budpointobject> Track : parent.Tracklist) {
+				
 
-					if (Track.getA().equals(ID)) {
+				for (DefaultWeightedEdge edge : parent.Globalmodel.edgeSet()) {
 
-						double time = Track.getB().t * parent.timecal;
-						double LocationX = Track.getB().Location[0] * parent.calibrationX;
-						double LocationY = Track.getB().Location[1] * parent.calibrationY;
-						double Velocity = 0;
-						if (VelocityID.get(Track.getB().t) != null)
-							Velocity = VelocityID.get(Track.getB().t);
-						Trackinfo.add(new double[] { time, LocationX, LocationY, Velocity, meanRate, maxRate });
+					Budpointobject Spotbase = parent.Globalmodel.getEdgeSource(edge);
+					Budpointobject Spottarget = parent.Globalmodel.getEdgeTarget(edge);
 
+					if (parent.Globalmodel.trackIDOf(Spotbase) == Integer.valueOf(ID)) {
+					final double time = Spotbase.t * parent.timecal;
+					
+					double LocationX  = Spotbase.Location[0]* parent.calibrationX;
+					double LocationY =  Spotbase.Location[1] * parent.calibrationY;
+					
+					double Velocity = 0;
+					parent.locationsx.add(Spotbase.Location[0]);
+		            parent.locationsy.add(Spotbase.Location[1]);
+		            parent.locationst.add((int)Spotbase.t);
+					if (VelocityID.get(Spotbase.t) != null)
+						Velocity = VelocityID.get(Spotbase.t);
+
+					Trackinfo.add(new double[] { time, LocationX, LocationY, Velocity, meanRate, maxRate });
+					
 					}
-
+					
 				}
+				
 
 				try {
 
@@ -156,17 +168,60 @@ public class BudSaveAllListener implements ActionListener {
 
 			}
 		}
+		
+		BudSaveAllListener.saveSelectedPinks(parent, locationsx, locationsy, locationst);
 	}
 
-	public static void savePinks(InteractiveBud parent) {
-
-		ImagePlus Localimp = ImageJFunctions.wrapFloat(parent.originalimg, "Pink");
-
+	
+	public static void saveSelectedPinks(InteractiveBud parent, ArrayList<Double> locationsX, ArrayList<Double>locationsY, ArrayList<Integer> locationsT) {
+		
 		RandomAccessibleInterval<FloatType> TrackMovie = new CellImgFactory().create(new long[] {
 				parent.originalimg.dimension(0), parent.originalimg.dimension(1), parent.originalimg.dimension(2) },
 				new FloatType());
+		
+		for (int i = 0; i < locationsT.size(); ++i) {
+			
+			int time = locationsT.get(i);
+			double x = locationsX.get(i);
+			double y = locationsY.get(i);
+			Localizable point = new Point(
+					new long[] { (long) x, (long) y });
+			
+			
+			
+			HyperSphere<FloatType> hyperSphere = new HyperSphere<FloatType>(Views.hyperSlice(TrackMovie, 2, time - 1),
+					point, 5);
+			HyperSphereCursor<FloatType> cursor = hyperSphere.cursor();
 
-		RandomAccess<FloatType> ranac = TrackMovie.randomAccess();
+			while (cursor.hasNext()) {
+
+				cursor.fwd();
+				if(cursor.getDoublePosition(0) > 0 && cursor.getDoublePosition(0) < Views.hyperSlice(TrackMovie, 2, time - 1).dimension(0) && cursor.getDoublePosition(1) > 0 && cursor.getDoublePosition(1) < Views.hyperSlice(TrackMovie, 2, time - 1).dimension(1)  )  
+				cursor.get().setReal(255);
+
+			}
+		
+			
+			
+		}
+		
+		ImagePlus Trackimp = ImageJFunctions.wrapFloat(TrackMovie, "Pink");
+
+		FileSaver DistfsC = new FileSaver(Trackimp);
+
+		DistfsC.saveAsTiff(parent.saveFile + "//" + parent.inputstring.replaceFirst("[.][^.]+$", "") + parent.addToName
+				+ "Pink" + ".tif");
+		
+		
+	}
+	
+	public static void savePinks(InteractiveBud parent) {
+
+
+		
+		RandomAccessibleInterval<FloatType> TrackMovie = new CellImgFactory().create(new long[] {
+				parent.originalimg.dimension(0), parent.originalimg.dimension(1), parent.originalimg.dimension(2) },
+				new FloatType());
 
 		for (int i = 1; i < parent.AutoendTime; ++i) {
 
@@ -174,11 +229,8 @@ public class BudSaveAllListener implements ActionListener {
 
 			for (Roiobject roi : Allrois) {
 
-				Color color = roi.color;
-				int Label = roi.Label;
 				Localizable point = new Point(
 						new long[] { (long) roi.point.getDoublePosition(0), (long) roi.point.getDoublePosition(1) });
-				OvalRoi currentroi = roi.roi;
 				HyperSphere<FloatType> hyperSphere = new HyperSphere<FloatType>(Views.hyperSlice(TrackMovie, 2, i - 1),
 						point, 5);
 				HyperSphereCursor<FloatType> cursor = hyperSphere.cursor();

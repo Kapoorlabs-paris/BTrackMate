@@ -482,6 +482,7 @@ public class ConvexBranchesDecomposition implements Algorithm, Benchmark {
 				}
 			}
 
+			System.out.println(sourceBranch + " " +  targetBranch); 
 			branchGraph.addEdge(sourceBranch, targetBranch);
 		}
 

@@ -76,6 +76,7 @@ import listeners.BudZListener;
 import net.imglib2.Cursor;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealLocalizable;
+import net.imglib2.img.cell.CellImgFactory;
 import net.imglib2.img.display.imagej.ImageJFunctions;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.real.FloatType;
@@ -117,7 +118,6 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	public Color BudBeforeColor = Color.YELLOW;
 	public Color BudSplitColor = Color.BLUE;
 	public Color RemoveBudColor = Color.RED;
-
 	public HashMap<String, ArrayList<Budpointobject>> AllBudpoints;
 	public HashMap<String, ArrayList<Budobject>> AllBuds;
 	public HashMap<String, Integer> BudLastTime;
@@ -176,7 +176,9 @@ public class InteractiveBud extends JPanel implements PlugIn {
 	public SpotCollection budcells = new SpotCollection();
 	public HashMap<Integer, Integer> IDlist = new HashMap<Integer, Integer>();
 	public HashMap<String, Budpointobject> Finalresult;
-
+	public ArrayList<Double> locationsx = new ArrayList<Double>();
+	public ArrayList<Double> locationsy = new ArrayList<Double>();
+	public ArrayList<Integer> locationst = new ArrayList<Integer>();
 	// Input Bud and its segmentation
 	public InteractiveBud(final RandomAccessibleInterval<FloatType> originalimg,
 			final RandomAccessibleInterval<IntType> Segoriginalimg,
@@ -388,6 +390,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 		panelFirst.repaint();
 		panelFirst.validate();
 		saveFile = new java.io.File(".");
+		
 		// Get Labelled images
 
 	}
@@ -509,7 +512,7 @@ public class InteractiveBud extends JPanel implements PlugIn {
 
 	}
 
-	public JFrame Cardframe = new JFrame("Bud n Cell Tracker");
+	public JFrame Cardframe = new JFrame("Tissue Tracker");
 	public JPanel panelFirst = new JPanel();
 	public JPanel Original = new JPanel();
 	public JPanel PanelSelectFile = new JPanel();

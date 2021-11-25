@@ -97,9 +97,6 @@ public class BudSaveAllListener implements ActionListener {
 		catch (IOException te) {
 		}
 		ArrayList<double[]> Trackinfo = new ArrayList<double[]>();
-		ArrayList<Double> locationsx = new ArrayList<Double>();
-		ArrayList<Double> locationsy = new ArrayList<Double>();
-		ArrayList<Integer> locationst = new ArrayList<Integer>();
 		for (int tablepos = 0; tablepos < parent.table.getRowCount(); ++tablepos) {
 
 			String ID = (String) parent.table.getValueAt(tablepos, 0);
@@ -120,13 +117,29 @@ public class BudSaveAllListener implements ActionListener {
 					
 					double LocationX  = Spotbase.Location[0]* parent.calibrationX;
 					double LocationY =  Spotbase.Location[1] * parent.calibrationY;
-					
-					double Velocity = 0;
 					parent.locationsx.add(Spotbase.Location[0]);
 		            parent.locationsy.add(Spotbase.Location[1]);
 		            parent.locationst.add((int)Spotbase.t);
-					if (VelocityID.get(Spotbase.t) != null)
-						Velocity = VelocityID.get(Spotbase.t);
+					double Velocity  = 0;
+					if (Spottarget!=null) {
+						
+						final double nexttime = Spottarget.t * parent.timecal;
+						
+						double nextLocationX  = Spottarget.Location[0]* parent.calibrationX;
+						double nextLocationY =  Spottarget.Location[1] * parent.calibrationY;
+						
+						Velocity = Math.sqrt((nextLocationX - LocationX) * (nextLocationX - LocationX) +  (nextLocationY - LocationY) * (nextLocationY - LocationY))/(nexttime - time + 1.0E-30) ;
+					}
+					
+						
+				
+					
+					
+					
+					parent.locationsx.add(Spotbase.Location[0]);
+		            parent.locationsy.add(Spotbase.Location[1]);
+		            parent.locationst.add((int)Spotbase.t);
+					
 
 					Trackinfo.add(new double[] { time, LocationX, LocationY, Velocity, meanRate, maxRate });
 					
@@ -169,7 +182,7 @@ public class BudSaveAllListener implements ActionListener {
 			}
 		}
 		
-		BudSaveAllListener.saveSelectedPinks(parent, locationsx, locationsy, locationst);
+		BudSaveAllListener.saveSelectedPinks(parent, parent.locationsx, parent.locationsy, parent.locationst);
 	}
 
 	

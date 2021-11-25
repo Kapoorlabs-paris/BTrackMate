@@ -84,12 +84,19 @@ public class BudSaveListener implements ActionListener {
 			double LocationX  = Spotbase.Location[0]* parent.calibrationX;
 			double LocationY =  Spotbase.Location[1] * parent.calibrationY;
 			
-			double Velocity = 0;
 			parent.locationsx.add(Spotbase.Location[0]);
             parent.locationsy.add(Spotbase.Location[1]);
             parent.locationst.add((int)Spotbase.t);
-			if (VelocityID.get(Spotbase.t) != null)
-				Velocity = VelocityID.get(Spotbase.t);
+            double Velocity  = 0;
+			if (Spottarget!=null) {
+				
+				final double nexttime = Spottarget.t * parent.timecal;
+				
+				double nextLocationX  = Spottarget.Location[0]* parent.calibrationX;
+				double nextLocationY =  Spottarget.Location[1] * parent.calibrationY;
+				
+				Velocity = Math.sqrt((nextLocationX - LocationX) * (nextLocationX - LocationX) +  (nextLocationY - LocationY) * (nextLocationY - LocationY))/(nexttime - time + 1.0E-30) ;
+			}
 
 			Trackinfo.add(new double[] { time, LocationX, LocationY, Velocity, meanRate, maxRate });
 			

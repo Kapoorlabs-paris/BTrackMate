@@ -156,6 +156,7 @@ public class TrackEachBud {
 
 					List<RealLocalizable> currentskel = new ArrayList<RealLocalizable>();
 					List<RealLocalizable> currentbranch = new ArrayList<RealLocalizable>();
+					
 					for (int i = 0; i < currentbranchskel.size(); ++i) {
 
 						currentskel.add(currentbranchskel.get(i).getA());
@@ -192,6 +193,7 @@ public class TrackEachBud {
 					List<RealLocalizable> rejskel = new ArrayList<RealLocalizable>();
 					for (Roiobject currentroi : rois) {
 
+						if (currentroi.Label == 0) currentroi.Label = 1;
 						if (currentroi.color == parent.BudColor && currentroi.Label == label) {
 
 							double LocationX = currentroi.point.getDoublePosition(0);
